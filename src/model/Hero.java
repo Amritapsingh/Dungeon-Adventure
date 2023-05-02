@@ -1,3 +1,5 @@
+package model;
+
 public class Hero {
     private String name;
     private int hp;
