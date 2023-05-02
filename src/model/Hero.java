@@ -47,5 +47,4 @@ public abstract class Hero implements DungeonModels {
 //    final public String toString() {
 //
 //    }
-
 }
