@@ -7,6 +7,9 @@ public class Hero {
     private int maxHp;
     private int maxDamage;
 
+    Hero() {
+
+    }
     void Hero_attack() {
 
     }
