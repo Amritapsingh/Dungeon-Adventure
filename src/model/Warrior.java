@@ -28,18 +28,58 @@ public class Warrior extends Hero {
                       double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToBlock, theInventory, theVision, theAllies);
 
-        myName = setMyName();
     }
 
     @Override
-    String setMyName() {
-        return "Warrior";
+    void setMyName(String theName) {
+        myName = theName;
     }
 
     @Override
-    int setMyHealth() {
-        return 0;
+    void setMyHealth(int theHealth) {
+        myHealthPoints = theHealth;
     }
+
+    @Override
+    void setMinDmg(int theDmgMin) {
+        myDmgMin = theDmgMin;
+    }
+
+    @Override
+    void setMaxDmg(int theDmgMax) {
+        myDmgMax = theDmgMax;
+    }
+
+    @Override
+    void setChnceToHit(double theChnceToHit) {
+        myChanceToHit = theChnceToHit;
+    }
+
+    @Override
+    void setAttkSpd(double theAttkSpd) {
+        myAttkSpd = theAttkSpd;
+    }
+
+    @Override
+    void setChnceToBlock(double theChnceToBlock) {
+        myChanceToBlock = theChnceToBlock;
+    }
+
+    @Override
+    void setInventory(String theItemName, int theQuantity) {
+        myInventory.put(theItemName, theQuantity);
+    }
+
+    @Override
+    void setVision(double theVision) {
+        myVision = theVision;
+    }
+
+    @Override
+    void setAllies(String[] theAllies) {
+        myAllies = theAllies;
+    }
+
 
     @Override
     public String getName() {
