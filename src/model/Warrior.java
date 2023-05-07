@@ -80,7 +80,6 @@ public class Warrior extends Hero {
         myAllies = theAllies;
     }
 
-
     @Override
     public String getName() {
         return myName;
@@ -114,5 +113,9 @@ public class Warrior extends Hero {
     @Override
     public void attck() {
 
+    }
+
+    public void crushingBlow() {
+        // enemy health subtract hit
     }
 }

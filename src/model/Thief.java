@@ -80,7 +80,7 @@ public class Thief extends Hero {
 
     @Override
     public String getName() {
-        return "Thief";
+        return myName;
     }
 
     @Override
