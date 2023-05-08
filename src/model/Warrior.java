@@ -115,7 +115,8 @@ public class Warrior extends Hero {
 
     }
 
-    public void crushingBlow() {
+    public int crushingBlow(final int theHealth, final int theSpecialDmg) {
         // enemy health subtract hit
+        return theHealth - theSpecialDmg;
     }
 }

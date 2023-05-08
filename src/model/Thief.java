@@ -113,4 +113,11 @@ public class Thief extends Hero {
 
     }
 
+    public int surpriseAttck(final int theHealth, final double theChanceToHit) {
+        if (theChanceToHit <= 0.4) {
+            return 0; // make the hit again. Maybe double dmg?
+        }
+        return theHealth;
+    }
+
 }

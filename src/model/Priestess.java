@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class Priestess extends Hero {
 
@@ -111,6 +112,12 @@ public class Priestess extends Hero {
     @Override
     public void attck() {
 
+    }
+
+    public void heal() {
+        Random rand = new Random();
+        int heal = rand.nextInt(myHealthPoints);
+        setMyHealth(myHealthPoints + heal);
     }
 
 }
