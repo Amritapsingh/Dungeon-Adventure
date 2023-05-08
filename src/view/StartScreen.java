@@ -29,29 +29,28 @@ public class StartScreen {
     private CardLayout cl = new CardLayout();
 
     public StartScreen() {
-
         buttonPanel.setLayout(cl);
-
         gameScreen.add(buttonOne);
         gameScreen.add(buttonSecond);
         gameScreen.setBackground(Color.BLUE);
         //loadScreen.setBackground(Color.GREEN);
-
-        buttonPanel.add(gameScreen, "1");
+        buttonPanel.add(gameScreen, "Game");
+        buttonPanel.add(loadScreen, "Load");
         //buttonPanel.add(loadScreen, "2");
-        cl.show(buttonPanel, "1");
+        //cl.show(buttonPanel, "Game");
 
         buttonOne.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                cl.show(buttonPanel, "2");
+                cl.show(buttonPanel, "Game");
             }
         });
 
         buttonSecond.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                cl.show(buttonPanel, "1");
+                cl.show(buttonPanel, "Load");
+                //gameScreen.newGame();
             }
         });
         myFrame.pack();
