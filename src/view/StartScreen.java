@@ -1,75 +1,65 @@
 package view;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-public class StartScreen {
-    // constants to capture screen dimensions
-    /** A ToolKit. */
-    private static final Toolkit KIT = Toolkit.getDefaultToolkit();
-    /** The Dimension of the screen. */
-    private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
-    /** The width of the screen. */
-    private static final int SCREEN_WIDTH = SCREEN_SIZE.width;
-    /** The height of the screen. */
-    private static final int SCREEN_HEIGHT = SCREEN_SIZE.height;
-    /** A Factor for scaling the size of the GUI relative to the current screen size. */
-    private static final int SCALE = 3;
-    private JFrame myFrame = new JFrame("Dungeon Adventure");
-    private JPanel buttonPanel = new JPanel();
-    private GameScreen gameScreen = new GameScreen();
-    private LoadScreen loadScreen = new LoadScreen();
-    private JButton buttonOne = new JButton("Load saved game");
-    private JButton buttonSecond = new JButton("New Game");
-    private CardLayout cl = new CardLayout();
-
+public class StartScreen extends JFrame {
     public StartScreen() {
-        buttonPanel.setLayout(cl);
-        gameScreen.add(buttonOne);
-        gameScreen.add(buttonSecond);
-        gameScreen.setBackground(Color.BLUE);
-        //loadScreen.setBackground(Color.GREEN);
-        buttonPanel.add(gameScreen, "Game");
-        buttonPanel.add(loadScreen, "Load");
-        //buttonPanel.add(loadScreen, "2");
-        //cl.show(buttonPanel, "Game");
-
-        buttonOne.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                cl.show(buttonPanel, "Game");
-            }
-        });
-
-        buttonSecond.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                cl.show(buttonPanel, "Load");
-                //gameScreen.newGame();
-            }
-        });
-        myFrame.pack();
-        myFrame.setSize(SCREEN_WIDTH / SCALE, SCREEN_HEIGHT / SCALE);
-        myFrame.setLocation(SCREEN_WIDTH / 2 - myFrame.getWidth() / 2,
-                SCREEN_HEIGHT / 2 - myFrame.getHeight() / 2);
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.add(buttonPanel);
-        myFrame.setVisible(true);
-
+        setTitle("Dungeon Adventure");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
+    private void createAndShowUI() {
+        // Create the CardLayout and the JPanel that will hold the cards
+        CardLayout cardLayout = new CardLayout();
+        JPanel cards = new JPanel(cardLayout);
+
+        // Create the starting screen panel
+        JPanel startingScreen = new JPanel();
+        startingScreen.add(new JLabel("Game Starting Screen"));
+        // Create buttons for the starting screen
+        JButton newGameButton = new JButton("New Game");
+        JButton loadGameButton = new JButton("Load Game");
+
+        // Add buttons to the starting screen panel
+        startingScreen.add(newGameButton);
+        startingScreen.add(loadGameButton);
+
+        // Add action listeners to the buttons
+        newGameButton.addActionListener(e -> {
+            GameScreen gameScreen = new GameScreen(cards, cardLayout);
+            // Show the new game view panel
+            cards.add(gameScreen, "GameScreen");
+            cardLayout.show(cards, "GameScreen");
+        });
+        loadGameButton.addActionListener(e -> {
+            LoadScreen loadScreen = new LoadScreen(cards, cardLayout);
+            // Show the load game view panel
+            cards.add(loadScreen, "LoadScreen");
+            cardLayout.show(cards, "LoadScreen");
+        });
+
+        // Add the panels to the cards panel
+        cards.add(startingScreen, "StartingScreen");
+
+        // Show the starting screen by default
+        cardLayout.show(cards, "StartingScreen");
+
+        // Add the cards panel to the JFrame
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(cards, BorderLayout.CENTER);
+    }
+
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new StartScreen();
-            }
+        EventQueue.invokeLater(() -> {
+            StartScreen app = new StartScreen();
+            app.createAndShowUI();
+            app.setVisible(true);
         });
     }
+
 
 }

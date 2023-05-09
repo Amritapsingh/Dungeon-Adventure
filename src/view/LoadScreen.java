@@ -2,13 +2,13 @@ package view;
 
 import javax.swing.*;
 import javax.swing.JLabel;
+import java.awt.*;
 
 public class LoadScreen extends JPanel {
-    public LoadScreen() {
+    public LoadScreen(JPanel cards, CardLayout cardLayout) {
         JLabel label = new JLabel("Loading...");
         add(label);
         setVisible(true);
-        setLayout(null);
         setSize(100, 100);
         setLocation(0, 0);
         label.setSize(100, 100);
@@ -17,5 +17,8 @@ public class LoadScreen extends JPanel {
         setVisible(true);
         repaint();
         revalidate();
+        JButton backButton = new JButton("Back");
+        add(backButton, BorderLayout.SOUTH);
+        backButton.addActionListener(e -> cardLayout.show(cards, "StartingScreen"));
     }
 }
