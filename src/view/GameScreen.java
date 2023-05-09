@@ -39,10 +39,13 @@ public class GameScreen extends JPanel {
      */
     private final ImageIcon myLogo = new ImageIcon("");
 
-    public GameScreen() {
+    public GameScreen(JPanel cards, CardLayout cardLayout) {
         super();
         setBackground(Color.red);
         setVisible(true);
+        JButton backButton = new JButton("Back");
+        add(backButton, BorderLayout.SOUTH);
+        backButton.addActionListener(e -> cardLayout.show(cards, "StartingScreen"));
 
     }
 
