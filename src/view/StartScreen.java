@@ -7,9 +7,10 @@ import java.awt.event.ActionListener;
 public class StartScreen extends JFrame {
     public StartScreen() {
         setTitle("Dungeon Adventure");
-        setSize(400, 300);
+        setSize(768, 576);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
     }
     private void createAndShowUI() {
         // Create the CardLayout and the JPanel that will hold the cards
@@ -33,6 +34,7 @@ public class StartScreen extends JFrame {
             // Show the new game view panel
             cards.add(gameScreen, "GameScreen");
             cardLayout.show(cards, "GameScreen");
+            gameScreen.startNewGameThread();
         });
         loadGameButton.addActionListener(e -> {
             LoadScreen loadScreen = new LoadScreen(cards, cardLayout);
