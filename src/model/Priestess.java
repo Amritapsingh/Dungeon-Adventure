@@ -3,7 +3,7 @@ package model;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Priestess extends Hero {
+public final class Priestess extends Hero {
 
     private String myName;
 
@@ -25,7 +25,7 @@ public class Priestess extends Hero {
 
     private String[] myAllies;
 
-    protected Priestess(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
+    Priestess(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToBlock, theInventory, theVision, theAllies);
     }
 

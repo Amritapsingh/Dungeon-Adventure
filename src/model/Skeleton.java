@@ -1,6 +1,6 @@
 package model;
 
-public class Skeleton extends Monster {
+public final class Skeleton extends Monster {
 
     private String myName;
 
@@ -19,7 +19,8 @@ public class Skeleton extends Monster {
     private int myMinHeal;
 
     private int myMaxHeal;
-    protected Skeleton(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToHeal, int theMinHeal, int theMaxHeal) {
+
+    Skeleton(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToHeal, int theMinHeal, int theMaxHeal) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToHeal, theMinHeal, theMaxHeal);
     }
 

@@ -1,6 +1,6 @@
 package model;
 
-public class Ogre extends Monster {
+public final class Ogre extends Monster {
 
     private String myName;
 
@@ -20,7 +20,7 @@ public class Ogre extends Monster {
 
     private int myMaxHeal;
 
-    protected Ogre(final String theName, final int theHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
+    Ogre(final String theName, final int theHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
                    final double theAttkSpd, final double theChanceToHeal, final int theMinHeal, final int theMaxHeal) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToHeal, theMinHeal, theMaxHeal);
     }
