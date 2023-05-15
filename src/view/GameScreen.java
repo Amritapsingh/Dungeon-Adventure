@@ -30,9 +30,9 @@ public class GameScreen extends JPanel implements Runnable {
     private final int screenHeight = tileSize * maxScreenRow; // 576 pixels
     private int playerX = 100;
     private int playerY = 100;
-    private final int playerSpeed = 3;
+    private final int playerSpeed = 10;
     private Thread gameThread;
-    private int FPS = 60;
+    private final int FPS = 60;
 
     private final ImageIcon myLogo = new ImageIcon("");
 
@@ -58,24 +58,66 @@ public class GameScreen extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000/FPS;
-        double nextDrawTime = System.currentTimeMillis() + drawInterval;
-        while (gameThread != null) {
-            long currentTime = System.currentTimeMillis();
-            update();
-
-            repaint();
-
-//            try {
-//                double remainingTime = nextDrawTime - System.currentTimeMillis();
-//                if (remainingTime < 0) {
-//                    remainingTime = 0;
-//                }
-//                Thread.sleep((long) remainingTime);
-//                nextDrawTime += drawInterval;
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
+//        setInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, getInputMap());
+//        KeyStroke keyW = KeyStroke.getKeyStroke(KeyEvent.VK_W, 0);
+//        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyW, "pressedW");
+//        getActionMap().put("pressedW", new AbstractAction(){
+//            public void actionPerformed(ActionEvent arg0) {
+//                playerY -= playerSpeed;
+//
 //            }
+//
+//        });
+//        KeyStroke keyS = KeyStroke.getKeyStroke(KeyEvent.VK_S, 0);
+//        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyS, "pressedS");
+//        getActionMap().put("pressedS", new AbstractAction(){
+//            public void actionPerformed(ActionEvent arg0) {
+//                playerY += playerSpeed;
+//
+//            }
+//
+//        });
+//        KeyStroke keyA = KeyStroke.getKeyStroke(KeyEvent.VK_A, 0);
+//        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyA, "pressedA");
+//        getActionMap().put("pressedA", new AbstractAction(){
+//            public void actionPerformed(ActionEvent arg0) {
+//                playerX -= playerSpeed;
+//
+//            }
+//
+//        });
+//        KeyStroke keyD = KeyStroke.getKeyStroke(KeyEvent.VK_D, 0);
+//        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyD, "pressedD");
+//        getActionMap().put("pressedD", new AbstractAction(){
+//            public void actionPerformed(ActionEvent arg0) {
+//                playerX += playerSpeed;
+//
+//            }
+//
+//        });
+        double drawInterval = 1000000000/FPS;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        double delta = 0;
+        long timer = 0;
+        int drawCount = 0;
+        while (gameThread != null) {
+
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            timer += (currentTime - lastTime);
+            lastTime = currentTime;
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta--;
+                drawCount++;
+            }
+            if (timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                drawCount = 0;
+                timer = 0;
+            }
         }
 
     }
