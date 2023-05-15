@@ -9,6 +9,8 @@ public final class Priestess extends Hero {
 
     private int myHealthPoints;
 
+    private int myCurrentHealth;
+
     private int myDmgMin;
 
     private int myDmgMax;
@@ -37,6 +39,11 @@ public final class Priestess extends Hero {
     @Override
     void setMyHealth(int theHealth) {
         myHealthPoints = theHealth;
+    }
+
+    @Override
+    void setMyCurrentHealth(int theHealth) {
+        myCurrentHealth = theHealth;
     }
 
     @Override
