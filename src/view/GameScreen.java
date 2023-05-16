@@ -1,5 +1,8 @@
 package view;
 
+import model.Hero;
+import model.Warrior;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -33,6 +36,7 @@ public class GameScreen extends JPanel implements Runnable {
     private final int playerSpeed = 10;
     private Thread gameThread;
     private final int FPS = 60;
+    private Warrior myWarrior = new Warrior(this);
 
     private final ImageIcon myLogo = new ImageIcon("");
 
