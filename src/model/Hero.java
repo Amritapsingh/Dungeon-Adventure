@@ -1,5 +1,7 @@
 package model;
 
+import view.GameScreen;
+
 import java.util.HashMap;
 
 public abstract class Hero implements DungeonModels {
@@ -24,6 +26,11 @@ public abstract class Hero implements DungeonModels {
 
     private String[] myAllies;
 
+    private int x, y;
+    private int speed;
+    GameScreen myGameScreen;
+
+
     protected Hero(final String theName, final int theHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
                     final double theAttkSpd, final double theChanceToBlock, final HashMap<String, Integer> theInventory, double theVision, final String[] theAllies) {
 
@@ -37,6 +44,10 @@ public abstract class Hero implements DungeonModels {
         setInventory("Health Potion", 0);
         setVision(theVision);
         setAllies(theAllies);
+    }
+
+    public Hero(GameScreen theGameScreen) {
+        this.myGameScreen = theGameScreen;
     }
 
     abstract void setMyName(String theName);

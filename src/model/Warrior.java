@@ -1,5 +1,7 @@
 package model;
 
+import view.GameScreen;
+
 import java.util.HashMap;
 
 public class Warrior extends Hero {
@@ -24,10 +26,15 @@ public class Warrior extends Hero {
 
     private String[] myAllies;
 
+    GameScreen myGameScreen;
     protected Warrior(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
                       double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToBlock, theInventory, theVision, theAllies);
 
+    }
+    public Warrior(GameScreen theGameScreen) {
+        super(theGameScreen);
+        this.myGameScreen = theGameScreen;
     }
 
     @Override
