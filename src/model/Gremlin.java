@@ -1,6 +1,6 @@
 package model;
 
-public class Gremlin extends Monster {
+public final class Gremlin extends Monster {
 
     private String myName;
 
@@ -20,7 +20,7 @@ public class Gremlin extends Monster {
 
     private int myMaxHeal;
 
-    protected Gremlin(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToHeal, int theMinHeal, int theMaxHeal) {
+    Gremlin(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToHeal, int theMinHeal, int theMaxHeal) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToHeal, theMinHeal, theMaxHeal);
     }
 

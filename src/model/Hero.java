@@ -10,6 +10,8 @@ public abstract class Hero implements DungeonModels {
 
     private int myHealthPoints;
 
+    private int myCurrentHealth;
+
     private int myDmgMin;
 
     private int myDmgMax;
@@ -53,6 +55,8 @@ public abstract class Hero implements DungeonModels {
     abstract void setMyName(String theName);
 
     abstract void setMyHealth(int theHealth);
+
+    abstract void setMyCurrentHealth(int theHealth);
 
     abstract void setMinDmg(int theDmgMin);
 

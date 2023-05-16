@@ -1,14 +1,14 @@
 package model;
 
-import view.GameScreen;
-
 import java.util.HashMap;
 
-public class Warrior extends Hero {
+public final class Warrior extends Hero {
 
     private String myName;
 
     private int myHealthPoints;
+
+    private int myCurrentHealth;
 
     private int myDmgMin;
 
@@ -26,15 +26,10 @@ public class Warrior extends Hero {
 
     private String[] myAllies;
 
-    GameScreen myGameScreen;
-    protected Warrior(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
+    Warrior(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
                       double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToBlock, theInventory, theVision, theAllies);
 
-    }
-    public Warrior(GameScreen theGameScreen) {
-        super(theGameScreen);
-        this.myGameScreen = theGameScreen;
     }
 
     @Override
@@ -45,6 +40,11 @@ public class Warrior extends Hero {
     @Override
     void setMyHealth(int theHealth) {
         myHealthPoints = theHealth;
+    }
+
+    @Override
+    void setMyCurrentHealth(int theHealth) {
+        myCurrentHealth = theHealth;
     }
 
     @Override

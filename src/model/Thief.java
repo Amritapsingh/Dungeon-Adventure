@@ -2,11 +2,13 @@ package model;
 
 import java.util.HashMap;
 
-public class Thief extends Hero {
+public final class Thief extends Hero {
 
     private String myName;
 
     private int myHealthPoints;
+
+    private int myCurrentHealth;
 
     private int myDmgMin;
 
@@ -24,7 +26,7 @@ public class Thief extends Hero {
 
     private String[] myAllies;
 
-    protected Thief(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
+    Thief(String theName, int theHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
         super(theName, theHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theChanceToBlock, theInventory, theVision, theAllies);
     }
 
@@ -36,6 +38,11 @@ public class Thief extends Hero {
     @Override
     void setMyHealth(int theHealth) {
         myHealthPoints = theHealth;
+    }
+
+    @Override
+    void setMyCurrentHealth(int theHealth) {
+        myCurrentHealth = theHealth;
     }
 
     @Override
