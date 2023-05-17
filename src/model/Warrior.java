@@ -33,7 +33,7 @@ public final class Warrior extends Hero {
     }
 
     @Override
-    void setMyName(String theName) {
+    protected void setMyName(String theName) {
         myName = theName;
     }
 

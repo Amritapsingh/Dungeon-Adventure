@@ -31,7 +31,7 @@ public final class Thief extends Hero {
     }
 
     @Override
-    void setMyName(String theName) {
+    protected void setMyName(String theName) {
         myName = theName;
     }
 
