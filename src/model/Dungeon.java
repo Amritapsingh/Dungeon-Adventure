@@ -54,7 +54,12 @@ public class Dungeon {
             }
         }
     }
+    public void setEntrance() {
 
+    }
+    public void setExit() {
+
+    }
     public Room getRoom(int x, int y) {
         if (x >= 0 && x < rows && y >= 0 && y < cols) {
             return maze[x][y];
