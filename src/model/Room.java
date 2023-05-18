@@ -95,4 +95,40 @@ public class Room {
                 return "";
         }
     }
+
+    /**
+     * Is entrance boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isEntrance() {
+        return myIsEnter;
+    }
+
+    /**
+     * Sets entrance.
+     *
+     * @param entrance the entrance
+     */
+    public void setEntrance(boolean entrance) {
+        myIsEnter = entrance;
+    }
+
+    /**
+     * Is exit boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isExit() {
+        return myIsExit;
+    }
+
+    /**
+     * Sets exit.
+     *
+     * @param exit the exit
+     */
+    public void setExit(boolean exit) {
+        myIsExit = exit;
+    }
 }

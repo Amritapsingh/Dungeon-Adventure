@@ -54,7 +54,8 @@ public class Dungeon {
             }
         }
     }
-    public void setEntrance() {
+    public void setEntrance(final int col, final int row) {
+        maze[col][row].setEntrance(true); // [col][row
 
     }
     public void setExit() {
