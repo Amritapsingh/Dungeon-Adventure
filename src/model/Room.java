@@ -21,7 +21,7 @@ public class Room {
         this.isEnter = false;
         this.isExit = false;
     }
-    public boolean  getIsVisited() {
+    public boolean getIsVisited() {
         return isVisited;
     }
     public void setIsVisited(final boolean isVisited) {

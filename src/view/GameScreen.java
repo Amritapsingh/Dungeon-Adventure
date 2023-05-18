@@ -1,6 +1,7 @@
 package view;
 
 import model.Hero;
+import model.TileManager;
 import model.Warrior;
 
 import javax.swing.*;
@@ -27,10 +28,10 @@ public class GameScreen extends JPanel implements Runnable {
     private static final int SCALE = 3;
     private final int originalTileSize = 16; // 16x16
     public final int tileSize = originalTileSize * SCALE; // 48x48 tiles
-    private final int maxScreenCol = 16;
-    private final int maxScreenRow = 12;
-    private final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    private final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
     private int playerX = 100;
     private int playerY = 100;
     private final int playerSpeed = 10;
@@ -40,6 +41,7 @@ public class GameScreen extends JPanel implements Runnable {
     private final ImageIcon myLogo = new ImageIcon("");
 
     private final ImageIcon enemyLogo = new ImageIcon("");
+    TileManager tiles = new TileManager(this);
 
     public GameScreen(JPanel cards, CardLayout cardLayout) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -81,7 +83,6 @@ public class GameScreen extends JPanel implements Runnable {
                 drawCount++;
             }
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }
@@ -91,6 +92,7 @@ public class GameScreen extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        tiles.draw(g2d);
         g2d.setColor(Color.black);
         g2d.fillRect(playerX, playerY, tileSize, tileSize);
         g2d.dispose();
