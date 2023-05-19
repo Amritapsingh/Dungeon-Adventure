@@ -22,7 +22,7 @@ public class Dungeon {
         // Generate rooms
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
-                myMaze[i][j] = new Room();
+                myMaze[i][j] = new Room(i, j);
                 myMaze[i][j].generateItems();
             }
         }
@@ -31,22 +31,22 @@ public class Dungeon {
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
                 Room room = myMaze[i][j];
-                if (i > 0) {
+                if (i > 0 && random.nextDouble() < 0.5) { // Randomly add north door
                     Room northRoom = myMaze[i - 1][j];
                     room.addDoor("N", northRoom);
                     northRoom.addDoor("S", room);
                 }
-                if (i < myRows - 1) {
+                if (i < myRows - 1 && random.nextDouble() < 0.5) { // Randomly add south door
                     Room southRoom = myMaze[i + 1][j];
                     room.addDoor("S", southRoom);
                     southRoom.addDoor("N", room);
                 }
-                if (j > 0) {
+                if (j > 0 && random.nextDouble() < 0.5) { // Randomly add west door
                     Room westRoom = myMaze[i][j - 1];
                     room.addDoor("W", westRoom);
                     westRoom.addDoor("E", room);
                 }
-                if (j < myCols - 1) {
+                if (j < myCols - 1 && random.nextDouble() < 0.5) { // Randomly add east door
                     Room eastRoom = myMaze[i][j + 1];
                     room.addDoor("E", eastRoom);
                     eastRoom.addDoor("W", room);
@@ -54,6 +54,7 @@ public class Dungeon {
             }
         }
     }
+
 
     public Room getRoom(int x, int y) {
         if (x >= 0 && x < myRows && y >= 0 && y < myCols) {
@@ -79,8 +80,8 @@ public class Dungeon {
     }
 
     public static void main(String[] args) {
-        int rows = 5;
-        int cols = 5;
+        int rows = 6;
+        int cols = 4;
         Dungeon generator = new Dungeon(rows, cols);
         generator.printMaze();
     }

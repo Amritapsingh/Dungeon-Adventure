@@ -3,6 +3,10 @@ package model;
 import java.util.*;
 
 public class Room {
+
+    private int myX;
+
+    private int myY;
     boolean myNorthDoor;
     boolean mySouthDoor;
     boolean myEastDoor;
@@ -14,8 +18,10 @@ public class Room {
     private boolean myIsVisited;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
 
-    public Room() {
+    public Room(final int theX, final int theY) {
         Random theRandom = new Random();
+        myX = theX;
+        myY = theY;
         myIsVisited = false;
         myNorthDoor = theRandom.nextBoolean();
         mySouthDoor = theRandom.nextBoolean();
