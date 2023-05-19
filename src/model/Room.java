@@ -1,37 +1,41 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Room {
+
+    private int myX;
+    private int myY;
     boolean myNorthDoor;
     boolean mySouthDoor;
     boolean myEastDoor;
     boolean myWestDoor;
     boolean myIsEnter;
     boolean myIsExit;
-    private List<String> myItems;
-    private Map<String, Boolean> myDoors;
+    private final List<String> myItems;
+    private final HashMap<String, Boolean> myDoors;
     private boolean myIsVisited;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
 
-    public Room() {
+    public Room(final int theX, final int theY) {
         Random theRandom = new Random();
+        myX = theX;
+        myY = theY;
         myIsVisited = false;
         myNorthDoor = theRandom.nextBoolean();
         mySouthDoor = theRandom.nextBoolean();
         myEastDoor = theRandom.nextBoolean();
         myWestDoor = theRandom.nextBoolean();
         myItems = new ArrayList<>();
-        myDoors = Map.of("N", false, "S", false, "E", false, "W", false);
+        myDoors = new HashMap<>();
+        myDoors.put("N", false);
+        myDoors.put("S", false);
+        myDoors.put("E", false);
+        myDoors.put("W", false);
         myIsEnter = false;
         myIsExit = false;
     }
 
-    public Room(int i, int j) {
-    }
 
     public boolean getIsVisited() {
         return myIsVisited;
@@ -42,6 +46,7 @@ public class Room {
 
     public void generateItems() {
         double random = Math.random();
+        myItems.add("Health Potion");
         if (random < 0.1) {
             if (random < 0.033) {
                 myItems.add("Healing Potion");
