@@ -6,10 +6,10 @@ public class Room {
 
     private int myX;
     private int myY;
-    boolean myNorthDoor;
-    boolean mySouthDoor;
-    boolean myEastDoor;
-    boolean myWestDoor;
+    Room myNorthRoom;
+    Room mySouthRoom;
+    Room myEastRoom;
+    Room myWestRoom;
     boolean myIsEnter;
     boolean myIsExit;
     private final List<String> myItems;
@@ -17,15 +17,17 @@ public class Room {
     private boolean myIsVisited;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
 
+    public boolean myIsBuilt;
+
     public Room(final int theX, final int theY) {
         Random theRandom = new Random();
         myX = theX;
         myY = theY;
         myIsVisited = false;
-        myNorthDoor = theRandom.nextBoolean();
-        mySouthDoor = theRandom.nextBoolean();
-        myEastDoor = theRandom.nextBoolean();
-        myWestDoor = theRandom.nextBoolean();
+//        myNorthDoor = theRandom.nextBoolean();
+//        mySouthDoor = theRandom.nextBoolean();
+//        myEastDoor = theRandom.nextBoolean();
+//        myWestDoor = theRandom.nextBoolean();
         myItems = new ArrayList<>();
         myDoors = new HashMap<>();
         myDoors.put("N", false);
@@ -36,13 +38,43 @@ public class Room {
         myIsExit = false;
     }
 
-
+    public Room getMyNorthRoom() {
+        return myNorthRoom;
+    }
+    public void setMyNorthRoom(final Room northRoom) {
+        myNorthRoom = northRoom;
+    }
+    public Room getMySouthRoom() {
+        return mySouthRoom;
+    }
+    public void setMySouthRoom(final Room southRoom) {
+        mySouthRoom = southRoom;
+    }
+    public Room getMyEastRoom() {
+        return myEastRoom;
+    }
+    public void setMyEastRoom(final Room eastRoom) {
+        myEastRoom = eastRoom;
+    }
+    public Room getMyWestRoom() {
+        return myWestRoom;
+    }
+    public void setMyWestRoom(final Room westRoom) {
+        myWestRoom = westRoom;
+    }
     public boolean getIsVisited() {
         return myIsVisited;
     }
     public void setIsVisited(final boolean isVisited) {
         myIsVisited = isVisited;
     }
+    public boolean getIsBuilt() {
+        return myIsBuilt;
+    }
+    public void setIsBuilt(final boolean isBuilt) {
+        myIsBuilt = isBuilt;
+    }
+
 
     public void generateItems() {
         double random = Math.random();
@@ -69,7 +101,44 @@ public class Room {
         }
         System.out.print(graphicalRepr.toString());
     }
+    public String toString() {
+        String roomString = "";
+        if (myIsEnter) {
+            roomString += "E";
+        }
+        else if (myIsExit) {
+            roomString += "X";
+        }
+        if (myNorthRoom != null) {
+            roomString += "*-*\n";
+        } else {
+            roomString += "***\n";
+        }
 
+        if (myWestRoom != null) {
+            roomString += "|";
+        } else{
+            roomString += "*";
+        }
+
+//        roomString += myStringToken;
+
+        if (myEastRoom != null) {
+            roomString += "|\n";
+        }
+        else {
+            roomString += "*\n";
+        }
+
+        if (mySouthRoom != null) {
+            roomString += "*-*\n";
+        }
+        else {
+            roomString += "***\n";
+        }
+
+        return roomString;
+    }
     public void addDoor(String direction, Room adjacentRoom) {
         if (adjacentRoom != null && containsDirection(direction)) {
             myDoors.put(direction, true);
@@ -124,7 +193,7 @@ public class Room {
      *
      * @return the boolean
      */
-    public boolean isExit() {
+    public boolean getMyIsExit() {
         return myIsExit;
     }
 
