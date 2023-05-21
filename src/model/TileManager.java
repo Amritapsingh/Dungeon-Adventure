@@ -32,7 +32,7 @@ public class TileManager {
             while(col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
                 String line = br.readLine();
                 while (col < myGameScreen.maxScreenCol) {
-                    String numbers[] = line.split(" ");
+                    String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
                     mapTiles[col][row] = num;
                     col++;

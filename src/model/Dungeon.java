@@ -54,7 +54,13 @@ public class Dungeon {
             }
         }
     }
+    public void setEntrance(final int col, final int row) {
+        myMaze[col][row].setEntrance(true); // [col][row
 
+    }
+    public void setExit() {
+
+    }
 
     public Room getRoom(int x, int y) {
         if (x >= 0 && x < myRows && y >= 0 && y < myCols) {
