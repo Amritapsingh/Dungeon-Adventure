@@ -35,18 +35,17 @@ public class Dungeon {
         roomStack.push(room);
         room.setIsVisited(true);
         visitedRooms++;
-        Room neighbor = getNeighborOf(room);
-        room.display();
-        ArrayList<Room> neighbors = room.getRoomNeighbors();
-        System.out.println();
-        for (int i = 0; i < neighbors.size(); i++) {
-            Room printRoom = neighbors.get(i);
-            printRoom.display();
-        }
-        System.out.println();
-//        do {
-//
-//        } while (visitedRooms != numRooms);
+        do {
+            room = roomStack.peek();
+            Room neighbor = getNeighborOf(room);
+            if (neighbor == null) {
+                roomStack.pop();
+            } else {
+                visitedRooms++;
+                neighbor.setIsVisited(true);
+                roomStack.push(neighbor);
+            }
+        } while (visitedRooms != numRooms);
     }
 
     public Room getRoom(int x, int y) {
@@ -64,29 +63,33 @@ public class Dungeon {
     }
 
     public Room getNeighborOf(Room room) {
+        Random random = new Random();
         getAllNeighbors(room);
-        return room;
+        if (room.neighbors > 0) {
+            ArrayList<Room> roomNeighbors = room.getRoomNeighbors();
+            return roomNeighbors.get(random.nextInt(room.neighbors));
+        } else {
+            return null;
+        }
     }
 
     public void getAllNeighbors(Room room) {
         ArrayList<Room> neighbors = room.getRoomNeighbors();
         if (room.y > 0 && !maze[room.y - 1][room.x].getIsVisited()) {
             neighbors.add(maze[room.y - 1][room.x]);
+            room.neighbors++;
         }
-
-        // Down
         if (room.y < rows - 1 && !maze[room.y + 1][room.x].getIsVisited()) {
             neighbors.add(maze[room.y + 1][room.x]);
+            room.neighbors++;
         }
-
-        // Left
         if (room.x > 0 && !maze[room.y][room.x - 1].getIsVisited()) {
             neighbors.add(maze[room.y][room.x - 1]);
+            room.neighbors++;
         }
-
-        // Right
         if (room.x < cols - 1 && !maze[room.y][room.x + 1].getIsVisited()) {
             neighbors.add(maze[room.y][room.x + 1]);
+            room.neighbors++;
         }
     }
     public void printMaze() {
