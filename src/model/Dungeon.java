@@ -31,11 +31,11 @@ public class Dungeon {
             }
         }
         Room room = getRandomRoom();
-        System.out.println();
+        System.out.println(room.x +"," + room.y);
         roomStack.push(room);
         room.setIsVisited(true);
         room.myIsEnter = true;
-        visitedRooms++;
+        visitedRooms = 1;
         do {
             room = roomStack.peek();
             Room neighbor = getNeighborOf(room);
@@ -69,6 +69,7 @@ public class Dungeon {
         getAllNeighbors(room);
         if (room.neighbors > 0) {
             ArrayList<Room> roomNeighbors = room.getRoomNeighbors();
+            random.nextInt();
             return roomNeighbors.get(random.nextInt(room.neighbors));
         } else {
             return null;
@@ -96,7 +97,20 @@ public class Dungeon {
     }
 
     private void connectRooms(Room room1, Room room2) {
-
+        if (room1.x > room2.x) {
+            room1.myWestDoor = "<";
+            room2.myEastDoor = ">";
+        } else if(room1.x < room2.x) {
+            room2.myWestDoor = "<";
+            room1.myEastDoor = ">";
+        }
+        if (room1.y > room2.y) {
+            room1.myNorthDoor = "^";
+            room2.mySouthDoor = "v";
+        } else if (room1.y < room2.y) {
+            room2.myNorthDoor = "^";
+            room1.mySouthDoor = "v";
+        }
     }
     public void printMaze() {
         for (int i = 0; i < rows; i++) {

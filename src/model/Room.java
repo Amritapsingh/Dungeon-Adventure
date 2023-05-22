@@ -13,10 +13,10 @@ public class Room {
     public int y;
     private ArrayList<Room> roomNeighbors;
     public int neighbors;
-    boolean myNorthDoor;
-    boolean mySouthDoor;
-    boolean myEastDoor;
-    boolean myWestDoor;
+    String myNorthDoor;
+    String mySouthDoor;
+    String myEastDoor;
+    String myWestDoor;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
 
     public Room(int x, int y) {
@@ -25,10 +25,10 @@ public class Room {
         myIsVisited = false;
         myIsEnter = false;
         myIsExit = false;
-        myNorthDoor = false;
-        mySouthDoor = false;
-        myEastDoor = false;
-        myWestDoor = false;
+        myNorthDoor = " ";
+        mySouthDoor = " ";
+        myEastDoor = " ";
+        myWestDoor = " ";
         this.roomNeighbors = new ArrayList<>();
         neighbors = 0;
     }
@@ -45,7 +45,7 @@ public class Room {
 
     public void display() {
         //StringBuilder graphicalRepr = new StringBuilder();
-        System.out.print("[" + x + "," + y + "]");
+        System.out.print("["  + myWestDoor + myNorthDoor + mySouthDoor + myEastDoor + "]");
 
     }
 
