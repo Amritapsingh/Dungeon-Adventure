@@ -64,20 +64,21 @@ public class Dungeon {
         return maze[x][y];
     }
 
-    public Room getNeighborOf(Room room) {
-        Random random = new Random();
+    public Room getNeighborOf(final Room room) {
         getAllNeighbors(room);
         if (room.neighbors > 0) {
             ArrayList<Room> roomNeighbors = room.getRoomNeighbors();
-            random.nextInt();
+            Random random = new Random();
             return roomNeighbors.get(random.nextInt(room.neighbors));
         } else {
             return null;
         }
     }
 
-    public void getAllNeighbors(Room room) {
+    public void getAllNeighbors(final Room room) {
         ArrayList<Room> neighbors = room.getRoomNeighbors();
+        room.neighbors = 0;
+        room.getRoomNeighbors().clear();
         if (room.y > 0 && !maze[room.y - 1][room.x].getIsVisited()) {
             neighbors.add(maze[room.y - 1][room.x]);
             room.neighbors++;
@@ -96,7 +97,7 @@ public class Dungeon {
         }
     }
 
-    private void connectRooms(Room room1, Room room2) {
+    private void connectRooms(final Room room1, final Room room2) {
         if (room1.x > room2.x) {
             room1.myWestDoor = "<";
             room2.myEastDoor = ">";

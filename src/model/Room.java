@@ -43,6 +43,8 @@ public class Room {
     public ArrayList<Room> getRoomNeighbors() { return roomNeighbors; }
 
 
+
+
     public void display() {
         //StringBuilder graphicalRepr = new StringBuilder();
         System.out.print("["  + myWestDoor + myNorthDoor + mySouthDoor + myEastDoor + "]");
