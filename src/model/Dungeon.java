@@ -34,6 +34,7 @@ public class Dungeon {
         System.out.println();
         roomStack.push(room);
         room.setIsVisited(true);
+        room.myIsEnter = true;
         visitedRooms++;
         do {
             room = roomStack.peek();
@@ -43,6 +44,7 @@ public class Dungeon {
             } else {
                 visitedRooms++;
                 neighbor.setIsVisited(true);
+                connectRooms(room,neighbor);
                 roomStack.push(neighbor);
             }
         } while (visitedRooms != numRooms);
@@ -91,6 +93,10 @@ public class Dungeon {
             neighbors.add(maze[room.y][room.x + 1]);
             room.neighbors++;
         }
+    }
+
+    private void connectRooms(Room room1, Room room2) {
+
     }
     public void printMaze() {
         for (int i = 0; i < rows; i++) {

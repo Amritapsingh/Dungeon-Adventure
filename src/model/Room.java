@@ -13,6 +13,10 @@ public class Room {
     public int y;
     private ArrayList<Room> roomNeighbors;
     public int neighbors;
+    boolean myNorthDoor;
+    boolean mySouthDoor;
+    boolean myEastDoor;
+    boolean myWestDoor;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
 
     public Room(int x, int y) {
@@ -21,6 +25,10 @@ public class Room {
         myIsVisited = false;
         myIsEnter = false;
         myIsExit = false;
+        myNorthDoor = false;
+        mySouthDoor = false;
+        myEastDoor = false;
+        myWestDoor = false;
         this.roomNeighbors = new ArrayList<>();
         neighbors = 0;
     }
