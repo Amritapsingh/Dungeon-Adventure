@@ -5,19 +5,24 @@ import java.util.*;
 public class Room {
 
     private int myX;
+
     private int myY;
+    boolean myNorthDoor;
+    boolean mySouthDoor;
+    boolean myEastDoor;
+    boolean myWestDoor;
     Room myNorthRoom;
+
     Room mySouthRoom;
     Room myEastRoom;
     Room myWestRoom;
+    boolean myIsBuilt;
     boolean myIsEnter;
     boolean myIsExit;
     private final List<String> myItems;
     private final HashMap<String, Boolean> myDoors;
     private boolean myIsVisited;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
-
-    public boolean myIsBuilt;
 
     public Room(final int theX, final int theY) {
         Random theRandom = new Random();
@@ -38,43 +43,13 @@ public class Room {
         myIsExit = false;
     }
 
-    public Room getMyNorthRoom() {
-        return myNorthRoom;
-    }
-    public void setMyNorthRoom(final Room northRoom) {
-        myNorthRoom = northRoom;
-    }
-    public Room getMySouthRoom() {
-        return mySouthRoom;
-    }
-    public void setMySouthRoom(final Room southRoom) {
-        mySouthRoom = southRoom;
-    }
-    public Room getMyEastRoom() {
-        return myEastRoom;
-    }
-    public void setMyEastRoom(final Room eastRoom) {
-        myEastRoom = eastRoom;
-    }
-    public Room getMyWestRoom() {
-        return myWestRoom;
-    }
-    public void setMyWestRoom(final Room westRoom) {
-        myWestRoom = westRoom;
-    }
+
     public boolean getIsVisited() {
         return myIsVisited;
     }
     public void setIsVisited(final boolean isVisited) {
         myIsVisited = isVisited;
     }
-    public boolean getIsBuilt() {
-        return myIsBuilt;
-    }
-    public void setIsBuilt(final boolean isBuilt) {
-        myIsBuilt = isBuilt;
-    }
-
 
     public void generateItems() {
         double random = Math.random();
@@ -101,44 +76,7 @@ public class Room {
         }
         System.out.print(graphicalRepr.toString());
     }
-    public String toString() {
-        String roomString = "";
-        if (myIsEnter) {
-            roomString += "E";
-        }
-        else if (myIsExit) {
-            roomString += "X";
-        }
-        if (myNorthRoom != null) {
-            roomString += "*-*\n";
-        } else {
-            roomString += "***\n";
-        }
 
-        if (myWestRoom != null) {
-            roomString += "|";
-        } else{
-            roomString += "*";
-        }
-
-//        roomString += myStringToken;
-
-        if (myEastRoom != null) {
-            roomString += "|\n";
-        }
-        else {
-            roomString += "*\n";
-        }
-
-        if (mySouthRoom != null) {
-            roomString += "*-*\n";
-        }
-        else {
-            roomString += "***\n";
-        }
-
-        return roomString;
-    }
     public void addDoor(String direction, Room adjacentRoom) {
         if (adjacentRoom != null && containsDirection(direction)) {
             myDoors.put(direction, true);
@@ -193,7 +131,7 @@ public class Room {
      *
      * @return the boolean
      */
-    public boolean getMyIsExit() {
+    public boolean isExit() {
         return myIsExit;
     }
 
@@ -205,4 +143,62 @@ public class Room {
     public void setExit(boolean exit) {
         myIsExit = exit;
     }
+
+    public void setMySouthRoom(Room room) {
+        mySouthRoom = room;
+    }
+
+    public void setMyNorthRoom(Room room) {
+        myNorthRoom = room;
+    }
+
+    public void setMyEastRoom(Room room) {
+        myEastRoom = room;
+    }
+
+    public void setMyWestRoom(Room room) {
+        myWestRoom = room;
+    }
+
+    public Room getMySouthRoom() {
+        return mySouthRoom;
+    }
+
+    public Room getMyNorthRoom() {
+        return myNorthRoom;
+    }
+
+    public Room getMyEastRoom() {
+        return myEastRoom;
+    }
+
+    public Room getMyWestRoom() {
+        return myWestRoom;
+    }
+
+    public boolean getIsBuilt() {
+        return myIsBuilt;
+    }
+
+    public void setIsBuilt(boolean b) {
+        myIsBuilt = b;
+    }
+    public String toString() {
+        String roomString = "";
+        if (myNorthRoom != null) roomString += "*-*\n";
+        else roomString += "***\n";
+
+        if (myWestRoom != null) roomString += "|";
+        else roomString += "*";
+
+
+        if (myEastRoom != null) roomString += "*|\n";
+        else roomString += "*\n";
+
+        if (mySouthRoom != null) roomString += "*-*\n";
+        else roomString += "***\n";
+
+        return roomString;
+    }
+
 }
