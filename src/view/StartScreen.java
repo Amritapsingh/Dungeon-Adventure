@@ -1,8 +1,10 @@
 package view;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class StartScreen extends JFrame {
     public StartScreen() {
@@ -11,57 +13,66 @@ public class StartScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        setBackground(Color.black);
     }
-    private void createAndShowUI() {
-        // Create the CardLayout and the JPanel that will hold the cards
+    private void createAndShowUI() throws IOException {
         CardLayout cardLayout = new CardLayout();
         JPanel cards = new JPanel(cardLayout);
 
-        // Create the starting screen panel
-        JPanel startingScreen = new JPanel();
-        startingScreen.add(new JLabel("Game Starting Screen"));
-        // Create buttons for the starting screen
+        JPanel startingScreen = new ImagePanel("/assets/image.jpeg");
         JButton newGameButton = new JButton("New Game");
         JButton loadGameButton = new JButton("Load Game");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.add(newGameButton);
+        buttonPanel.add(loadGameButton);
+//        startingScreen.add(newGameButton);
+//        startingScreen.add(loadGameButton);
 
-        // Add buttons to the starting screen panel
-        startingScreen.add(newGameButton);
-        startingScreen.add(loadGameButton);
-
-        // Add action listeners to the buttons
         newGameButton.addActionListener(e -> {
             GameScreen gameScreen = new GameScreen(cards, cardLayout);
-            // Show the new game view panel
             cards.add(gameScreen, "GameScreen");
             cardLayout.show(cards, "GameScreen");
             gameScreen.startNewGameThread();
         });
         loadGameButton.addActionListener(e -> {
             LoadScreen loadScreen = new LoadScreen(cards, cardLayout);
-            // Show the load game view panel
             cards.add(loadScreen, "LoadScreen");
             cardLayout.show(cards, "LoadScreen");
         });
-
-        // Add the panels to the cards panel
+        // Add the screens to the cards panel
+        startingScreen.add(buttonPanel);
         cards.add(startingScreen, "StartingScreen");
 
-        // Show the starting screen by default
         cardLayout.show(cards, "StartingScreen");
-
-        // Add the cards panel to the JFrame
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(cards, BorderLayout.CENTER);
+        getContentPane().add(cards);
     }
 
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             StartScreen app = new StartScreen();
-            app.createAndShowUI();
+            try {
+                app.createAndShowUI();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             app.setVisible(true);
         });
     }
 
 
+    private class ImagePanel extends JPanel {
+        private Image backgroundImage;
+
+        public ImagePanel(String filename) throws IOException {
+            backgroundImage = ImageIO.read(getClass().getResource(filename));
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Image scaledImage = backgroundImage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+            g.drawImage(scaledImage, 0, 0, this);        }
+    }
 }
