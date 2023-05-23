@@ -87,6 +87,7 @@ public final class Warrior extends Hero {
         myAllies = theAllies;
     }
 
+
     @Override
     public String getName() {
         return myName;

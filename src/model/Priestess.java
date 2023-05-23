@@ -124,7 +124,11 @@ public final class Priestess extends Hero {
     public void heal() {
         Random rand = new Random();
         int heal = rand.nextInt(myHealthPoints);
-        setMyHealth(myHealthPoints + heal);
+        if (myCurrentHealth + heal > myHealthPoints) {
+            setMyHealth(myHealthPoints);
+        } else {
+            setMyHealth(myCurrentHealth + heal);
+        }
     }
 
 }

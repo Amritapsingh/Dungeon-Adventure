@@ -49,7 +49,7 @@ public abstract class Hero implements DungeonModels {
     }
 
     public Hero(GameScreen theGameScreen) {
-        this.myGameScreen = theGameScreen;
+        myGameScreen = theGameScreen;
     }
 
     abstract void setMyName(String theName);
