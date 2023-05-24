@@ -124,8 +124,8 @@ public class Dungeon {
     }
 
     public static void main(String[] args) {
-        int rows = 5;
-        int cols = 8;
+        int rows = 7;
+        int cols = 10;
         Dungeon generator = new Dungeon(rows, cols);
 
         generator.printMaze();
