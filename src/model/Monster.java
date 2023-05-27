@@ -1,55 +1,31 @@
 package model;
 
-public abstract class Monster implements  DungeonModels{
+public final class Monster extends DungeonModel {
 
-    private String myName;
+    private final double myChanceToHeal;
 
-    private int myHealthPoints;
+    private final int myMinHeal;
 
-    private int myDmgMin;
+    private final int myMaxHeal;
 
-    private int myDmgMax;
-
-    private double myChanceToHit;
-
-    private double myAttkSpd;
-
-    private double myChanceToHeal;
-
-    private int myMinHeal;
-
-    private int myMaxHeal;
-
-    protected Monster(final String theName, final int theHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
-                      final double theAttkSpd, final double theChanceToHeal, final int theMinHeal, final int theMaxHeal) {
-
-        setMyName(theName);
-        setMyHealth(theHealth);
-        setMinDmg(theDmgMin);
-        setMaxDmg(theDmgMax);
-        setChnceToHit(theChanceToHit);
-        setAttkSpd(theAttkSpd);
-        setMyChanceToHeal(theChanceToHeal);
-        setMyMinHeal(theMinHeal);
-        setMyMaxHeal(theMaxHeal);
+    private Monster(final String theName, final int theHealth, final int theCurrentHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
+                      final double theAttkSpd, final boolean theAlive, final double theChanceToHeal, final int theMinHeal, final int theMaxHeal) {
+        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive);
+        myChanceToHeal = theChanceToHeal;
+        myMinHeal = theMinHeal;
+        myMaxHeal = theMaxHeal;
     }
 
-    abstract void setMyName(String theName);
+    public double getMyChanceToHeal() {
+        return myChanceToHeal;
+    }
 
-    abstract void setMyHealth(int theHealth);
+    public int getMyMinHeal() {
+        return myMinHeal;
+    }
 
-    abstract void setMinDmg(int theDmgMin);
-
-    abstract void setMaxDmg(int theDmgMax);
-
-    abstract void setChnceToHit(double theChnceToHit);
-
-    abstract void setAttkSpd(double theAttkSpd);
-
-    abstract void setMyChanceToHeal(double theChanceToHeal);
-
-    abstract void setMyMinHeal(int theMinHeal);
-
-    abstract void setMyMaxHeal(int theMaxHeal);
+    public int getMyMaxHeal() {
+        return myMaxHeal;
+    }
 
 }

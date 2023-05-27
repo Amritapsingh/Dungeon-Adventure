@@ -4,21 +4,7 @@ import view.GameScreen;
 
 import java.util.HashMap;
 
-public abstract class Hero implements DungeonModels {
-
-    private String myName;
-
-    private int myHealthPoints;
-
-    private int myCurrentHealth;
-
-    private int myDmgMin;
-
-    private int myDmgMax;
-
-    private double myChanceToHit;
-
-    private double myAttkSpd;
+public abstract class Hero extends DungeonModel {
 
     private double myChanceToBlock;
 
@@ -33,49 +19,36 @@ public abstract class Hero implements DungeonModels {
     GameScreen myGameScreen;
 
 
-    protected Hero(final String theName, final int theHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
-                    final double theAttkSpd, final double theChanceToBlock, final HashMap<String, Integer> theInventory, double theVision, final String[] theAllies) {
+    protected Hero(final String theName, final int theHealth, final int theCurrentHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
+                   final double theAttkSpd, final boolean theAlive, final double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, final String[] theAllies) {
+        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive);
 
-        setMyName(theName);
-        setMyHealth(theHealth);
-        setMinDmg(theDmgMin);
-        setMaxDmg(theDmgMax);
-        setChnceToHit(theChanceToHit);
-        setAttkSpd(theAttkSpd);
-        setChnceToBlock(theChanceToBlock);
-        setInventory("Health Potion", 0);
+        myChanceToBlock = theChanceToBlock;
+        myInventory.put("Health Potion", 0);
+        myInventory.put("Vision Potion", 0);
+        myInventory.put("Poison Potion", 0);
         setVision(theVision);
         setAllies(theAllies);
     }
 
-    public Hero(GameScreen theGameScreen) {
-        myGameScreen = theGameScreen;
+//    public Hero(GameScreen theGameScreen) {
+//        myGameScreen = theGameScreen;
+//    }
+
+    public void setChnceToBlock(double theChnceToBlock) {
+        myChanceToBlock = theChnceToBlock;
     }
 
-    abstract void setMyName(String theName);
+    public void setInventory(String theItemName, int theQuantity) {
+        myInventory.replace(theItemName, theQuantity);
+    }
 
-    abstract void setMyHealth(int theHealth);
+    public void setVision(double theVision) {
+        myVision = theVision;
+    }
 
-    abstract void setMyCurrentHealth(int theHealth);
+    public void setAllies(String[] theAllies) {
+        myAllies = theAllies;
+    }
 
-    abstract void setMinDmg(int theDmgMin);
-
-    abstract void setMaxDmg(int theDmgMax);
-
-    abstract void setChnceToHit(double theChnceToHit);
-
-    abstract void setAttkSpd(double theAttkSpd);
-
-    abstract void setChnceToBlock(double theChnceToBlock);
-
-    abstract void setInventory(String theItemName, int theQuantity);
-
-    abstract void setVision(double theVision);
-
-    abstract void setAllies(String[] theAllies);
-
-//    @Override
-//    final public String toString() {
-//
-//    }
 }
