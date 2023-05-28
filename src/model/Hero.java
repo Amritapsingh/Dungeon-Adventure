@@ -2,7 +2,9 @@ package model;
 
 import view.GameScreen;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 
 public abstract class Hero extends DungeonModel {
 
@@ -49,6 +51,45 @@ public abstract class Hero extends DungeonModel {
 
     public void setAllies(String[] theAllies) {
         myAllies = theAllies;
+    }
+
+    public double getChanceToBlock() {
+        return myChanceToBlock;
+    }
+
+    public Set<String> getMyInventoryKeys() {
+        return myInventory.keySet();
+    }
+
+    public Integer getMyInventoryValues() {
+        return myInventory.get(myInventory);
+    }
+
+    public double getMyVision() {
+        return myVision;
+    }
+
+    public String[] getMyAllies() {
+        return myAllies;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder characterInfo = new StringBuilder();
+
+        characterInfo.append("Name: ").append(super.getMyName());
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Health: ").append(super.getMyCurrentHealth()).append("/").append(super.getMyHealthPoints());
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Health Potions: ").append(myInventory.get("Health Potion"));
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Vision Potions: ").append(myInventory.get("Vision Potion"));
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Poison Potions: ").append(myInventory.get("Poison Potion"));
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Pillars Achieved: ").append(Arrays.toString(myAllies));
+
+        return characterInfo.toString();
     }
 
 }

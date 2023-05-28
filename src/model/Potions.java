@@ -15,15 +15,15 @@ public abstract class Potions {
         return myQuantity > 0;
     }
 
-    private void setMyPotionName(final String thePotionName) {
+    public void setMyPotionName(final String thePotionName) {
         myPotionName = thePotionName;
     }
 
-    private void setMyQuantity(final int theQuantity) {
+    public void setMyQuantity(final int theQuantity) {
         myQuantity = theQuantity;
     }
 
-    private String getMyPotionName() {return myPotionName;}
+    public String getMyPotionName() {return myPotionName;}
 
-    private int getMyQuantity() {return myQuantity;}
+    public int getMyQuantity() {return myQuantity;}
 }

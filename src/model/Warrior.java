@@ -14,8 +14,4 @@ public final class Warrior extends Hero {
         return theHealth - theSpecialDmg;
     }
 
-    @Override
-    public String toString() {
-        return null;
-    }
 }

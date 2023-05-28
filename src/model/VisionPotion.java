@@ -15,6 +15,7 @@ public final class VisionPotion extends Potions {
     }
 
     public double addVision(final double theVision) {
+        super.setMyQuantity(super.getMyQuantity() - 1);
         return theVision + randGenerator.nextDouble();
     }
 

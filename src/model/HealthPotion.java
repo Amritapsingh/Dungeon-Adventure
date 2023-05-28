@@ -16,6 +16,7 @@ public final class HealthPotion extends Potions {
 
     public int addHealth(final int theHealth, final int theMax) {
         int healAmount = randGenerator.nextInt(theMax) + 1;
+        super.setMyQuantity(super.getMyQuantity() - 1);
         return theHealth + healAmount;
     }
 }

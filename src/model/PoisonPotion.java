@@ -15,6 +15,7 @@ public final class PoisonPotion extends Potions {
     }
 
     private int takeDmg(final int theHealth) {
+        super.setMyQuantity(super.getMyQuantity() - 1);
         return theHealth - randGenerator.nextInt(theHealth);
     }
 
