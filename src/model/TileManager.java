@@ -74,14 +74,12 @@ public class TileManager {
     public void createMap(Room[][] theMaze) {
         myMaze = theMaze;
         worldMap = new int[myGameScreen.worldCol][myGameScreen.worldRow];
-        for (int i = 0; i < myMaze.length * 16; i++) {
-            for (int j = 0; j < myMaze[i%16].length * 12; j++) {
+        for (int i = 0; i < myMaze.length; i++) {
+            for (int j = 0; j < myMaze[i].length; j++) {
                 int rowIndex = i % 16;
                 int colIndex = j % 12;
-                if(rowIndex < 5) {
-                    myMaze[rowIndex][colIndex].loadMap(myGameScreen);
-                    worldMap[i][j] = myMaze[rowIndex][colIndex].getMapTiles(rowIndex,colIndex);
-                }
+                myMaze[i][j].loadMap(myGameScreen);
+                worldMap[i][j] = myMaze[i][j].getMapTiles(i,j);
             }
         }
 //        for (Room[] room: myMaze) {
