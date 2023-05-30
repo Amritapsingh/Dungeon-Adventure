@@ -1,9 +1,8 @@
 package view;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class StartScreen extends JFrame {
@@ -15,7 +14,7 @@ public class StartScreen extends JFrame {
         setResizable(false);
         setBackground(Color.black);
     }
-    private void createAndShowUI() throws IOException {
+    public void createAndShowUI() throws IOException {
         CardLayout cardLayout = new CardLayout();
         JPanel cards = new JPanel(cardLayout);
 
@@ -26,8 +25,6 @@ public class StartScreen extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(newGameButton);
         buttonPanel.add(loadGameButton);
-//        startingScreen.add(newGameButton);
-//        startingScreen.add(loadGameButton);
 
         newGameButton.addActionListener(e -> {
             GameScreen gameScreen = new GameScreen(cards, cardLayout);
@@ -49,21 +46,11 @@ public class StartScreen extends JFrame {
     }
 
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            StartScreen app = new StartScreen();
-            try {
-                app.createAndShowUI();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            app.setVisible(true);
-        });
-    }
 
 
-    private class ImagePanel extends JPanel {
-        private Image backgroundImage;
+
+    private static class ImagePanel extends JPanel {
+        private final Image backgroundImage;
 
         public ImagePanel(String filename) throws IOException {
             backgroundImage = ImageIO.read(getClass().getResource(filename));
