@@ -29,6 +29,7 @@ public class Dungeon {
             for (int j = 0; j < cols; j++) {
                 maze[i][j] = new Room(j, i);
             }
+            System.out.println();
         }
         Room room = getRandomRoom();
         System.out.println(room.x +"," + room.y);
@@ -87,6 +88,7 @@ public class Dungeon {
             neighbors.add(maze[room.y][room.x + 1]);
             room.neighbors++;
         }
+        //System.out.println("-----------------------------");
     }
 
     private void connectRooms(final Room room1, final Room room2) {
@@ -115,9 +117,10 @@ public class Dungeon {
             }
             System.out.println();
         }
-        System.out.println("-----------------------------");
     }
-
+    public Room[][] getMaze() {
+        return maze;
+    }
     public static void main(String[] args) {
         int rows = 7;
         int cols = 10;
