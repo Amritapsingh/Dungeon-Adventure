@@ -3,47 +3,32 @@ package model;
 import java.util.*;
 
 public class Room {
-
-    private int myX;
-
-    private int myY;
-    boolean myNorthDoor;
-    boolean mySouthDoor;
-    boolean myEastDoor;
-    boolean myWestDoor;
-    Room myNorthRoom;
-
-    Room mySouthRoom;
-    Room myEastRoom;
-    Room myWestRoom;
-    boolean myIsBuilt;
     boolean myIsEnter;
     boolean myIsExit;
-    private final List<String> myItems;
-    private final HashMap<String, Boolean> myDoors;
     private boolean myIsVisited;
+    public int x;
+    public int y;
+    private ArrayList<Room> roomNeighbors;
+    public int neighbors;
+    String myNorthDoor;
+    String mySouthDoor;
+    String myEastDoor;
+    String myWestDoor;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
 
-    public Room(final int theX, final int theY) {
-        Random theRandom = new Random();
-        myX = theX;
-        myY = theY;
+    public Room(int x, int y) {
+        this.x = x;
+        this.y = y;
         myIsVisited = false;
-//        myNorthDoor = theRandom.nextBoolean();
-//        mySouthDoor = theRandom.nextBoolean();
-//        myEastDoor = theRandom.nextBoolean();
-//        myWestDoor = theRandom.nextBoolean();
-        myItems = new ArrayList<>();
-        myDoors = new HashMap<>();
-        myDoors.put("N", false);
-        myDoors.put("S", false);
-        myDoors.put("E", false);
-        myDoors.put("W", false);
         myIsEnter = false;
         myIsExit = false;
+        myNorthDoor = " ";
+        mySouthDoor = " ";
+        myEastDoor = " ";
+        myWestDoor = " ";
+        this.roomNeighbors = new ArrayList<>();
+        neighbors = 0;
     }
-
-
     public boolean getIsVisited() {
         return myIsVisited;
     }
@@ -51,154 +36,9 @@ public class Room {
         myIsVisited = isVisited;
     }
 
-    public void generateItems() {
-        double random = Math.random();
-        myItems.add("Health Potion");
-        if (random < 0.1) {
-            if (random < 0.033) {
-                myItems.add("Healing Potion");
-            }
-            if (random < 0.066) {
-                myItems.add("Vision Potion");
-            }
-            if (random < 0.1) {
-                myItems.add("Pit");
-            }
-        }
-    }
-
+    public ArrayList<Room> getRoomNeighbors() { return roomNeighbors; }
     public void display() {
-        StringBuilder graphicalRepr = new StringBuilder();
-        if (!myDoors.get("N")) {
-            graphicalRepr.append("***\n");
-        } else {
-            graphicalRepr.append("*-*\n");
-        }
-        System.out.print(graphicalRepr.toString());
+        //StringBuilder graphicalRepr = new StringBuilder();
+        System.out.print("["  + myWestDoor + myNorthDoor + mySouthDoor + myEastDoor + "]");
     }
-
-    public void addDoor(String direction, Room adjacentRoom) {
-        if (adjacentRoom != null && containsDirection(direction)) {
-            myDoors.put(direction, true);
-            adjacentRoom.myDoors.put(getOppositeDirection(direction), true);
-        }
-    }
-
-    private boolean containsDirection(String direction) {
-        for (String dir : DIRECTIONS) {
-            if (dir.equals(direction)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private String getOppositeDirection(String direction) {
-        switch (direction) {
-            case "N":
-                return "S";
-            case "S":
-                return "N";
-            case "E":
-                return "W";
-            case "W":
-                return "E";
-            default:
-                return "";
-        }
-    }
-
-    /**
-     * Is entrance boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isEntrance() {
-        return myIsEnter;
-    }
-
-    /**
-     * Sets entrance.
-     *
-     * @param entrance the entrance
-     */
-    public void setEntrance(boolean entrance) {
-        myIsEnter = entrance;
-    }
-
-    /**
-     * Is exit boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isExit() {
-        return myIsExit;
-    }
-
-    /**
-     * Sets exit.
-     *
-     * @param exit the exit
-     */
-    public void setExit(boolean exit) {
-        myIsExit = exit;
-    }
-
-    public void setMySouthRoom(Room room) {
-        mySouthRoom = room;
-    }
-
-    public void setMyNorthRoom(Room room) {
-        myNorthRoom = room;
-    }
-
-    public void setMyEastRoom(Room room) {
-        myEastRoom = room;
-    }
-
-    public void setMyWestRoom(Room room) {
-        myWestRoom = room;
-    }
-
-    public Room getMySouthRoom() {
-        return mySouthRoom;
-    }
-
-    public Room getMyNorthRoom() {
-        return myNorthRoom;
-    }
-
-    public Room getMyEastRoom() {
-        return myEastRoom;
-    }
-
-    public Room getMyWestRoom() {
-        return myWestRoom;
-    }
-
-    public boolean getIsBuilt() {
-        return myIsBuilt;
-    }
-
-    public void setIsBuilt(boolean b) {
-        myIsBuilt = b;
-    }
-    public String toString() {
-        String roomString = "";
-        if (myNorthRoom != null) roomString += "*-*\n";
-        else roomString += "***\n";
-
-        if (myWestRoom != null) roomString += "|";
-        else roomString += "*";
-
-
-        if (myEastRoom != null) roomString += "*|\n";
-        else roomString += "*\n";
-
-        if (mySouthRoom != null) roomString += "*-*\n";
-        else roomString += "***\n";
-
-        return roomString;
-    }
-
 }

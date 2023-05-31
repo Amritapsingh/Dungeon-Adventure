@@ -1,152 +1,128 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class Dungeon {
-    private final int myRows;
-    private final int myCols;
-    private final Room[][] myMaze;
-    Random random = new Random();
+    private int rows;
+    private int cols;
+    private Room[][] maze;
+    private Stack<Room> roomStack;
+    private int numRooms;
+    private int visitedRooms;
 
     public Dungeon(int rows, int cols) {
-        myRows = rows;
-        myCols = cols;
-        myMaze = new Room[rows][cols];
+        this.rows = rows;
+        this.cols = cols;
+        this.maze = new Room[rows][cols];
+        this.roomStack =  new Stack<>();
+        this.numRooms = rows * cols;
+        this.visitedRooms = 0;
         generateMaze();
     }
 
     private void generateMaze() {
-        int myStartingRow = random.nextInt(myRows);
-        int myStartingCol = random.nextInt(myCols);
-        int rooms = 1;
+        Random random = new Random();
         // Generate rooms
-        for (int i = 0; i < myRows; i++) {
-            for (int j = 0; j < myCols; j++) {
-                myMaze[i][j] = new Room(i, j);
-                myMaze[i][j].generateItems();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                maze[i][j] = new Room(j, i);
             }
         }
-        setEntrance(myStartingCol, myStartingRow);
-        int currentRow = myStartingRow;
-        int currentCol = myStartingCol;
-        int nextRow = myStartingRow;
-        int nextCol = myStartingCol;
-        myMaze[currentRow][currentCol].setIsVisited(true);
-        String[] directions = {"NORTH", "SOUTH", "EAST", "WEST"};
-
-        while (rooms < myRows * myCols) {
-            String direction = directions[random.nextInt(directions.length)];
-            if(currentRow < myRows - 1 && direction.equals("SOUTH")) {
-                nextRow = currentRow + 1;
-                myMaze[currentRow][currentCol].setMySouthRoom(myMaze[nextRow][nextCol]);
-                myMaze[nextRow][nextCol].setMyNorthRoom(myMaze[currentRow][currentCol]);
-                currentRow = nextRow;
-                rooms += checkRoom(myMaze[currentRow][currentCol]);
+        Room room = getRandomRoom();
+        System.out.println(room.x +"," + room.y);
+        roomStack.push(room);
+        room.setIsVisited(true);
+        room.myIsEnter = true;
+        visitedRooms = 1;
+        do {
+            room = roomStack.peek();
+            Room neighbor = getNeighborOf(room);
+            if (neighbor == null) {
+                roomStack.pop();
+            } else {
+                visitedRooms++;
+                neighbor.setIsVisited(true);
+                connectRooms(room,neighbor);
+                roomStack.push(neighbor);
             }
-            else if(currentRow > 0 && direction.equals("NORTH")) {
-                nextRow = currentRow - 1;
-                myMaze[currentRow][currentCol].setMyNorthRoom(myMaze[nextRow][nextCol]);
-                myMaze[nextRow][nextCol].setMySouthRoom(myMaze[currentRow][currentCol]);
-                currentRow = nextRow;
-                rooms += checkRoom(myMaze[currentRow][currentCol]);
-            }
-            else if(currentCol < myRows - 1 && direction.equals("EAST")) {
-                nextCol = currentCol + 1;
-                myMaze[currentRow][currentCol].setMyEastRoom(myMaze[nextRow][nextCol]);
-                myMaze[nextRow][nextCol].setMyWestRoom(myMaze[currentRow][currentCol]);
-                currentCol = nextCol;
-                rooms += checkRoom(myMaze[currentRow][currentCol]);
-            }
-            else if(currentCol > 0 && direction.equals("WEST")) {
-                nextCol = currentCol - 1;
-                myMaze[currentRow][currentCol].setMyWestRoom(myMaze[nextRow][nextCol]);
-                myMaze[nextRow][nextCol].setMyEastRoom(myMaze[currentRow][currentCol]);
-                currentCol = nextCol;
-                rooms += checkRoom(myMaze[currentRow][currentCol]);
-            }
-        }
-        setExit(currentCol, currentRow);
-
-
-        // Generate connections
-//        for (int i = 0; i < myRows; i++) {
-//            for (int j = 0; j < myCols; j++) {
-//                Room room = myMaze[i][j];
-//                if (i > 0 && random.nextDouble() < 0.5) { // Randomly add north door
-//                    Room northRoom = myMaze[i - 1][j];
-//                    room.addDoor("N", northRoom);
-//                    northRoom.addDoor("S", room);
-//                }
-//                if (i < myRows - 1 && random.nextDouble() < 0.5) { // Randomly add south door
-//                    Room southRoom = myMaze[i + 1][j];
-//                    room.addDoor("S", southRoom);
-//                    southRoom.addDoor("N", room);
-//                }
-//                if (j > 0 && random.nextDouble() < 0.5) { // Randomly add west door
-//                    Room westRoom = myMaze[i][j - 1];
-//                    room.addDoor("W", westRoom);
-//                    westRoom.addDoor("E", room);
-//                }
-//                if (j < myCols - 1 && random.nextDouble() < 0.5) { // Randomly add east door
-//                    Room eastRoom = myMaze[i][j + 1];
-//                    room.addDoor("E", eastRoom);
-//                    eastRoom.addDoor("W", room);
-//                }
-//            }
-//        }
+        } while (visitedRooms != numRooms);
     }
-
-    private void setExit(int currentCol, int currentRow) {
-        myMaze[currentRow][currentCol].setExit(true); // [col][row
-    }
-
-    private int checkRoom(Room room) {
-        if (room.getIsBuilt()) {
-            return 0;
-        }
-        room.setIsBuilt(true);
-        return 1;
-    }
-
-    public void setEntrance(final int col, final int row) {
-        myMaze[row][col].setEntrance(true); // [col][row
-
-    }
-    public void setExit() {
-
-    }
-    public Room getRoom(int x, int y) {
-        if (x >= 0 && x < myRows && y >= 0 && y < myCols) {
-            return myMaze[x][y];
-        }
-        return null;
-    }
-
     public Room getRandomRoom() {
         Random random = new Random();
-        int x = random.nextInt(myRows);
-        int y = random.nextInt(myCols);
-        return myMaze[x][y];
+        int x = random.nextInt(rows);
+        int y = random.nextInt(cols);
+        return maze[x][y];
     }
 
+    public Room getNeighborOf(final Room room) {
+        getAllNeighbors(room);
+        if (room.neighbors > 0) {
+            ArrayList<Room> roomNeighbors = room.getRoomNeighbors();
+            Random random = new Random();
+            return roomNeighbors.get(random.nextInt(room.neighbors));
+        } else {
+            return null;
+        }
+    }
+
+    public void getAllNeighbors(final Room room) {
+        ArrayList<Room> neighbors = room.getRoomNeighbors();
+        room.neighbors = 0;
+        room.getRoomNeighbors().clear();
+        if (room.y > 0 && !maze[room.y - 1][room.x].getIsVisited()) {
+            neighbors.add(maze[room.y - 1][room.x]);
+            room.neighbors++;
+        }
+        if (room.y < rows - 1 && !maze[room.y + 1][room.x].getIsVisited()) {
+            neighbors.add(maze[room.y + 1][room.x]);
+            room.neighbors++;
+        }
+        if (room.x > 0 && !maze[room.y][room.x - 1].getIsVisited()) {
+            neighbors.add(maze[room.y][room.x - 1]);
+            room.neighbors++;
+        }
+        if (room.x < cols - 1 && !maze[room.y][room.x + 1].getIsVisited()) {
+            neighbors.add(maze[room.y][room.x + 1]);
+            room.neighbors++;
+        }
+    }
+
+    private void connectRooms(final Room room1, final Room room2) {
+        if (room1.x > room2.x) {
+            room1.myWestDoor = "<";
+            room2.myEastDoor = ">";
+        } else if(room1.x < room2.x) {
+            room2.myWestDoor = "<";
+            room1.myEastDoor = ">";
+        }
+        if (room1.y > room2.y) {
+            room1.myNorthDoor = "^";
+            room2.mySouthDoor = "v";
+        } else if (room1.y < room2.y) {
+            room2.myNorthDoor = "^";
+            room1.mySouthDoor = "v";
+        }
+    }
     public void printMaze() {
-        for (int i = 0; i < myRows; i++) {
-            for (int j = 0; j < myCols; j++) {
-                Room room = myMaze[i][j];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                Room room = maze[i][j];
 //                room.display();
-                System.out.println(myMaze[i][j].toString());
+                System.out.println(maze[i][j].toString());
 
             }
+            System.out.println();
         }
         System.out.println("-----------------------------");
     }
 
     public static void main(String[] args) {
-        int rows = 5;
-        int cols = 5;
+        int rows = 7;
+        int cols = 10;
         Dungeon generator = new Dungeon(rows, cols);
+
         generator.printMaze();
     }
 }
