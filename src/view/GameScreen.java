@@ -26,7 +26,7 @@ public class GameScreen extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 576 pixels
     public int worldX = 380;
-    public int worldY = 300;
+    public int worldY = 350;
     public final int screenX;
     public final int screenY;
     public int worldCol;
@@ -42,6 +42,7 @@ public class GameScreen extends JPanel implements Runnable {
 
     private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
+//    Player player;
 
     public GameScreen(JPanel cards, CardLayout cardLayout) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -49,7 +50,10 @@ public class GameScreen extends JPanel implements Runnable {
         setDoubleBuffered(true);
 
         setVisible(true);
-
+//        player = new Player(this);
+//        worldX = player.worldX;
+//        worldY = player.worldY;
+//        playerSpeed = player.playerSpeed;
         JButton backButton = new JButton("Back");
         //add(backButton, BorderLayout.SOUTH);
         backButton.addActionListener(e -> cardLayout.show(cards, "StartingScreen"));
@@ -58,8 +62,8 @@ public class GameScreen extends JPanel implements Runnable {
         screenY = screenHeight/2;
         dungeon = new Dungeon(5,5);
         tiles = new TileManager(this, dungeon);
-        worldCol = dungeon.getMaze().length * 16;
-        worldRow = dungeon.getMaze()[0].length * 12;
+        worldCol = dungeon.getMaze()[0].length * 16;
+        worldRow = dungeon.getMaze().length * 12;
         worldWidth = worldCol * tileSize;
         worldHeight = worldRow * tileSize;
 
@@ -146,6 +150,7 @@ public class GameScreen extends JPanel implements Runnable {
             }
 
         });
+        //player.update();
 
     }
 }

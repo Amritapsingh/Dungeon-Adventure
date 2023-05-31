@@ -65,7 +65,7 @@ public class Room {
     }
     public int[][] loadMap(GameScreen theGameScreen) {
         myGameScreen = theGameScreen;
-        mapTiles = new int[myGameScreen.worldCol][myGameScreen.maxScreenRow];
+        mapTiles = new int[myGameScreen.maxScreenRow][myGameScreen.maxScreenCol];
         String filePath = "/assets/map2.txt";
         try {
             InputStream st = getClass().getResourceAsStream(filePath);
@@ -77,7 +77,7 @@ public class Room {
                 while (col < myGameScreen.maxScreenCol) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
-                    mapTiles[col][row] = num;
+                    mapTiles[row][col] = num;
                     col++;
                 }
                 if (col == myGameScreen.maxScreenCol) {

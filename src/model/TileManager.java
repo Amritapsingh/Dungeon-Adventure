@@ -63,30 +63,27 @@ public class TileManager {
     public void getTileImage() {
         try {
             tile[0] = new Tiles();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/assets/grass00.png"));
-
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/assets/westdoor.png"));
             tile[1] = new Tiles();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/assets/water01.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/assets/eastdoor.png"));
+            tile[1].isSolid = true;
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
     public void createMap(Room[][] theMaze) {
         myMaze = theMaze;
-        worldMap = new int[myGameScreen.worldCol][myGameScreen.worldRow];
-        for (int i = 0; i < myMaze.length; i++) {
-            for (int j = 0; j < myMaze[i].length; j++) {
-                int rowIndex = i % 16;
-                int colIndex = j % 12;
-                myMaze[i][j].loadMap(myGameScreen);
-                worldMap[i][j] = myMaze[i][j].getMapTiles(i,j);
+        worldMap = new int[myGameScreen.worldRow][myGameScreen.worldCol];
+        for (int k = 0; k < myMaze.length; k++) {
+            for (int l = 0; l < myMaze[0].length; l++) {
+                myMaze[k][l].loadMap(myGameScreen);
+                for (int i = 0; i < worldMap.length; i++) {
+                    for (int j = 0; j < worldMap[0].length; j++) {
+                        worldMap[i][j] = myMaze[k][l].getMapTiles(i % 12, j % 16);
+                    }
+                }
             }
         }
-//        for (Room[] room: myMaze) {
-//            for (Room room1 : room) {
-//                worldMap[myMaze.length] = room1.loadMap(myGameScreen);
-//            }
-//        }
 
     }
     public void draw(Graphics2D g2) {
@@ -94,7 +91,6 @@ public class TileManager {
         createMap(myMaze);
         int col = 0;
         int row = 0;
-        //mapTiles = myMaze[0][0].loadMap(myGameScreen);
         int screenX;
         int screenY;
         while (col < myGameScreen.worldCol && row < myGameScreen.worldRow) {
@@ -102,7 +98,8 @@ public class TileManager {
             int worldY = row * myGameScreen.tileSize;
             screenX = worldX - myGameScreen.worldX + myGameScreen.screenX;
             screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
-            int tileNum = worldMap[col][row];
+            int tileNum = worldMap[row][col];
+            //System.out.println(tileNum);
             g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize, myGameScreen.tileSize, null);
             col++;
             if (col == myGameScreen.worldCol) {
