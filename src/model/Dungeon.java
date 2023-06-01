@@ -11,6 +11,7 @@ public class Dungeon {
     private Stack<Room> roomStack;
     private int numRooms;
     private int visitedRooms;
+    Random rand = new Random();
 
     public Dungeon(int rows, int cols) {
         this.rows = rows;
@@ -49,7 +50,14 @@ public class Dungeon {
                 roomStack.push(neighbor);
             }
         } while (visitedRooms != numRooms);
+        setExit(rand.nextInt(rows), rand.nextInt(cols));
+        setInheritancePillar(rand.nextInt(rows), rand.nextInt(cols));
+        setAbstractionPillar(rand.nextInt(rows), rand.nextInt(cols));
+        setPolymorphismPillar(rand.nextInt(rows), rand.nextInt(cols));
+        setEncapsulationPillar(rand.nextInt(rows), rand.nextInt(cols));
     }
+
+
     public Room getRandomRoom() {
         Random random = new Random();
         int x = random.nextInt(rows);
@@ -93,18 +101,26 @@ public class Dungeon {
 
     private void connectRooms(final Room room1, final Room room2) {
         if (room1.x > room2.x) {
-            room1.myWestDoor = "<";
-            room2.myEastDoor = ">";
+            //room1.myWestDoor = "<";
+            room1.setMyWestDoor("<");
+            //room2.myEastDoor = ">";
+            room2.setMyEastDoor(">");
         } else if(room1.x < room2.x) {
-            room2.myWestDoor = "<";
-            room1.myEastDoor = ">";
+            //room2.myWestDoor = "<";
+            room2.setMyWestDoor("<");
+            //room1.myEastDoor = ">";
+            room1.setMyEastDoor(">");
         }
         if (room1.y > room2.y) {
-            room1.myNorthDoor = "^";
-            room2.mySouthDoor = "v";
+            //room1.myNorthDoor = "^";
+            room1.setMyNorthDoor("^");
+            //room2.mySouthDoor = "v";
+            room2.setMySouthDoor("v");
         } else if (room1.y < room2.y) {
-            room2.myNorthDoor = "^";
-            room1.mySouthDoor = "v";
+            //room2.myNorthDoor = "^";
+            room2.setMyNorthDoor("^");
+            //room1.mySouthDoor = "v";
+            room1.setMySouthDoor("v");
         }
     }
     public void printMaze() {
@@ -112,7 +128,7 @@ public class Dungeon {
             for (int j = 0; j < cols; j++) {
                 Room room = maze[i][j];
 //                room.display();
-                System.out.println(maze[i][j].toString());
+                System.out.print(maze[i][j].toString());
 
             }
             System.out.println();
@@ -122,10 +138,69 @@ public class Dungeon {
         return maze;
     }
     public static void main(String[] args) {
-        int rows = 7;
-        int cols = 10;
+        int rows = 3;
+        int cols = 3;
         Dungeon generator = new Dungeon(rows, cols);
 
         generator.printMaze();
     }
+    public void setEnter(final int row, final int col) {
+        maze[row][col].setIsEnter(true);
+    }
+    public void setExit(final int row, final int col) {
+        maze[row][col].setIsExit(true);
+    }
+    public void setAbstractionPillar(final int row, final int col) {
+        if(maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
+                maze[row][col].getEncapsulationPillar() || maze[row][col].getInheritancePillar() ||
+                maze[row][col].getPolymorphismPillar()) {
+            if (rows <= 2 && col <= 2) {
+                maze[row][col].setAbstractionPillar(true);
+            } else {
+                setAbstractionPillar(rand.nextInt(rows), rand.nextInt(cols));
+            }
+        } else {
+            maze[row][col].setAbstractionPillar(true);
+        }
+    }
+    public void setEncapsulationPillar(final int row, final int col) {
+        if (maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
+                maze[row][col].getAbstractionPillar() || maze[row][col].getInheritancePillar() ||
+                maze[row][col].getPolymorphismPillar()) {
+            if (rows <= 2 && col <= 2) {
+                maze[row][col].setEncapsulationPillar(true);
+            } else {
+                setEncapsulationPillar(rand.nextInt(rows), rand.nextInt(cols));
+            }
+        } else {
+            maze[row][col].setEncapsulationPillar(true);
+        }
+    }
+    public void setInheritancePillar(final int row, final int col) {
+        if (maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
+                maze[row][col].getAbstractionPillar() || maze[row][col].getEncapsulationPillar() ||
+                maze[row][col].getPolymorphismPillar()) {
+            if (rows <= 2 && col <= 2) {
+                maze[row][col].setInheritancePillar(true);
+            } else {
+                setInheritancePillar(rand.nextInt(rows), rand.nextInt(cols));
+            }
+        } else {
+            maze[row][col].setInheritancePillar(true);
+        }
+    }
+    public void setPolymorphismPillar(final int row, final int col) {
+        if (maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
+                maze[row][col].getAbstractionPillar() || maze[row][col].getEncapsulationPillar() ||
+                maze[row][col].getInheritancePillar()) {
+            if (rows <= 2 && col <= 2) {
+                maze[row][col].setPolymorphismPillar(true);
+            } else {
+                setPolymorphismPillar(rand.nextInt(rows), rand.nextInt(cols));
+            }
+        } else {
+            maze[row][col].setPolymorphismPillar(true);
+        }
+    }
+
 }

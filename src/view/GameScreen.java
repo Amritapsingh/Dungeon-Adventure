@@ -33,7 +33,7 @@ public class GameScreen extends JPanel implements Runnable {
     public int worldRow;
     public int worldWidth;
     public int worldHeight;
-    Dungeon dungeon;
+    public Dungeon dungeon;
     private final int playerSpeed = 20;
     private Thread gameThread;
     private final int FPS = 60;
@@ -60,10 +60,11 @@ public class GameScreen extends JPanel implements Runnable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(5,5);
+        dungeon = new Dungeon(5,4);
+        dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
-        worldRow = dungeon.getMaze().length * 12;
+        worldRow = dungeon.getMaze().length * 16;
         worldWidth = worldCol * tileSize;
         worldHeight = worldRow * tileSize;
 
@@ -108,7 +109,7 @@ public class GameScreen extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         tiles.draw(g2d);
-        g2d.setColor(Color.black);
+        g2d.setColor(Color.red);
         g2d.fillRect(screenX, screenY, tileSize, tileSize);
         g2d.dispose();
     }

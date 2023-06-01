@@ -35,6 +35,8 @@ public class Room {
     Random random = new Random();
     int[][] mapTiles;
     GameScreen myGameScreen;
+    int[][] roomMap;
+    int roomIndex;
 
     public Room(int x, int y) {
         this.x = x;
@@ -91,17 +93,70 @@ public class Room {
         }
         return mapTiles;
     }
+    public int[][] generateRoom(GameScreen theGameScreen) {
+        myGameScreen = theGameScreen;
+        roomMap = new int[myGameScreen.dungeon.getMaze().length][myGameScreen.dungeon.getMaze()[0].length];
+        for (int i = 0; i < roomMap.length; i++) {
+            for (int j = 0; j < roomMap[0].length; j++) {
+                if (hasNorthDoor()) {
+                    roomMap[i][j] = 0;
+                }
+                if (hasSouthDoor()) {
+                    roomMap[i][j] = 1;
+                }
+                if (hasEastDoor()) {
+                    roomMap[i][j] = 2;
+                }
+                if (hasWestDoor()) {
+                    roomMap[i][j] = 3;
+                }
+                if (hasNorthDoor() && hasSouthDoor()) {
+                    roomMap[i][j] = 8;
+                }
+                if (hasNorthDoor() && hasEastDoor()) {
+                    roomMap[i][j] = 4;
+                }
+                if (hasNorthDoor() && hasWestDoor()) {
+                    roomMap[i][j] = 6;
+                }
+                if (hasSouthDoor() && hasEastDoor()) {
+                    roomMap[i][j] = 13;
+                }
+                if (hasSouthDoor() && hasWestDoor()) {
+                    roomMap[i][j] = 15;
+                }
+                if (hasEastDoor() && hasWestDoor()) {
+                    roomMap[i][j] = 14;
+                }
+                if (hasEastDoor() && hasNorthDoor()  && hasSouthDoor()) {
+                    roomMap[i][j] = 9;
+                }
+                if (hasWestDoor() && hasNorthDoor()  && hasSouthDoor() && hasEastDoor()) {
+                    roomMap[i][j] = 10;
+                }
+                if (hasWestDoor() && hasNorthDoor()  && hasSouthDoor()) {
+                    roomMap[i][j] = 11;
+                }
+                if (hasEastDoor() && hasNorthDoor()  && hasWestDoor()) {
+                    roomMap[i][j] = 7;
+                }
+                if (hasEastDoor()  && hasSouthDoor()  && hasWestDoor()) {
+                    roomMap[i][j] = 12;
+                }
+            }
+        }
+        //roomIndex = 1;
+        return roomMap;
+
+    }
     public int getMapTiles(int index1, int index2) {
-        return mapTiles[index1][index2];
+        return roomMap[index1][index2];
     }
     public boolean getIsVisited() {
         return myIsVisited;
     }
     public void setIsVisited(final boolean isVisited) {
         myIsVisited = isVisited;
-    }
-    public Image getImage() {
-        return image;
     }
 
 
@@ -111,7 +166,32 @@ public class Room {
         System.out.print("["  + myWestDoor + myNorthDoor + mySouthDoor + myEastDoor + "]");
     }
     public String toString() {
-        return "[" + myWestDoor + myNorthDoor + mySouthDoor + myEastDoor + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append(myWestDoor);
+        sb.append(myNorthDoor);
+        if (this.getInheritancePillar()) {
+            sb.append("I");
+        }
+        if (this.getAbstractionPillar()) {
+            sb.append("A");
+        }
+        if (this.getEncapsulationPillar()) {
+            sb.append("C");
+        }
+        if (this.getPolymorphismPillar()) {
+            sb.append("P");
+        }
+        if (this.getIsEnter()) {
+            sb.append("E");
+        }
+        if (this.getIsExit()) {
+            sb.append("X");
+        }
+        sb.append(mySouthDoor);
+        sb.append(myEastDoor);
+        sb.append("]");
+        return sb.toString();
     }
     public boolean getEncapsulationPillar() {
         return encapsulationPillar;
@@ -165,5 +245,51 @@ public class Room {
     public String getMyNorthDoor() {
         return myNorthDoor;
     }
+    public boolean hasNorthDoor() {
+        if (!myNorthDoor.equals("^")) {
+            return false;
+        }
+        return true;
+    }
+    public void setMyNorthDoor(String myNorthDoor) {
+        this.myNorthDoor = myNorthDoor;
+    }
+    public String getMySouthDoor() {
+        return mySouthDoor;
+    }
+    public boolean hasSouthDoor() {
+        if (!mySouthDoor.equals("v")) {
+            return false;
+        }
+        return true;
+    }
+    public void setMySouthDoor(String mySouthDoor) {
+        this.mySouthDoor = mySouthDoor;
+    }
+    public String getMyEastDoor() {
+        return myEastDoor;
+    }
+    public boolean hasEastDoor() {
+        if (!myEastDoor.equals(">")) {
+            return false;
+        }
+        return true;
+    }
+    public void setMyEastDoor(String myEastDoor) {
+        this.myEastDoor = myEastDoor;
+    }
+    public String getMyWestDoor() {
+        return myWestDoor;
+    }
+    public boolean hasWestDoor() {
+        if (!myWestDoor.equals("<")) {
+            return false;
+        }
+        return true;
+    }
+    public void setMyWestDoor(String myWestDoor) {
+        this.myWestDoor = myWestDoor;
+    }
+
 
 }
