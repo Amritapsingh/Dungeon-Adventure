@@ -27,8 +27,8 @@ public class GameScreen extends JPanel implements Runnable {
     final int screenHeight = tileSize * maxScreenRow; // 576 pixels
     public int worldX = 380;
     public int worldY = 350;
-    public final int screenX;
-    public final int screenY;
+    public int screenX;
+    public int screenY;
     public int worldCol;
     public int worldRow;
     public int worldWidth;
@@ -60,13 +60,14 @@ public class GameScreen extends JPanel implements Runnable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(5,4);
+        dungeon = new Dungeon(3,3);
         dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
         worldRow = dungeon.getMaze().length * 16;
         worldWidth = worldCol * tileSize;
         worldHeight = worldRow * tileSize;
+        setStart();
 
 
 
@@ -104,6 +105,18 @@ public class GameScreen extends JPanel implements Runnable {
             }
         }
 
+    }
+    public void setStart() {
+        for (int i = 0; i < dungeon.getMaze().length; i++) {
+            for (int j = 0; j < dungeon.getMaze()[i].length; j++) {
+                int x = i * 12;
+                int y = j * 16;
+                if (dungeon.getMaze()[i][j].getIsEnter()) {
+                    worldX = y * tileSize + screenWidth/2;
+                    worldY = x * tileSize + +screenHeight/2;
+                }
+            }
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

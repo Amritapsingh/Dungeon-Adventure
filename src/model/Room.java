@@ -129,13 +129,13 @@ public class Room {
                     roomMap[i][j] = 14;
                 }
                 if (hasEastDoor() && hasNorthDoor()  && hasSouthDoor()) {
-                    roomMap[i][j] = 9;
+                    roomMap[i][j] = 11;
                 }
                 if (hasWestDoor() && hasNorthDoor()  && hasSouthDoor() && hasEastDoor()) {
                     roomMap[i][j] = 10;
                 }
                 if (hasWestDoor() && hasNorthDoor()  && hasSouthDoor()) {
-                    roomMap[i][j] = 11;
+                    roomMap[i][j] = 9;
                 }
                 if (hasEastDoor() && hasNorthDoor()  && hasWestDoor()) {
                     roomMap[i][j] = 7;
@@ -177,16 +177,16 @@ public class Room {
             sb.append("A");
         }
         if (this.getEncapsulationPillar()) {
-            sb.append("C");
+            sb.append("E");
         }
         if (this.getPolymorphismPillar()) {
             sb.append("P");
         }
         if (this.getIsEnter()) {
-            sb.append("E");
+            sb.append("i");
         }
         if (this.getIsExit()) {
-            sb.append("X");
+            sb.append("O");
         }
         sb.append(mySouthDoor);
         sb.append(myEastDoor);

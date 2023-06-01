@@ -91,13 +91,13 @@ public class TileManager {
             tile[8].image = ImageIO.read(getClass().getResourceAsStream("/assets/north+south.png"));
 
             tile[9] = new Tiles();
-            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/assets/north+east+south.png"));
+            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/assets/north+west+south.png"));
 
             tile[10] = new Tiles();
             tile[10].image = ImageIO.read(getClass().getResourceAsStream("/assets/north+east+west+south.png"));
 
             tile[11] = new Tiles();
-            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/assets/north+west+south.png"));
+            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/assets/north+east+south.png"));
 
             tile[12] = new Tiles();
             tile[12].image = ImageIO.read(getClass().getResourceAsStream("/assets/east+south+west.png"));
@@ -144,15 +144,46 @@ public class TileManager {
         int row = 0;
         int screenX;
         int screenY;
+        int count = 0;
         while (col < myGameScreen.worldCol && row < myGameScreen.worldRow) {
             int worldX = col * myGameScreen.tileSize;
             int worldY = row * myGameScreen.tileSize;
             screenX = worldX - myGameScreen.worldX + myGameScreen.screenX;
             screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
             if (col /16 < myMaze[0].length && row / 12 < myMaze.length) {
-            int tileNum = worldMap[row /12][col/16];
-            //System.out.println(tileNum);
-            g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null); }
+                int tileNum = worldMap[row /12][col/16];
+                //System.out.println(tileNum);
+//                if (myMaze[row / 12][col / 16].getIsEnter() && count < 1) {
+//                    myGameScreen.setStart(col, row );
+//                    count++;
+//                }
+                g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
+                if (myMaze[row/12][col/16].getAbstractionPillar()) {
+                    g2.setColor(Color.blue);
+                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.setColor(Color.green);
+                    g2.drawString("Abstraction Pillar", screenX + 150, screenY + 200);
+                }
+                if (myMaze[row/12][col/16].getEncapsulationPillar()) {
+                    g2.setColor(Color.blue);
+                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.setColor(Color.green);
+                    g2.drawString("Encapsulation Pillar", screenX + 150, screenY + 200);
+                }
+                if (myMaze[row/12][col/16].getInheritancePillar()) {
+                    g2.setColor(Color.blue);
+                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.setColor(Color.green);
+                    g2.drawString("Inheritance Pillar", screenX + 150, screenY + 200);
+                }
+                if (myMaze[row/12][col/16].getPolymorphismPillar()) {
+                    g2.setColor(Color.blue);
+                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.setColor(Color.green);
+                    g2.drawString("Polymorphism Pillar", screenX + 150, screenY + 200);
+                }
+
+            }
             col+= 16;
             if (col == myGameScreen.worldCol) {
                 col = 0;
