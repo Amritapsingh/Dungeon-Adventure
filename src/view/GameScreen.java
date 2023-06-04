@@ -1,12 +1,14 @@
 package view;
 
-import model.*;
+import model.Dungeon;
+import model.Hero;
+import model.Monster;
+import model.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 //pillar collection
 // end condition
 // game over
@@ -56,7 +58,7 @@ public class GameScreen extends JPanel implements Runnable {
     CardLayout myCardLayout;
 
 
-    public GameScreen(JPanel cards, CardLayout cardLayout) {
+    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
@@ -78,10 +80,9 @@ public class GameScreen extends JPanel implements Runnable {
         worldWidth = worldCol * tileSize;
         worldHeight = worldRow * tileSize;
         setStart();
-        solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
-        HashMap<String, Integer> myInventory;
-        myInventory = new HashMap<>();
-        myHero = new Warrior("Warrior", 100, 100, 10, 20, 0.8, 2, true, 0.5, myInventory, 0.5);
+        solidArea = new Rectangle( screenX - 30, screenY - 20, tileSize , tileSize);
+
+        myHero = theHero;
     }
 
     public void startNewGameThread() {
@@ -134,8 +135,6 @@ public class GameScreen extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         tiles.draw(g2d);
         g2d.setColor(Color.red);
-        Rectangle rect = new Rectangle(screenX, screenY, tileSize, tileSize);
-        solidArea = rect;
         g2d.drawImage(tiles.getTile()[16].image, screenX - 30, screenY - 20, tileSize , tileSize , null);
         //g2d.draw(rect);
         //g2d.fill(rect);

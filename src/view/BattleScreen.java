@@ -105,13 +105,13 @@ public class BattleScreen extends JFrame {
 
         // Check if the enemy has died
         int damageTaken = myMonster.getMyCurrentHealth() - myHero.regularAttack(myMonster.getMyCurrentHealth(), myHero.getMyChanceToHit());
-        myMonster.setMyCurrentHealth(myHero.getMyCurrentHealth() - damageTaken);
+        myMonster.setMyCurrentHealth(myMonster.getMyCurrentHealth() - damageTaken);
         addToBattleLog("Player does " + damageTaken + " damage!");
         if (myMonster.getMyCurrentHealth() <= 0) {
             addToBattleLog("Player defeats the enemy!");
             disablePlayerButtons();
-            this.dispose();
-
+            dispose();
+            myMonster.setMyAlive(false);
         }
     }
 
