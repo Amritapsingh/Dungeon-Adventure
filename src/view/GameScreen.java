@@ -52,12 +52,16 @@ public class GameScreen extends JPanel implements Runnable {
     Rectangle solidArea;
     Hero myHero;
     int pillars = 4;
+    JPanel myCards;
+    CardLayout myCardLayout;
+
 
     public GameScreen(JPanel cards, CardLayout cardLayout) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
-
+        myCards = cards;
+        myCardLayout = cardLayout;
         setVisible(true);
 
         JButton backButton = new JButton("Back");
@@ -224,14 +228,14 @@ public class GameScreen extends JPanel implements Runnable {
     }
     public void combatCheck(Rectangle rectangle, Monster theMonster) {
         if (rectangle.intersects(solidArea) && theMonster.fightCount == 1) {
-            BattleScreen  battleScreen = new BattleScreen(myHero, theMonster);
+            BattleScreen  battleScreen = new BattleScreen(myHero, theMonster, myCards, myCardLayout);
             System.out.println("combat");
             battleScreen.setVisible(true);
             theMonster.fightCount--;
         }
         if (myHero.getMyCurrentHealth() <= 0) {
-            System.out.println("dead");
             myHero.setMyAlive(false);
+            this.setVisible(false);
         }
 
     }

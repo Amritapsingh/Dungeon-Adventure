@@ -19,16 +19,19 @@ public class BattleScreen extends JFrame {
     private JButton defendButton;
     private JButton specialMoveButton;
     boolean playerTurn;
+    JPanel cards;
+    CardLayout cardLayout;
 
 
-    public BattleScreen(Hero theHero, Monster theMonster) {
+    public BattleScreen(Hero theHero, Monster theMonster, JPanel cards, CardLayout cardLayout) {
         setTitle("Dungeon Battle");
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         myHero = theHero;
         myMonster = theMonster;
-
+        this.cards = cards;
+        this.cardLayout = cardLayout;
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -131,6 +134,8 @@ public class BattleScreen extends JFrame {
             addToBattleLog("Player has been defeated!");
             disablePlayerButtons();
             dispose();
+            DeathScreen  deathScreen = new DeathScreen(cards, cardLayout);
+            deathScreen.setVisible(true);
         }
 
         // Player's turn
