@@ -1,13 +1,20 @@
 package view;
 
-import model.Dungeon;
-import model.TileManager;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
+import java.util.HashMap;
+//pillar collection
+// end condition
+// game over
+// win condition
+// win screen
+// game over screen
+// battle logic
+// monsters dying
 public class GameScreen extends JPanel implements Runnable {
     // constants to capture screen dimensions
     /**
@@ -23,9 +30,9 @@ public class GameScreen extends JPanel implements Runnable {
     public final int tileSize = originalTileSize * SCALE; // 48x48 tiles
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-    public int worldX = 380;
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    public int worldX = 350;
     public int worldY = 350;
     public int screenX;
     public int screenY;
@@ -43,18 +50,20 @@ public class GameScreen extends JPanel implements Runnable {
     private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
     Rectangle solidArea;
-//    Player player;
+    Hero myHero;
+    int pillars = 4;
+    JPanel myCards;
+    CardLayout myCardLayout;
+
 
     public GameScreen(JPanel cards, CardLayout cardLayout) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
-        setBackground(Color.white);
+        setBackground(Color.black);
         setDoubleBuffered(true);
-
+        myCards = cards;
+        myCardLayout = cardLayout;
         setVisible(true);
-//        player = new Player(this);
-//        worldX = player.worldX;
-//        worldY = player.worldY;
-//        playerSpeed = player.playerSpeed;
+
         JButton backButton = new JButton("Back");
         //add(backButton, BorderLayout.SOUTH);
         backButton.addActionListener(e -> cardLayout.show(cards, "StartingScreen"));
@@ -70,6 +79,9 @@ public class GameScreen extends JPanel implements Runnable {
         worldHeight = worldRow * tileSize;
         setStart();
         solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
+        HashMap<String, Integer> myInventory;
+        myInventory = new HashMap<>();
+        myHero = new Warrior("Warrior", 100, 100, 10, 20, 0.8, 2, true, 0.5, myInventory, 0.5);
     }
 
     public void startNewGameThread() {
@@ -124,8 +136,9 @@ public class GameScreen extends JPanel implements Runnable {
         g2d.setColor(Color.red);
         Rectangle rect = new Rectangle(screenX, screenY, tileSize, tileSize);
         solidArea = rect;
-        g2d.draw(rect);
-        g2d.fill(rect);
+        g2d.drawImage(tiles.getTile()[16].image, screenX - 30, screenY - 20, tileSize , tileSize , null);
+        //g2d.draw(rect);
+        //g2d.fill(rect);
         g2d.dispose();
     }
     public void update() {
@@ -213,6 +226,18 @@ public class GameScreen extends JPanel implements Runnable {
             worldX += playerSpeed;
         }
     }
+    public void combatCheck(Rectangle rectangle, Monster theMonster) {
+        if (rectangle.intersects(solidArea) && theMonster.fightCount == 1) {
+            BattleScreen  battleScreen = new BattleScreen(myHero, theMonster, myCards, myCardLayout);
+            System.out.println("combat");
+            battleScreen.setVisible(true);
+            theMonster.fightCount--;
+        }
+        if (myHero.getMyCurrentHealth() <= 0) {
+            myHero.setMyAlive(false);
+            this.setVisible(false);
+        }
 
+    }
 }
 

@@ -14,6 +14,7 @@ public class StartScreen extends JFrame {
         setResizable(false);
         setBackground(Color.black);
     }
+
     public void createAndShowUI() throws IOException {
         CardLayout cardLayout = new CardLayout();
         JPanel cards = new JPanel(cardLayout);
@@ -27,10 +28,13 @@ public class StartScreen extends JFrame {
         buttonPanel.add(loadGameButton);
 
         newGameButton.addActionListener(e -> {
-            GameScreen gameScreen = new GameScreen(cards, cardLayout);
-            cards.add(gameScreen, "GameScreen");
-            cardLayout.show(cards, "GameScreen");
-            gameScreen.startNewGameThread();
+//            JFrame charSelect;
+//            charSelect = charSelection();
+//            charSelect.setVisible(true);
+//            GameScreen gameScreen = new GameScreen(cards, cardLayout);
+//            cards.add(gameScreen, "GameScreen");
+//            cardLayout.show(cards, "GameScreen");
+//            gameScreen.startNewGameThread();
         });
         loadGameButton.addActionListener(e -> {
             LoadScreen loadScreen = new LoadScreen(cards, cardLayout);
@@ -45,6 +49,25 @@ public class StartScreen extends JFrame {
         getContentPane().add(cards);
     }
 
+    public JFrame charSelection() {
+        JFrame charSelect = new JFrame("Character Selection");
+        charSelect.setSize(768, 576);
+        charSelect.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        charSelect.setLocationRelativeTo(null);
+        charSelect.setResizable(false);
+        charSelect.setBackground(Color.black);
+        JPanel charSelectPanel = new JPanel();
+        charSelectPanel.setLayout(new BoxLayout(charSelectPanel, BoxLayout.Y_AXIS));
+        JButton warriorButton = new JButton("Warrior");
+        JButton mageButton = new JButton("Thief");
+        JButton rogueButton = new JButton("Priestess");
+        charSelectPanel.add(warriorButton);
+        charSelectPanel.add(mageButton);
+        charSelectPanel.add(rogueButton);
+        charSelect.add(charSelectPanel);
+        charSelect.setVisible(true);
+        return charSelect;
+    }
 
 
 

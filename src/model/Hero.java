@@ -22,15 +22,16 @@ public abstract class Hero extends DungeonModel {
 
 
     protected Hero(final String theName, final int theHealth, final int theCurrentHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
-                   final double theAttkSpd, final boolean theAlive, final double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, final String[] theAllies) {
+                   final double theAttkSpd, final boolean theAlive, final double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision) {
         super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive);
 
         myChanceToBlock = theChanceToBlock;
+        myInventory = new HashMap<>(theInventory);
         myInventory.put("Health Potion", 0);
         myInventory.put("Vision Potion", 0);
         myInventory.put("Poison Potion", 0);
         setVision(theVision);
-        setAllies(theAllies);
+        //setAllies(theAllies);
     }
 
 //    public Hero(GameScreen theGameScreen) {
