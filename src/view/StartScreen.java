@@ -28,13 +28,13 @@ public class StartScreen extends JFrame {
         buttonPanel.add(loadGameButton);
 
         newGameButton.addActionListener(e -> {
-            JFrame charSelect;
-            charSelect = charSelection();
-            charSelect.setVisible(true);
-            GameScreen gameScreen = new GameScreen(cards, cardLayout);
-            cards.add(gameScreen, "GameScreen");
-            cardLayout.show(cards, "GameScreen");
-            gameScreen.startNewGameThread();
+//            JFrame charSelect;
+//            charSelect = charSelection();
+//            charSelect.setVisible(true);
+//            GameScreen gameScreen = new GameScreen(cards, cardLayout);
+//            cards.add(gameScreen, "GameScreen");
+//            cardLayout.show(cards, "GameScreen");
+//            gameScreen.startNewGameThread();
         });
         loadGameButton.addActionListener(e -> {
             LoadScreen loadScreen = new LoadScreen(cards, cardLayout);
