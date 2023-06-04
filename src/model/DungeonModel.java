@@ -32,9 +32,9 @@ public abstract class DungeonModel {
         myAlive = theAlive;
     }
 
-    public void regularAttack(int theHealth) {
+    public int regularAttack(int theHealth) {
         Random random = new Random();
-        theHealth -= random.nextInt(myDmgMax + 1 - myDmgMin) + myDmgMin;
+        return theHealth -= random.nextInt(myDmgMax + 1 - myDmgMin) + myDmgMin;
     }
 
 

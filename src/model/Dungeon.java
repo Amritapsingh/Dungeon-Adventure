@@ -148,7 +148,11 @@ public class Dungeon {
         maze[row][col].setIsEnter(true);
     }
     public void setExit(final int row, final int col) {
-        maze[row][col].setIsExit(true);
+        if (maze[row][col].getIsEnter()) {
+            setExit(rand.nextInt(rows), rand.nextInt(cols));
+        } else {
+            maze[row][col].setIsExit(true);
+        }
     }
     public void setAbstractionPillar(final int row, final int col) {
         if(maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
