@@ -21,6 +21,7 @@ public class Room {
     private boolean abstractionPillar;
     private boolean inheritancePillar;
     private boolean polymorphismPillar;
+    private boolean myHasPotion;
     private Monster myMonster;
 
     public int x;
@@ -234,6 +235,12 @@ public class Room {
     }
     public void setHasPit(boolean hasPit) {
         this.hasPit = hasPit;
+    }
+    public void setHasPotion(boolean theHasPotion) {
+        myHasPotion = theHasPotion;
+    }
+    public boolean getHasPotion() {
+        return myHasPotion;
     }
     public boolean getIsEnter() {
         return myIsEnter;

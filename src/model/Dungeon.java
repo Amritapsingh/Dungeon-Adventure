@@ -11,14 +11,18 @@ public class Dungeon {
     private Stack<Room> roomStack;
     private int numRooms;
     private int visitedRooms;
+    private float myPotionPercentage;
+    private int myPotionNum;
     Random rand = new Random();
 
     public Dungeon(int rows, int cols) {
+        this.myPotionPercentage = 0.25f;
         this.rows = rows;
         this.cols = cols;
         this.maze = new Room[rows][cols];
         this.roomStack =  new Stack<>();
         this.numRooms = rows * cols;
+        this.myPotionNum = (int) (this.myPotionPercentage * this.numRooms);
         this.visitedRooms = 0;
         generateMaze();
     }
@@ -97,7 +101,6 @@ public class Dungeon {
             neighbors.add(maze[room.y][room.x + 1]);
             room.neighbors++;
         }
-        //System.out.println("-----------------------------");
     }
 
     private void connectRooms(final Room room1, final Room room2) {
@@ -139,8 +142,8 @@ public class Dungeon {
         return maze;
     }
     public static void main(String[] args) {
-        int rows = 3;
-        int cols = 3;
+        int rows = 4;
+        int cols = 4;
         Dungeon generator = new Dungeon(rows, cols);
 
         generator.printMaze();
@@ -205,6 +208,16 @@ public class Dungeon {
             }
         } else {
             maze[row][col].setPolymorphismPillar(true);
+        }
+    }
+    public void placePotions() {
+        int potionNum = myPotionNum;
+        while (potionNum == myPotionNum) {
+            Room room = getRandomRoom();
+            if (!room.getHasPotion()) {
+                room.setHasPotion(true);
+                potionNum--;
+            }
         }
     }
     public void createMonsters() {
