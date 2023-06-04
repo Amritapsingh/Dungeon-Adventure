@@ -1,12 +1,12 @@
 package view;
 
-import model.Dungeon;
-import model.TileManager;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
 public class GameScreen extends JPanel implements Runnable {
     // constants to capture screen dimensions
@@ -23,8 +23,8 @@ public class GameScreen extends JPanel implements Runnable {
     public final int tileSize = originalTileSize * SCALE; // 48x48 tiles
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
     public int worldX = 380;
     public int worldY = 350;
     public int screenX;
@@ -43,18 +43,16 @@ public class GameScreen extends JPanel implements Runnable {
     private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
     Rectangle solidArea;
-//    Player player;
+    Hero myHero;
+    int pillars = 4;
 
     public GameScreen(JPanel cards, CardLayout cardLayout) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
-        setBackground(Color.white);
+        setBackground(Color.black);
         setDoubleBuffered(true);
 
         setVisible(true);
-//        player = new Player(this);
-//        worldX = player.worldX;
-//        worldY = player.worldY;
-//        playerSpeed = player.playerSpeed;
+
         JButton backButton = new JButton("Back");
         //add(backButton, BorderLayout.SOUTH);
         backButton.addActionListener(e -> cardLayout.show(cards, "StartingScreen"));
@@ -70,6 +68,9 @@ public class GameScreen extends JPanel implements Runnable {
         worldHeight = worldRow * tileSize;
         setStart();
         solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
+        HashMap<String, Integer> myInventory;
+        myInventory = new HashMap<>();
+        myHero = new Warrior("Warrior", 100, 100, 10, 20, 0.8, 2, true, 0.5, myInventory, 0.5);
     }
 
     public void startNewGameThread() {
@@ -124,8 +125,9 @@ public class GameScreen extends JPanel implements Runnable {
         g2d.setColor(Color.red);
         Rectangle rect = new Rectangle(screenX, screenY, tileSize, tileSize);
         solidArea = rect;
-        g2d.draw(rect);
-        g2d.fill(rect);
+        g2d.drawImage(tiles.getTile()[16].image, screenX, screenY, tileSize , tileSize , null);
+        //g2d.draw(rect);
+        //g2d.fill(rect);
         g2d.dispose();
     }
     public void update() {
@@ -213,6 +215,15 @@ public class GameScreen extends JPanel implements Runnable {
             worldX += playerSpeed;
         }
     }
+    public void combatCheck(Rectangle rectangle, Monster theMonster) {
 
+        if (rectangle.intersects(solidArea) && pillars == 4) {
+            System.out.println("combat");
+            BattleScreen  battleScreen = new BattleScreen(myHero, theMonster);
+            battleScreen.setVisible(true);
+            pillars--;
+        }
+
+    }
 }
 

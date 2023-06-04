@@ -55,6 +55,7 @@ public class Dungeon {
         setAbstractionPillar(rand.nextInt(rows), rand.nextInt(cols));
         setPolymorphismPillar(rand.nextInt(rows), rand.nextInt(cols));
         setEncapsulationPillar(rand.nextInt(rows), rand.nextInt(cols));
+        createMonsters();
     }
 
 
@@ -204,6 +205,16 @@ public class Dungeon {
             }
         } else {
             maze[row][col].setPolymorphismPillar(true);
+        }
+    }
+    public void createMonsters() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (maze[i][j].getAbstractionPillar() || maze[i][j].getEncapsulationPillar() ||
+                        maze[i][j].getInheritancePillar() || maze[i][j].getPolymorphismPillar()) {
+                        maze[i][j].setMonster(new Monster("Ogre", 100, 100, 10, 20, 0.8, 2, true, 0.5, 10, 20));
+                }
+            }
         }
     }
 

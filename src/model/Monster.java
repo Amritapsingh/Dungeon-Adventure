@@ -8,7 +8,7 @@ public final class Monster extends DungeonModel {
 
     private final int myMaxHeal;
 
-    private Monster(final String theName, final int theHealth, final int theCurrentHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
+    protected Monster(final String theName, final int theHealth, final int theCurrentHealth, final int theDmgMin, final int theDmgMax, final double theChanceToHit,
                       final double theAttkSpd, final boolean theAlive, final double theChanceToHeal, final int theMinHeal, final int theMaxHeal) {
         super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive);
         myChanceToHeal = theChanceToHeal;

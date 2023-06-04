@@ -6,8 +6,8 @@ import java.util.Random;
 public final class Priestess extends Hero {
 
     Priestess(String theName, int theHealth, int theCurrentHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
-              boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
-        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision, theAllies);
+              boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision) {
+        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision);
     }
 
     public void heal() {

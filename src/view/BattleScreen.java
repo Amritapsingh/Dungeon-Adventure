@@ -15,10 +15,13 @@ public class BattleScreen extends JFrame {
     private Hero myHero;
     private Monster myMonster;
 
-    public BattleScreen(){
+    public BattleScreen(Hero theHero, Monster theMonster){
         setTitle("Dungeon Battle");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
+        myHero = theHero;
+        myMonster = theMonster;
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -81,7 +84,7 @@ public class BattleScreen extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new BattleScreen().setVisible(true);
+                //new BattleScreen().setVisible(true);
             }
         });
     }
