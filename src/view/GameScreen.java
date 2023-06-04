@@ -42,6 +42,7 @@ public class GameScreen extends JPanel implements Runnable {
 
     private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
+    Rectangle solidArea;
 //    Player player;
 
     public GameScreen(JPanel cards, CardLayout cardLayout) {
@@ -68,9 +69,7 @@ public class GameScreen extends JPanel implements Runnable {
         worldWidth = worldCol * tileSize;
         worldHeight = worldRow * tileSize;
         setStart();
-
-
-
+        solidArea = new Rectangle(screenX, screenY, tileSize, tileSize);
     }
 
     public void startNewGameThread() {
@@ -109,11 +108,11 @@ public class GameScreen extends JPanel implements Runnable {
     public void setStart() {
         for (int i = 0; i < dungeon.getMaze().length; i++) {
             for (int j = 0; j < dungeon.getMaze()[i].length; j++) {
-                int x = i * 12;
-                int y = j * 16;
+                int y = i * 12;
+                int x = j * 16;
                 if (dungeon.getMaze()[i][j].getIsEnter()) {
-                    worldX = y * tileSize + screenWidth/2;
-                    worldY = x * tileSize + +screenHeight/2;
+                    worldX = x * tileSize + screenWidth/2;
+                    worldY = y * tileSize + +screenHeight/2;
                 }
             }
         }
@@ -123,7 +122,10 @@ public class GameScreen extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         tiles.draw(g2d);
         g2d.setColor(Color.red);
-        g2d.fillRect(screenX, screenY, tileSize, tileSize);
+        Rectangle rect = new Rectangle(screenX, screenY, tileSize, tileSize);
+        solidArea = rect;
+        g2d.draw(rect);
+        g2d.fill(rect);
         g2d.dispose();
     }
     public void update() {
@@ -167,5 +169,50 @@ public class GameScreen extends JPanel implements Runnable {
         //player.update();
 
     }
+
+    public void checkCollisionNorth(Rectangle rectRight, Rectangle rectLeft) {
+        if (rectRight.intersects(solidArea)) {
+            System.out.println("collision");
+            worldY += playerSpeed;
+        }
+        if (rectLeft.intersects(solidArea)) {
+            System.out.println("collision");
+            worldY += playerSpeed;
+
+        }
+    }
+    public void checkCollisionSouth(Rectangle rectRight, Rectangle rectLeft) {
+        if (rectRight.intersects(solidArea)) {
+            System.out.println("collision");
+            worldY -= playerSpeed;
+        }
+        if (rectLeft.intersects(solidArea)) {
+            System.out.println("collision");
+            worldY -= playerSpeed;
+
+        }
+    }
+    public void checkCollisionEast(Rectangle rectRight, Rectangle rectLeft) {
+        if (rectRight.intersects(solidArea)) {
+            System.out.println("collision");
+            worldX -= playerSpeed;
+        }
+        if (rectLeft.intersects(solidArea)) {
+            System.out.println("collision");
+            worldX -= playerSpeed;
+
+        }
+    }
+    public void checkCollisionWest(Rectangle rectRight, Rectangle rectLeft) {
+        if (rectRight.intersects(solidArea)) {
+            System.out.println("collision");
+            worldX += playerSpeed;
+        }
+        if (rectLeft.intersects(solidArea)) {
+            System.out.println("collision");
+            worldX += playerSpeed;
+        }
+    }
+
 }
 

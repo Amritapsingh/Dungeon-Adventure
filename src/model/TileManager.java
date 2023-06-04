@@ -152,12 +152,75 @@ public class TileManager {
             screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
             if (col /16 < myMaze[0].length && row / 12 < myMaze.length) {
                 int tileNum = worldMap[row /12][col/16];
-                //System.out.println(tileNum);
-//                if (myMaze[row / 12][col / 16].getIsEnter() && count < 1) {
-//                    myGameScreen.setStart(col, row );
-//                    count++;
-//                }
+
+//                Plans:
+//                Ability to view maze when game is over
+//                For collision
+//                - Draw red boxes around each tile, if touches box then collide
+//                - Make boxes transparent and booom
+                if (myMaze[row / 12][col/ 16].hasNorthDoor()) {
+                    g2.setColor(Color.blue);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    g2.draw(rect);
+                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 8) + 55, screenY + 50, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    g2.draw(rect1);
+                    myGameScreen.checkCollisionNorth(rect, rect1);
+                }
+                if (myMaze[row / 12][col/ 16].hasSouthDoor()) {
+                    g2.setColor(Color.green);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    g2.draw(rect);
+                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 8) + 55, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    g2.draw(rect1);
+                    myGameScreen.checkCollisionSouth(rect, rect1);
+                }
+                if (myMaze[row / 12][col/ 16].hasEastDoor()) {
+                    g2.setColor(Color.yellow);
+                    Rectangle rect = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110 , screenY + 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
+                    g2.draw(rect);
+                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110, screenY + (myGameScreen.tileSize * 8) - 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
+                    g2.draw(rect1);
+                    myGameScreen.checkCollisionEast(rect, rect1);
+                }
+                if (myMaze[row / 12][col/ 16].hasWestDoor()) {
+                    g2.setColor(Color.orange);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize * 6) - 100);
+                    g2.draw(rect);
+                    Rectangle rect1 = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 8) - 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
+                    g2.draw(rect1);
+                    myGameScreen.checkCollisionWest(rect, rect1);
+                }
+                if (!myMaze[row / 12][col/ 16].hasNorthDoor()){
+                    g2.setColor(Color.red);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 16) - 100, (myGameScreen.tileSize * 3) - 100);
+                    g2.draw(rect);
+                    myGameScreen.checkCollisionNorth(rect, rect);
+                }
+                if (!myMaze[row / 12][col/ 16].hasSouthDoor()){
+                    g2.setColor(Color.red);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 16) - 100, (myGameScreen.tileSize * 3) - 100);
+                    g2.draw(rect);
+                    myGameScreen.checkCollisionSouth(rect, rect);
+                }
+                if (!myMaze[row / 12][col/ 16].hasEastDoor()){
+                    g2.setColor(Color.red);
+                    Rectangle rect = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110 , screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize * 12) - 100);
+                    g2.draw(rect);
+                    myGameScreen.checkCollisionEast(rect, rect);
+                }
+                if (!myMaze[row / 12][col/ 16].hasWestDoor()){
+                    g2.setColor(Color.red);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize * 12) - 100);
+                    g2.draw(rect);
+                    myGameScreen.checkCollisionWest(rect, rect);
+                }
                 g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
+                g2.setColor(Color.red);
+
+
+
+                //g2.drawRect(screenX + 50, screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize* 12) - 100);
+
                 if (myMaze[row/12][col/16].getAbstractionPillar()) {
                     g2.setColor(Color.blue);
                     g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
