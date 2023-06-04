@@ -7,7 +7,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
-
+//pillar collection
+// end condition
+// game over
+// win condition
+// win screen
+// game over screen
+// battle logic
+// monsters dying
 public class GameScreen extends JPanel implements Runnable {
     // constants to capture screen dimensions
     /**
@@ -25,7 +32,7 @@ public class GameScreen extends JPanel implements Runnable {
     public final int maxScreenRow = 12;
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-    public int worldX = 380;
+    public int worldX = 350;
     public int worldY = 350;
     public int screenX;
     public int screenY;
@@ -125,7 +132,7 @@ public class GameScreen extends JPanel implements Runnable {
         g2d.setColor(Color.red);
         Rectangle rect = new Rectangle(screenX, screenY, tileSize, tileSize);
         solidArea = rect;
-        g2d.drawImage(tiles.getTile()[16].image, screenX, screenY, tileSize , tileSize , null);
+        g2d.drawImage(tiles.getTile()[16].image, screenX - 30, screenY - 20, tileSize , tileSize , null);
         //g2d.draw(rect);
         //g2d.fill(rect);
         g2d.dispose();
@@ -216,12 +223,15 @@ public class GameScreen extends JPanel implements Runnable {
         }
     }
     public void combatCheck(Rectangle rectangle, Monster theMonster) {
-
-        if (rectangle.intersects(solidArea) && pillars == 4) {
-            System.out.println("combat");
+        if (rectangle.intersects(solidArea) && theMonster.fightCount == 1) {
             BattleScreen  battleScreen = new BattleScreen(myHero, theMonster);
+            System.out.println("combat");
             battleScreen.setVisible(true);
-            pillars--;
+            theMonster.fightCount--;
+        }
+        if (myHero.getMyCurrentHealth() <= 0) {
+            System.out.println("dead");
+            myHero.setMyAlive(false);
         }
 
     }

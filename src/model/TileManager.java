@@ -212,8 +212,6 @@ public class TileManager {
                         g2.draw(hitBox);
                         g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         myGameScreen.combatCheck(hitBox, monster);
-
-
                     }
                 }
                 if (myMaze[row/12][col/16].getPolymorphismPillar()) {
