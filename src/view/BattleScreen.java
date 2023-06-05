@@ -138,7 +138,7 @@ public class BattleScreen extends JFrame {
             int healedValue = myHero.usePotion();
             addToBattleLog("Player heals " + healedValue + " health!");
         } else {
-            addToBattleLog("Player has no potions!");
+            addToBattleLog("Player has no potions left!");
         }
         if (myMonster.getMyCurrentHealth() <= 0) {
             addToBattleLog("Player defeats the enemy!");
