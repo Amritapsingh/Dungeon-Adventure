@@ -81,6 +81,7 @@ public abstract class Hero extends DungeonModel {
         Random rand = new Random();
         int heal = rand.nextInt(getMyHealthPoints());
         if (getMyCurrentHealth() + heal > 100) {
+            heal = 100 - getMyCurrentHealth();
             setMyCurrentHealth(100);
         } else {
             setMyCurrentHealth(getMyCurrentHealth() + heal);
