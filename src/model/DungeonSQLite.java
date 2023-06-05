@@ -47,10 +47,12 @@ public class DungeonSQLite {
         String query = "CREATE TABLE IF NOT EXISTS dungeonEnemy ( " +
                 "ENEMY_NAME TEXT NOT NULL, " +
                 "HEALTH_POINTS TEXT NOT NULL, " +
+                "CURRENT_HEALTH TEXT NOT NULL, " +
                 "MIN_DMG TEXT NOT NULL, " +
                 "MAX_DMG TEXT NOT NULL, " +
                 "CHANCE_TO_HIT TEXT NOT NULL, " +
                 "ATTACKSPD TEXT NOT NULL, " +
+                "ALIVE TEXT NOT NULL, " +
                 "CHANCE_TO_HEAL TEXT NOT NULL, " +
                 "MIN_HEAL TEXT NOT NULL, " +
                 "MAX_HEAL TEXT NOT NULL)" ;
@@ -67,8 +69,8 @@ public class DungeonSQLite {
         //next insert two rows of data
         System.out.println( "Attempting to insert two rows into dungeonEnemy table" );
 
-        String query1 = "INSERT INTO dungeonEnemy ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
-                        " CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Ogre', '200', '30', '60', '0.60', '2.00', '0.10'," +
+        String query1 = "INSERT INTO dungeonEnemy ( ENEMY_NAME, HEALTH_POINTS, CURRENT_HEALTH, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
+                        " ALIVE, CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Ogre', '200', '200','30', '60', '0.60', '2.00', '0.10'," +
                         "                                                '30', '60' )";
 
         String query2 = "INSERT INTO dungeonEnemy ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +

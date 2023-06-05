@@ -4,6 +4,7 @@ import view.GameScreen;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 
 public abstract class Hero extends DungeonModel {
@@ -26,6 +27,7 @@ public abstract class Hero extends DungeonModel {
         super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive);
 
         myChanceToBlock = theChanceToBlock;
+        myInventory = new HashMap<>(theInventory);
         myInventory.put("Health Potion", 0);
         myInventory.put("Vision Potion", 0);
         myInventory.put("Poison Potion", 0);
@@ -36,6 +38,9 @@ public abstract class Hero extends DungeonModel {
 //    public Hero(GameScreen theGameScreen) {
 //        myGameScreen = theGameScreen;
 //    }
+    public int blockDamage() {
+        return super.getMyCurrentHealth();
+    }
 
     public void setChnceToBlock(double theChnceToBlock) {
         myChanceToBlock = theChnceToBlock;

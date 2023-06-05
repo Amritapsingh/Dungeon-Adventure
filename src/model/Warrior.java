@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public final class Warrior extends Hero {
 
@@ -9,9 +10,13 @@ public final class Warrior extends Hero {
         super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision, theAllies);
     }
 
-    public int crushingBlow(final int theHealth, final int theSpecialDmg) {
-        // enemy health subtract hit
-        return theHealth - theSpecialDmg;
+    public int crushingBlow(int theHealth) {
+        Random rand = new Random();
+        double hitSucceed = rand.nextDouble();
+        if (hitSucceed < 0.4) {
+            theHealth -= rand.nextInt(101) + 75; // special attack from 75 to 175 damage
+        }
+        return theHealth;
     }
 
 }

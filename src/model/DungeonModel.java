@@ -21,7 +21,7 @@ public abstract class DungeonModel {
     private boolean myAlive;
 
     protected DungeonModel(final String theName, final int theHealthPoints, final int theCurrentHealth, final int theDmgMin,
-                            final int theDmgMax, final double theChanceToHit, final double theAttckSpd, final boolean theAlive) {
+                           final int theDmgMax, final double theChanceToHit, final double theAttckSpd, final boolean theAlive) {
         myName = theName;
         myHealthPoints = theHealthPoints;
         myCurrentHealth = theCurrentHealth;
@@ -32,9 +32,13 @@ public abstract class DungeonModel {
         myAlive = theAlive;
     }
 
-    public int regularAttack(int theHealth) {
+    public int regularAttack(int theHealth, final double theChanceToHit) {
         Random random = new Random();
-        return theHealth -= random.nextInt(myDmgMax + 1 - myDmgMin) + myDmgMin;
+        double chanceToHitChecker = random.nextDouble();
+        if (chanceToHitChecker <= theChanceToHit) {
+            theHealth -= random.nextInt(myDmgMax + 1 - myDmgMin) + myDmgMin;
+        }
+        return theHealth;
     }
 
 
