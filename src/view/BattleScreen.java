@@ -153,7 +153,11 @@ public class BattleScreen extends JFrame {
         if (Objects.equals(myHero.getMyName(), "Warrior")) {
             addToBattleLog("Warrior special move!");
             int damageTaken = myMonster.getMyCurrentHealth() - ((Warrior) myHero).crushingBlow(myMonster.getMyCurrentHealth());
-            addToBattleLog("Warrior does " + damageTaken + " damage!");
+            if (damageTaken == 0) {
+                addToBattleLog("Warrior missed!");
+            } else {
+                addToBattleLog("Warrior does " + damageTaken + " damage!");
+            }
             myMonster.setMyCurrentHealth(myMonster.getMyCurrentHealth() - damageTaken);
             if (myMonster.getMyCurrentHealth() <= 0) {
                 addToBattleLog("Warrior defeats the enemy!");

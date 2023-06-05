@@ -175,6 +175,7 @@ public class GameScreen extends JPanel implements Runnable {
                         System.out.println("Hero did not recover any health points");
                     } else {
                         System.out.println("Recovered " + healedValue + " health points");
+                        System.out.println("Hero has " + myHero.getMyCurrentHealth() + " health points");
                     }
                 } else {
                     System.out.println("Hero has no potions");
