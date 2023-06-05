@@ -2,10 +2,7 @@ package model;
 
 import view.GameScreen;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -33,13 +30,10 @@ public class Room {
     String myEastDoor;
     String myWestDoor;
     private static final String[] DIRECTIONS = {"N", "S", "E", "W"};
-    Image image;
     Random random = new Random();
     int[][] mapTiles;
     GameScreen myGameScreen;
     int[][] roomMap;
-    int roomIndex;
-
     public Room(int x, int y) {
         this.x = x;
         this.y = y;
@@ -53,19 +47,6 @@ public class Room {
         this.roomNeighbors = new ArrayList<>();
         neighbors = 0;
         myMonster = null;
-        try {
-            int rand = random.nextInt(2);
-            String filePath;
-            if (rand != 1) {
-                filePath = "/assets/water01.png";
-            } else {
-                filePath = "/assets/grass00.png";
-            }
-            this.image = ImageIO.read(getClass().getResourceAsStream(filePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
 
     }
     public int[][] loadMap(GameScreen theGameScreen) {

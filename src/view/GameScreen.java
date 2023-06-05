@@ -37,9 +37,6 @@ public class GameScreen extends JPanel implements Runnable {
     private Thread gameThread;
     private final int FPS = 60;
 
-    private final ImageIcon myLogo = new ImageIcon("");
-
-    private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
     Rectangle solidArea;
     Hero myHero;
