@@ -81,7 +81,6 @@ public class GameScreen extends JPanel implements Runnable {
         worldHeight = worldRow * tileSize;
         setStart();
         solidArea = new Rectangle( screenX - 30, screenY - 20, tileSize , tileSize);
-
         myHero = theHero;
     }
 

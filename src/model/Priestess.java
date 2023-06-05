@@ -5,12 +5,12 @@ import java.util.Random;
 
 public final class Priestess extends Hero {
 
-    Priestess(String theName, int theHealth, int theCurrentHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
-              boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision) {
+    public Priestess(String theName, int theHealth, int theCurrentHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
+                     boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision) {
         super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision);
     }
 
-    public void heal() {
+    public int heal() {
         Random rand = new Random();
         int heal = rand.nextInt(super.getMyHealthPoints());
         if (super.getMyCurrentHealth() + heal > super.getMyHealthPoints()) {
@@ -18,6 +18,7 @@ public final class Priestess extends Hero {
         } else {
             super.setMyCurrentHealth(super.getMyCurrentHealth() + heal);
         }
+        return heal;
     }
 
 }
