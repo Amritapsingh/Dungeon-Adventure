@@ -58,7 +58,7 @@ public class GameScreen extends JPanel implements Runnable {
     CardLayout myCardLayout;
 
 
-    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero) {
+    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero, int rows, int cols) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
@@ -72,7 +72,7 @@ public class GameScreen extends JPanel implements Runnable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(3,3);
+        dungeon = new Dungeon(rows, cols);
         dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
@@ -235,6 +235,12 @@ public class GameScreen extends JPanel implements Runnable {
         if (myHero.getMyCurrentHealth() <= 0) {
             myHero.setMyAlive(false);
             this.setVisible(false);
+        }
+    }
+    public void checkCollision(Rectangle rectRight, Rectangle rectLeft) {
+        if (rectRight.intersects(solidArea)) {
+            System.out.println("pillar collected");
+            worldX -= playerSpeed;
         }
 
     }
