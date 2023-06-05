@@ -117,6 +117,12 @@ public class TileManager {
                         myGameScreen.combatCheck(hitBox, myMonster);
                     }
                 }
+                if (myMaze[row / 12][col/ 16].getHasPotion()) {
+                    g2.setColor(Color.green);
+                    Rectangle hitBox = new Rectangle(screenX, screenY, myGameScreen.tileSize * 16, myGameScreen.tileSize * 12);
+                    g2.draw(hitBox);
+                    myGameScreen.potionCheck(hitBox, row, col);
+                }
                 if (myMaze[row / 12][col/ 16].hasNorthDoor()) {
                     g2.setColor(Color.blue);
                     Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 6) - 30, (myGameScreen.tileSize * 3) - 100);
@@ -175,12 +181,6 @@ public class TileManager {
                 }
                 g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
 
-                if (myMaze[row / 12][col/ 16].getHasPotion()) {
-                    g2.setColor(Color.green);
-                    Rectangle hitBox = new Rectangle(screenX, screenY, myGameScreen.tileSize * 16, myGameScreen.tileSize * 12);
-                    g2.draw(hitBox);
-                    myGameScreen.potionCheck(hitBox);
-                }
 
                 if (myMaze[row/12][col/16].getAbstractionPillar()) {
                     g2.setColor(Color.blue);

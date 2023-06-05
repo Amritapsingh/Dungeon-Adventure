@@ -19,6 +19,7 @@ public class BattleScreen extends JFrame {
 
     private JButton attackButton;
     private JButton defendButton;
+    private JButton potionButton;
     private JButton specialMoveButton;
     boolean playerTurn;
     JPanel cards;
@@ -85,6 +86,20 @@ public class BattleScreen extends JFrame {
                 }
             }
         });
+        potionButton = new JButton("Potion");
+        potionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (playerTurn) {
+                    defend();
+                    playerTurn = false;
+                    disablePlayerButtons();
+                    updateMonsterHP();
+                    performEnemyTurn();
+                    updatePlayerHP();
+                }
+            }
+        });
+
         specialMoveButton = new JButton("Special Move");
         specialMoveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -101,6 +116,7 @@ public class BattleScreen extends JFrame {
         buttonPanel.add(attackButton);
         buttonPanel.add(defendButton);
         buttonPanel.add(specialMoveButton);
+        buttonPanel.add(potionButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(panel);

@@ -224,7 +224,7 @@ public class Dungeon {
     public int getPotionNum() {
         return myPotionNum;
     }
-    public void setPotionNum(int thePotionNum) {
+    public void setPotionNum(final int thePotionNum) {
         myPotionNum = thePotionNum;
     }
     public void createMonsters() {

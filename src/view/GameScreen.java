@@ -268,13 +268,12 @@ public class GameScreen extends JPanel implements Runnable {
 
 
     }
-    public void potionCheck(Rectangle rectangle) {
+    public void potionCheck(Rectangle rectangle, int row, int col) {
         Room[][] maze = dungeon.getMaze();
-        System.out.println(maze[(rectangle.x/12)/48][(rectangle.y/16)/48].toString());
-        if (rectangle.intersects(solidArea) && maze[(rectangle.x/12)/48][(rectangle.y/16)/48].getHasPotion()) {
+        if (rectangle.intersects(solidArea)) {
             System.out.println("potion");
             dungeon.setPotionNum(dungeon.getPotionNum() - 1);
-            maze[(rectangle.x/12)/48][(rectangle.y/16)/48].setHasPotion(false);
+            maze[row/12][col/16].setHasPotion(false);
         }
     }
 }
