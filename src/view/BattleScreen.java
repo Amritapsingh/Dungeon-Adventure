@@ -15,10 +15,6 @@ public class BattleScreen extends JFrame {
     private Hero myHero;
     private Monster myMonster;
 
-<<<<<<< HEAD
-    public BattleScreen() {
-        setTitle("Dungeon Battle");
-=======
     private JButton attackButton;
     private JButton defendButton;
     private JButton specialMoveButton;
@@ -30,7 +26,6 @@ public class BattleScreen extends JFrame {
     public BattleScreen(Hero theHero, Monster theMonster, JPanel cards, CardLayout cardLayout) {
         setTitle("Dungeon Battle");
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
->>>>>>> b4e0985e0e98fcfc86cce6d3aa744395f1c60bdf
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         myHero = theHero;
