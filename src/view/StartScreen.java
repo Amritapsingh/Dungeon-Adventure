@@ -20,6 +20,9 @@ public class StartScreen extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setBackground(Color.black);
+        HashMap<String, Integer> myInventory;
+        myInventory = new HashMap<>();
+        setHero(new Warrior("Warrior", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
     }
 
     public void createAndShowUI() throws IOException {
@@ -59,40 +62,67 @@ public class StartScreen extends JFrame {
         charSelect.setResizable(false);
         charSelect.setBackground(Color.black);
         JPanel charSelectPanel = new JPanel();
-        charSelectPanel.setLayout(new BoxLayout(charSelectPanel, BoxLayout.Y_AXIS));
+        charSelectPanel.setLayout(new GridLayout(3, 1));
         JButton warriorButton = new JButton("Warrior");
         warriorButton.addActionListener(e -> {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             setHero(new Warrior("Warrior", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
-
             });
         JButton thiefButton = new JButton("Thief");
+        thiefButton.addActionListener(e -> {
+            HashMap<String, Integer> myInventory;
+            myInventory = new HashMap<>();
+            setHero(new Warrior("Thief", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
+        });
         JButton priestessButton = new JButton("Priestess");
+        priestessButton.addActionListener(e -> {
+            HashMap<String, Integer> myInventory;
+            myInventory = new HashMap<>();
+            setHero(new Warrior("Priestess", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
+        });
         JButton easyButton = new JButton("Easy");
         easyButton.addActionListener(e -> {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
-            setHero(new Warrior("Warrior", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(cards, cardLayout, getmyHero());
+            GameScreen gameScreen = new GameScreen(cards, cardLayout, getmyHero(), 3, 3);
             cards.add(gameScreen, "GameScreen");
             cardLayout.show(cards, "GameScreen");
             gameScreen.startNewGameThread();
             });
 
         JButton mediumButton = new JButton("Medium");
+        mediumButton.addActionListener(e -> {
+            HashMap<String, Integer> myInventory;
+            myInventory = new HashMap<>();
+            charSelect.dispose();
+            GameScreen gameScreen = new GameScreen(cards, cardLayout, getmyHero(), 5, 5);
+            cards.add(gameScreen, "GameScreen");
+            cardLayout.show(cards, "GameScreen");
+            gameScreen.startNewGameThread();
+        });
         JButton hardButton = new JButton("Hard");
-        JPanel difficultyPanel = new JPanel();
-        difficultyPanel.setLayout(new BoxLayout(difficultyPanel, BoxLayout.Y_AXIS));
-        difficultyPanel.add(easyButton);
-        difficultyPanel.add(mediumButton);
-        difficultyPanel.add(hardButton);
-        charSelectPanel.add(difficultyPanel);
-
+        hardButton.addActionListener(e -> {
+            HashMap<String, Integer> myInventory;
+            myInventory = new HashMap<>();
+            charSelect.dispose();
+            GameScreen gameScreen = new GameScreen(cards, cardLayout, getmyHero(), 8, 8);
+            cards.add(gameScreen, "GameScreen");
+            cardLayout.show(cards, "GameScreen");
+            gameScreen.startNewGameThread();
+        });
         charSelectPanel.add(warriorButton);
         charSelectPanel.add(thiefButton);
         charSelectPanel.add(priestessButton);
+        JPanel difficultyPanel = new JPanel();
+        difficultyPanel.setLayout(new GridLayout(3, 2));
+        difficultyPanel.add(easyButton);
+        difficultyPanel.add(mediumButton);
+        difficultyPanel.add(hardButton);
+        charSelectPanel.add(difficultyPanel, BorderLayout.SOUTH);
+
+
         charSelect.add(charSelectPanel);
         charSelect.setVisible(true);
 
