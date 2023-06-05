@@ -53,7 +53,7 @@ public class GameScreen extends JPanel implements Runnable {
     TileManager tiles;
     Rectangle solidArea;
     Hero myHero;
-    int pillars = 4;
+    public int pillarCount = 0;
     JPanel myCards;
     CardLayout myCardLayout;
 
@@ -236,11 +236,39 @@ public class GameScreen extends JPanel implements Runnable {
             this.setVisible(false);
         }
     }
-    public void checkCollision(Rectangle rectRight, Rectangle rectLeft) {
-        if (rectRight.intersects(solidArea)) {
-            System.out.println("pillar collected");
-            worldX -= playerSpeed;
+    public void checkPillarCollision(Rectangle rect, int rows, int cols) {
+        if (rect.intersects(solidArea)) {
+            if (dungeon.getMaze()[rows][cols].getAbstractionPillar()) {
+                //add abstract pillar
+                dungeon.getMaze()[rows][cols].setAbstractionPillar(false);
+                pillarCount++;
+            }
+            if (dungeon.getMaze()[rows][cols].getPolymorphismPillar()) {
+                //add concrete pillar
+                dungeon.getMaze()[rows][cols].setPolymorphismPillar(false);
+                pillarCount++;
+
+            }
+            if (dungeon.getMaze()[rows][cols].getEncapsulationPillar()) {
+                //add encapsulation pillar
+                dungeon.getMaze()[rows][cols].setEncapsulationPillar(false);
+                pillarCount++;
+
+            }
+            if (dungeon.getMaze()[rows][cols].getInheritancePillar()) {
+                //add inheritance pillar
+                dungeon.getMaze()[rows][cols].setInheritancePillar(false);
+                pillarCount++;
+            }
+            if (dungeon.getMaze()[rows][cols].getIsExit()) {
+                this.setVisible(false);
+                myCardLayout.show(myCards, "StartingScreen");
+                pillarCount = 0;
+            }
+
         }
+
+
 
     }
 }

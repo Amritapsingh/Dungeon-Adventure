@@ -2,11 +2,7 @@ package model;
 
 import org.sqlite.SQLiteDataSource;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
+import java.sql.*;
 
 /**
  *
@@ -28,6 +24,8 @@ https://shanemcd.org/2020/01/24/how-to-set-up-sqlite-with-jdbc-in-eclipse-on-win
  */
 public class DungeonSQLite {
     private static SQLiteDataSource myDataSource = null;
+    private static final DungeonSQLite INSTANCE = new DungeonSQLite();
+
     private final String Monsters = "Monsters";
 
     public void testConnection(){
@@ -93,6 +91,34 @@ public class DungeonSQLite {
             e.printStackTrace();
             System.exit( 0 );
         }
+
+    }
+    public Monster fetchMonsters() {
+        //List<Monster> monsters = new ArrayList<Monster>();
+        String query = "SELECT name, health, attack FROM monsters";
+        Monster monster = null;
+        try (PreparedStatement statement = myDataSource.getConnection().prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String name = resultSet.getString("ENEMY_NAME");
+                int health = resultSet.getInt("HEALTH_POINTS");
+                int currentHealth = resultSet.getInt("CURRENT_HEALTH");
+                int minDmg = resultSet.getInt("MIN_DMG");
+                int maxDmg = resultSet.getInt("MAX_DMG");
+                double chanceToHit = resultSet.getDouble("CHANCE_TO_HIT");
+                double attackSpeed = resultSet.getDouble("ATTACKSPD");
+                boolean alive = resultSet.getBoolean("ALIVE");
+                double chanceToHeal = resultSet.getDouble("CHANCE_TO_HEAL");
+                int minHeal = resultSet.getInt("MIN_HEAL");
+                int maxHeal = resultSet.getInt("MAX_HEAL");
+                // Create a new Monster instance and add it to the list
+                monster = new Monster(name, health, currentHealth, minDmg, maxDmg, chanceToHit, attackSpeed, alive, chanceToHeal, minHeal, maxHeal);
+//                monsters.add(monster);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return monster;
     }
 }
 
