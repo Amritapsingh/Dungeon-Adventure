@@ -4,6 +4,7 @@ import view.GameScreen;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 
 public abstract class Hero extends DungeonModel {
@@ -37,6 +38,9 @@ public abstract class Hero extends DungeonModel {
 //    public Hero(GameScreen theGameScreen) {
 //        myGameScreen = theGameScreen;
 //    }
+    public int blockDamage() {
+        return super.getMyCurrentHealth();
+    }
 
     public void setChnceToBlock(double theChnceToBlock) {
         myChanceToBlock = theChnceToBlock;

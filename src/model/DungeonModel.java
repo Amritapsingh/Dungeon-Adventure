@@ -21,7 +21,7 @@ public abstract class DungeonModel {
     private boolean myAlive;
 
     protected DungeonModel(final String theName, final int theHealthPoints, final int theCurrentHealth, final int theDmgMin,
-                            final int theDmgMax, final double theChanceToHit, final double theAttckSpd, final boolean theAlive) {
+                           final int theDmgMax, final double theChanceToHit, final double theAttckSpd, final boolean theAlive) {
         myName = theName;
         myHealthPoints = theHealthPoints;
         myCurrentHealth = theCurrentHealth;
