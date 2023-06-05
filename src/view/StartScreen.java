@@ -33,10 +33,20 @@ public class StartScreen extends JFrame {
         JPanel startingScreen = new ImagePanel("/assets/image.jpeg");
         JButton newGameButton = new JButton("New Game");
         JButton loadGameButton = new JButton("Load Game");
+        JButton helpButton = new JButton("Help");
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(newGameButton);
         buttonPanel.add(loadGameButton);
+        buttonPanel.add(helpButton);
+
+        helpButton.addActionListener(e -> {
+            String theInstructions = "The objective of the game is to find all four pillars of OO and escape the maze.\n";
+            theInstructions += "Use WASD to move around the maze and P to use potions collected. You can view the number of potions you've" +
+                    " collected in the console.";
+            JOptionPane.showMessageDialog(this, theInstructions);
+
+        });
 
         newGameButton.addActionListener(e -> {
             JFrame charSelect;
