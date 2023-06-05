@@ -1,6 +1,8 @@
 package view;
 
 import model.Hero;
+import model.Priestess;
+import model.Thief;
 import model.Warrior;
 
 import javax.imageio.ImageIO;
@@ -73,13 +75,13 @@ public class StartScreen extends JFrame {
         thiefButton.addActionListener(e -> {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
-            setHero(new Warrior("Thief", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
+            setHero(new Thief("Thief", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
         });
         JButton priestessButton = new JButton("Priestess");
         priestessButton.addActionListener(e -> {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
-            setHero(new Warrior("Priestess", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
+            setHero(new Priestess("Priestess", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
         });
         JButton easyButton = new JButton("Easy");
         easyButton.addActionListener(e -> {
