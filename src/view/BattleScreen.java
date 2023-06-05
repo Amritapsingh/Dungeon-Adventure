@@ -90,7 +90,7 @@ public class BattleScreen extends JFrame {
         potionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (playerTurn) {
-                    defend();
+                    usePotion();
                     playerTurn = false;
                     disablePlayerButtons();
                     updateMonsterHP();
@@ -126,6 +126,26 @@ public class BattleScreen extends JFrame {
         playerTurn = true;
         // implement later
 
+    }
+
+    private void usePotion() {
+        if (myHero.getPotionCount() > 0) {
+            addToBattleLog("Player uses a potion!");
+            if (myHero.getMyCurrentHealth() == 100) {
+                addToBattleLog("Player is already at full health!");
+            }
+
+            int healedValue = myHero.usePotion();
+            addToBattleLog("Player heals " + healedValue + " health!");
+        } else {
+            addToBattleLog("Player has no potions!");
+        }
+        if (myMonster.getMyCurrentHealth() <= 0) {
+            addToBattleLog("Player defeats the enemy!");
+            disablePlayerButtons();
+            dispose();
+            myMonster.setMyAlive(false);
+        }
     }
 
     private void specialMove() {

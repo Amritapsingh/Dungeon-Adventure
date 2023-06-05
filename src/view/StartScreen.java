@@ -58,13 +58,12 @@ public class StartScreen extends JFrame {
 
     public JFrame charSelection() {
         JFrame charSelect = new JFrame("Character Selection");
-        charSelect.setSize(768, 576);
-        charSelect.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        charSelect.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         charSelect.setLocationRelativeTo(null);
         charSelect.setResizable(false);
         charSelect.setBackground(Color.black);
         JPanel charSelectPanel = new JPanel();
-        charSelectPanel.setLayout(new GridLayout(3, 1));
+        charSelectPanel.setLayout(new FlowLayout());
         JButton warriorButton = new JButton("Warrior");
         warriorButton.addActionListener(e -> {
             HashMap<String, Integer> myInventory;
@@ -81,7 +80,7 @@ public class StartScreen extends JFrame {
         priestessButton.addActionListener(e -> {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
-            setHero(new Priestess("Priestess", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
+            setHero(new Priestess("Priestess", 100, 100, 70, 90, 0.95, 2, true, 0.5, myInventory, 0.5));
         });
         JButton easyButton = new JButton("Easy");
         easyButton.addActionListener(e -> {
@@ -114,19 +113,22 @@ public class StartScreen extends JFrame {
             cardLayout.show(cards, "GameScreen");
             gameScreen.startNewGameThread();
         });
+        JLabel charSelection = new JLabel("Please select a character and difficulty level");
+        charSelection.setHorizontalAlignment(JLabel.CENTER);
+        charSelect.add(charSelection, BorderLayout.NORTH);
         charSelectPanel.add(warriorButton);
         charSelectPanel.add(thiefButton);
         charSelectPanel.add(priestessButton);
         JPanel difficultyPanel = new JPanel();
-        difficultyPanel.setLayout(new GridLayout(3, 2));
+        difficultyPanel.setLayout(new FlowLayout());
         difficultyPanel.add(easyButton);
         difficultyPanel.add(mediumButton);
         difficultyPanel.add(hardButton);
-        charSelectPanel.add(difficultyPanel, BorderLayout.SOUTH);
-
+        charSelectPanel.add(difficultyPanel);
 
         charSelect.add(charSelectPanel);
         charSelect.setVisible(true);
+        charSelect.pack();
 
         return charSelect;
     }

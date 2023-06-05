@@ -217,6 +217,7 @@ public class Dungeon {
             Room room = getRandomRoom();
             if (!room.getHasPotion()) {
                 room.setHasPotion(true);
+                //room.setPotionValue(new Potion(rand.nextInt(10) + 1));
                 potionNum--;
             }
         }

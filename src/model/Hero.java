@@ -11,7 +11,7 @@ public abstract class Hero extends DungeonModel {
 
     private double myChanceToBlock;
 
-    protected HashMap<String, Integer> myInventory;
+    public HashMap<String, Integer> myInventory;
 
     private double myVision;
 
@@ -76,6 +76,23 @@ public abstract class Hero extends DungeonModel {
 
     public String[] getMyAllies() {
         return myAllies;
+    }
+    public int usePotion() {
+        Random rand = new Random();
+        int heal = rand.nextInt(getMyHealthPoints());
+        if (getMyCurrentHealth() + heal > 100) {
+            setMyCurrentHealth(100);
+        } else {
+            setMyCurrentHealth(getMyCurrentHealth() + heal);
+        }
+        myInventory.replace("Health Potion", myInventory.get("Health Potion") - 1);
+        return heal;
+    }
+    public int getPotionCount() {
+        return myInventory.get("Health Potion");
+    }
+    public void setPotionCount(int thePotionCount) {
+        myInventory.replace("Health Potion", thePotionCount);
     }
 
     @Override

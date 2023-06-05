@@ -6,14 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-//pillar collection
-// end condition
-// game over
-// win condition
-// win screen
-// game over screen
-// battle logic
-// monsters dying
+
 public class GameScreen extends JPanel implements Runnable {
     // constants to capture screen dimensions
     /**
@@ -174,57 +167,63 @@ public class GameScreen extends JPanel implements Runnable {
             }
 
         });
+        KeyStroke keyP = KeyStroke.getKeyStroke(KeyEvent.VK_P, 0);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyP, "pressedP");
+        getActionMap().put("pressedP", new AbstractAction(){
+            public void actionPerformed(ActionEvent arg0) {
+                int healedValue = 0;
+                if (myHero.getPotionCount() > 0) {
+                    healedValue = myHero.usePotion();
+                    System.out.println("Recovered " + healedValue + " health points");
+                } else {
+                    System.out.println("Hero has no potions");
+                }
+            }
+
+        });
         //player.update();
 
     }
 
     public void checkCollisionNorth(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldY += playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldY += playerSpeed;
 
         }
     }
     public void checkCollisionSouth(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldY -= playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldY -= playerSpeed;
 
         }
     }
     public void checkCollisionEast(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldX -= playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldX -= playerSpeed;
 
         }
     }
     public void checkCollisionWest(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldX += playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldX += playerSpeed;
         }
     }
     public void combatCheck(Rectangle rectangle, Monster theMonster) {
         if (rectangle.intersects(solidArea) && theMonster.fightCount == 1) {
             BattleScreen  battleScreen = new BattleScreen(myHero, theMonster, myCards, myCardLayout);
-            System.out.println("combat");
+            System.out.println("Trial by combat");
             battleScreen.setVisible(true);
             theMonster.fightCount--;
         }
@@ -262,17 +261,15 @@ public class GameScreen extends JPanel implements Runnable {
                 myCardLayout.show(myCards, "StartingScreen");
                 pillarCount = 0;
             }
-
         }
-
-
-
     }
     public void potionCheck(Rectangle rectangle, int row, int col) {
         Room[][] maze = dungeon.getMaze();
         if (rectangle.intersects(solidArea)) {
-            System.out.println("potion");
             dungeon.setPotionNum(dungeon.getPotionNum() - 1);
+            int potionCount = myHero.getPotionCount();
+            myHero.setPotionCount(++potionCount);
+            System.out.println("Collected a potion. Hero now has " + myHero.getPotionCount() + " potions");
             maze[row/12][col/16].setHasPotion(false);
         }
     }
