@@ -185,6 +185,9 @@ public class Room {
         if (this.getPolymorphismPillar()) {
             sb.append("P");
         }
+        if (this.getHasPotion()) {
+            sb.append("p");
+        }
         if (this.getIsEnter()) {
             sb.append("i");
         }

@@ -175,6 +175,13 @@ public class TileManager {
                 }
                 g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
 
+                if (myMaze[row / 12][col/ 16].getHasPotion()) {
+                    g2.setColor(Color.green);
+                    Rectangle hitBox = new Rectangle(screenX, screenY, myGameScreen.tileSize * 16, myGameScreen.tileSize * 12);
+                    g2.draw(hitBox);
+                    myGameScreen.potionCheck(hitBox);
+                }
+
                 if (myMaze[row/12][col/16].getAbstractionPillar()) {
                     g2.setColor(Color.blue);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);

@@ -10,7 +10,7 @@ public abstract class Hero extends DungeonModel {
 
     private double myChanceToBlock;
 
-    private HashMap<String, Integer> myInventory;
+    protected HashMap<String, Integer> myInventory;
 
     private double myVision;
 

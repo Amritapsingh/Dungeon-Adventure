@@ -1,9 +1,6 @@
 package view;
 
-import model.Dungeon;
-import model.Hero;
-import model.Monster;
-import model.TileManager;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +49,7 @@ public class GameScreen extends JPanel implements Runnable {
     private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
     Rectangle solidArea;
-    Hero myHero;
+    public Hero myHero;
     int pillars = 4;
     JPanel myCards;
     CardLayout myCardLayout;
@@ -237,6 +234,15 @@ public class GameScreen extends JPanel implements Runnable {
             this.setVisible(false);
         }
 
+    }
+    public void potionCheck(Rectangle rectangle) {
+        Room[][] maze = dungeon.getMaze();
+        System.out.println(maze[(rectangle.x/12)/48][(rectangle.y/16)/48].toString());
+        if (rectangle.intersects(solidArea) && maze[(rectangle.x/12)/48][(rectangle.y/16)/48].getHasPotion()) {
+            System.out.println("potion");
+            dungeon.setPotionNum(dungeon.getPotionNum() - 1);
+            maze[(rectangle.x/12)/48][(rectangle.y/16)/48].setHasPotion(false);
+        }
     }
 }
 

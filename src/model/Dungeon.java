@@ -59,6 +59,7 @@ public class Dungeon {
         setAbstractionPillar(rand.nextInt(rows), rand.nextInt(cols));
         setPolymorphismPillar(rand.nextInt(rows), rand.nextInt(cols));
         setEncapsulationPillar(rand.nextInt(rows), rand.nextInt(cols));
+        placePotions();
         createMonsters();
     }
 
@@ -212,13 +213,19 @@ public class Dungeon {
     }
     public void placePotions() {
         int potionNum = myPotionNum;
-        while (potionNum == myPotionNum) {
+        while (potionNum != 0) {
             Room room = getRandomRoom();
             if (!room.getHasPotion()) {
                 room.setHasPotion(true);
                 potionNum--;
             }
         }
+    }
+    public int getPotionNum() {
+        return myPotionNum;
+    }
+    public void setPotionNum(int thePotionNum) {
+        myPotionNum = thePotionNum;
     }
     public void createMonsters() {
         for (int i = 0; i < rows; i++) {
