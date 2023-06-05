@@ -18,57 +18,18 @@ public class TileManager {
 
     public TileManager(GameScreen theGameScreen, Dungeon dungeon) {
         myGameScreen = theGameScreen;
-        tile = new Tiles[16];
+        tile = new Tiles[20];
         mapTiles = new int[myGameScreen.worldRow][myGameScreen.worldCol];
         getTileImage();
-        //loadMap("/assets/map2.txt");
-        //createMap(dungeon.getMaze());
         myMaze = dungeon.getMaze();
-
-
     }
-    // premake layouts
-    // in room class pick a random layout
-    // Boss rooms will be different
-    // Feed entire maze into Tilemanager class
-    // go through maze one room at a time
-    // place items, monsters, pits etc
-    //
-
-
-//    public void loadMap(String filePath) {
-//        try {
-//            InputStream st = getClass().getResourceAsStream(filePath);
-//            BufferedReader br = new BufferedReader(new InputStreamReader((st)));
-//            int col = 0;
-//            int row = 0;
-//            while(col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
-//                String line = br.readLine();
-//                while (col < myGameScreen.maxScreenCol) {
-//                    String[] numbers = line.split(" ");
-//                    int num = Integer.parseInt(numbers[col]);
-//                    mapTiles[col][row] = num;
-//                    col++;
-//                }
-//                if (col == myGameScreen.maxScreenCol) {
-//                    col = 0;
-//                    row++;
-//                }
-//            }
-//            br.close();
-//            } catch(Exception e){
-//                e.printStackTrace();
-//            }
-//        }
     public void getTileImage() {
         try {
             tile[0] = new Tiles();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/assets/north.png"));
             tile[1] = new Tiles();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/assets/south.png"));
-            // scale these up so they are an entire room instead of just one tile
-            // implement battle screen?
-            tile[1].isSolid = true;
+
             tile[2] = new Tiles();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/assets/east.png"));
 
@@ -111,6 +72,12 @@ public class TileManager {
             tile[15] = new Tiles();
             tile[15].image = ImageIO.read(getClass().getResourceAsStream("/assets/south+west.png"));
 
+            tile[16] = new Tiles();
+            tile[16].image = ImageIO.read(getClass().getResourceAsStream("/assets/playerSprite.png"));
+
+            tile[17] = new Tiles();
+            tile[17].image = ImageIO.read(getClass().getResourceAsStream("/assets/impSprite.png"));
+
 
         } catch(IOException e) {
             e.printStackTrace();
@@ -125,17 +92,6 @@ public class TileManager {
                 worldMap[i][j] = myMaze[i][j].getMapTiles(i, j);
             }
         }
-//        for (int k = 0; k < myMaze.length; k++) {
-//            for (int l = 0; l < myMaze[0].length; l++) {
-//                myMaze[k][l].loadMap(myGameScreen);
-//                for (int i = 0; i < worldMap.length; i+= 12) {
-//                    for (int j = 0; j < worldMap[0].length; j+=16) {
-//                        worldMap[i][j] = myMaze[k][l].getMapTiles(i %12, j %16);
-//                    }
-//                }
-//            }
-//        }
-
     }
     public void draw(Graphics2D g2) {
 
@@ -152,41 +108,44 @@ public class TileManager {
             screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
             if (col /16 < myMaze[0].length && row / 12 < myMaze.length) {
                 int tileNum = worldMap[row /12][col/16];
-
-//                Plans:
-//                Ability to view maze when game is over
-//                For collision
-//                - Draw red boxes around each tile, if touches box then collide
-//                - Make boxes transparent and booom
+                if (myMaze[row / 12][col/ 16].getHasMonster()) {
+                    Monster myMonster = myMaze[row / 12][col/ 16].getMyMonster();
+                    if (myMonster.getMyAlive()) {
+                        g2.setColor(Color.red);
+                        Rectangle hitBox = new Rectangle(screenX + 280, screenY + 120, myGameScreen.tileSize * 4, myGameScreen.tileSize * 4);
+                        g2.draw(hitBox);
+                        myGameScreen.combatCheck(hitBox, myMonster);
+                    }
+                }
                 if (myMaze[row / 12][col/ 16].hasNorthDoor()) {
                     g2.setColor(Color.blue);
-                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 6) - 30, (myGameScreen.tileSize * 3) - 100);
                     g2.draw(rect);
-                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 8) + 55, screenY + 50, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 8) + 60, screenY + 50, (myGameScreen.tileSize * 6) - 30, (myGameScreen.tileSize * 3) - 100);
                     g2.draw(rect1);
                     myGameScreen.checkCollisionNorth(rect, rect1);
                 }
                 if (myMaze[row / 12][col/ 16].hasSouthDoor()) {
                     g2.setColor(Color.green);
-                    Rectangle rect = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 6) - 30, (myGameScreen.tileSize * 3) - 100);
                     g2.draw(rect);
-                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 8) + 55, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 6) - 25, (myGameScreen.tileSize * 3) - 100);
+                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 8) + 60, screenY + (myGameScreen.tileSize * 12) - 90, (myGameScreen.tileSize * 6) - 30, (myGameScreen.tileSize * 3) - 100);
                     g2.draw(rect1);
                     myGameScreen.checkCollisionSouth(rect, rect1);
                 }
                 if (myMaze[row / 12][col/ 16].hasEastDoor()) {
                     g2.setColor(Color.yellow);
-                    Rectangle rect = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110 , screenY + 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
+                    Rectangle rect = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110 , screenY + 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 110);
                     g2.draw(rect);
-                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110, screenY + (myGameScreen.tileSize * 8) - 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
+                    Rectangle rect1 = new Rectangle(screenX + (myGameScreen.tileSize * 16) - 110, screenY + (myGameScreen.tileSize * 8) - 40, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
                     g2.draw(rect1);
                     myGameScreen.checkCollisionEast(rect, rect1);
                 }
                 if (myMaze[row / 12][col/ 16].hasWestDoor()) {
                     g2.setColor(Color.orange);
-                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize * 6) - 100);
+                    Rectangle rect = new Rectangle(screenX + 50, screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize * 6) - 110);
                     g2.draw(rect);
-                    Rectangle rect1 = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 8) - 50, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
+                    Rectangle rect1 = new Rectangle(screenX + 50, screenY + (myGameScreen.tileSize * 8) - 40, (myGameScreen.tileSize * 3) - 90, (myGameScreen.tileSize * 6) - 100);
                     g2.draw(rect1);
                     myGameScreen.checkCollisionWest(rect, rect1);
                 }
@@ -215,37 +174,55 @@ public class TileManager {
                     myGameScreen.checkCollisionWest(rect, rect);
                 }
                 g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
-                g2.setColor(Color.red);
-
-
-
-                //g2.drawRect(screenX + 50, screenY + 50, (myGameScreen.tileSize * 3) - 100, (myGameScreen.tileSize* 12) - 100);
 
                 if (myMaze[row/12][col/16].getAbstractionPillar()) {
                     g2.setColor(Color.blue);
-                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
-                    g2.drawString("Abstraction Pillar", screenX + 150, screenY + 200);
+                    g2.drawString("Abstraction Pillar", screenX + 350, screenY + 220);
+                    if(myMaze[row/12][col/16].getHasMonster()) {
+                        Monster monster = myMaze[row / 12][col / 16].getMyMonster();
+                        if (monster.getMyAlive()) {
+                            g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
+                        }
+                    }
                 }
                 if (myMaze[row/12][col/16].getEncapsulationPillar()) {
                     g2.setColor(Color.blue);
-                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
-                    g2.drawString("Encapsulation Pillar", screenX + 150, screenY + 200);
+                    g2.drawString("Encapsulation Pillar", screenX + 350, screenY + 220);
+                    if(myMaze[row/12][col/16].getHasMonster()) {
+                        Monster monster = myMaze[row / 12][col / 16].getMyMonster();
+                        if (monster.getMyAlive()) {
+                            g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
+                        }
+                    }
                 }
                 if (myMaze[row/12][col/16].getInheritancePillar()) {
                     g2.setColor(Color.blue);
-                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
-                    g2.drawString("Inheritance Pillar", screenX + 150, screenY + 200);
+                    g2.drawString("Inheritance Pillar", screenX + 350, screenY + 220);
+                    if(myMaze[row/12][col/16].getHasMonster()) {
+                        Monster monster = myMaze[row / 12][col / 16].getMyMonster();
+                        if (monster.getMyAlive()) {
+                            g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
+                        }
+                    }
                 }
                 if (myMaze[row/12][col/16].getPolymorphismPillar()) {
                     g2.setColor(Color.blue);
-                    g2.fillRect(screenX + 150, screenY + 150, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
-                    g2.drawString("Polymorphism Pillar", screenX + 150, screenY + 200);
+                    g2.drawString("Polymorphism Pillar", screenX + 350, screenY + 220);
+                    if(myMaze[row/12][col/16].getHasMonster()) {
+                        Monster monster = myMaze[row / 12][col / 16].getMyMonster();
+                        if (monster.getMyAlive()) {
+                            g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
+                        }
+                    }
                 }
-
             }
             col+= 16;
             if (col == myGameScreen.worldCol) {
@@ -254,67 +231,8 @@ public class TileManager {
             }
         }
     }
-//            }}
-//        for (Room[] room: myMaze) {
-//            for (Room room1: room) {
-//                image = room1.getImage();
-//                int worldCol = 0;
-//                int worldRow = 0;
-//                mapTiles = room1.loadMap(myGameScreen);
-//                //g2.drawImage(image, 400, 200, myGameScreen.tileSize, myGameScreen.tileSize, null);
-//                while(worldCol < myGameScreen.worldCol && worldRow < myGameScreen.worldRow) {
-////                    mapTiles = room1.getMapTiles();
-//                    int tileNum = mapTiles[myGameScreen.maxScreenCol - 1][myGameScreen.maxScreenRow - 1];
-//                    int worldX = worldCol * myGameScreen.tileSize;
-//                    int worldY = worldRow * myGameScreen.tileSize;
-//                    int screenX = worldX - myGameScreen.worldX + myGameScreen.screenX;
-//                    int screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
-//                    g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize, myGameScreen.tileSize, null);
-//                    worldCol++;
-//                    if (worldCol == myGameScreen.worldCol) {
-//                        worldCol = 0;
-//                        worldRow++;
-//                    }
-//                }
-//            }
-//        }
 
-
-
-//        for(int i = 0; i < myMaze.length; i++) {
-//            for (int j = 0; j < myMaze[i].length; j++) {
-//                int col = 0;
-//                int row = 0;
-//                int x = 0;
-//                int y = 0;
-//                while (col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
-//                    int tileNum = mapTiles[col][row];
-//                    g2.drawImage(tile[tileNum].image, x, y, myGameScreen.tileSize, myGameScreen.tileSize, null);
-//                    col++;
-//                    x += myGameScreen.tileSize;
-//                    if (col == myGameScreen.maxScreenCol) {
-//                        col = 0;
-//                        x = 0;
-//                        row++;
-//                        y += myGameScreen.tileSize;
-//                    }
-//                }
-//            }
-//        int col = 0;
-//        int row = 0;
-//        int x = 0;
-//        int y = 0;
-//        while(col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
-//            int tileNum = mapTiles[col][row];
-//            g2.drawImage(tile[tileNum].image, x, y, myGameScreen.tileSize, myGameScreen.tileSize, null);
-//            col++;
-//            x += myGameScreen.tileSize;
-//            if (col == myGameScreen.maxScreenCol) {
-//                col = 0;
-//                x = 0;
-//                row++;
-//                y += myGameScreen.tileSize;
-//            }
-//        }
-//    }
+    public Tiles[] getTile() {
+        return tile;
+    }
 }

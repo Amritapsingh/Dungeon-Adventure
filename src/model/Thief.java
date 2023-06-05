@@ -7,7 +7,7 @@ public final class Thief extends Hero {
 
     Thief(String theName, int theHealth, int theCurrentHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
           boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
-        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision, theAllies);
+        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision);
     }
 
     public int surpriseAttck(int theHealth) {

@@ -5,9 +5,9 @@ import java.util.Random;
 
 public final class Warrior extends Hero {
 
-    Warrior(String theName, int theHealth, int theCurrentHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
-                      boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision, String[] theAllies) {
-        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision, theAllies);
+    public Warrior(String theName, int theHealth, int theCurrentHealth, int theDmgMin, int theDmgMax, double theChanceToHit, double theAttkSpd,
+                   boolean theAlive, double theChanceToBlock, HashMap<String, Integer> theInventory, double theVision) {
+        super(theName, theHealth, theCurrentHealth, theDmgMin, theDmgMax, theChanceToHit, theAttkSpd, theAlive, theChanceToBlock, theInventory, theVision);
     }
 
     public int crushingBlow(int theHealth) {

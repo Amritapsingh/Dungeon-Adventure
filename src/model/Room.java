@@ -21,6 +21,7 @@ public class Room {
     private boolean abstractionPillar;
     private boolean inheritancePillar;
     private boolean polymorphismPillar;
+    private Monster myMonster;
 
     public int x;
     public int y;
@@ -50,6 +51,7 @@ public class Room {
         myWestDoor = " ";
         this.roomNeighbors = new ArrayList<>();
         neighbors = 0;
+        myMonster = null;
         try {
             int rand = random.nextInt(2);
             String filePath;
@@ -188,6 +190,9 @@ public class Room {
         if (this.getIsExit()) {
             sb.append("O");
         }
+        if(this.getHasMonster()) {
+            sb.append("M");
+        }
         sb.append(mySouthDoor);
         sb.append(myEastDoor);
         sb.append("]");
@@ -289,6 +294,16 @@ public class Room {
     }
     public void setMyWestDoor(String myWestDoor) {
         this.myWestDoor = myWestDoor;
+    }
+
+    public void setMonster(Monster theMonster) {
+        myMonster = theMonster;
+        hasMonster = true;
+        myMonster.setMyAlive(true);
+
+    }
+    public Monster getMyMonster() {
+        return myMonster;
     }
 
 
