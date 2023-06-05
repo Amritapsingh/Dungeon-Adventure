@@ -185,7 +185,7 @@ public class TileManager {
                 if (myMaze[row/12][col/16].getAbstractionPillar()) {
                     g2.setColor(Color.blue);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
-                    g2.setColor(Color.green);
+                    g2.setColor(Color.white);
                     g2.drawString("Abstraction Pillar", screenX + 350, screenY + 220);
                     if(myMaze[row/12][col/16].getHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
@@ -193,11 +193,13 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/12);
                 }
                 if (myMaze[row/12][col/16].getEncapsulationPillar()) {
-                    g2.setColor(Color.blue);
-                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
+                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.setColor(Color.white);
                     g2.drawString("Encapsulation Pillar", screenX + 350, screenY + 220);
                     if(myMaze[row/12][col/16].getHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
@@ -205,11 +207,13 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/12);
                 }
                 if (myMaze[row/12][col/16].getInheritancePillar()) {
-                    g2.setColor(Color.blue);
+                    g2.setColor(Color.red);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
-                    g2.setColor(Color.green);
+                    g2.setColor(Color.white);
                     g2.drawString("Inheritance Pillar", screenX + 350, screenY + 220);
                     if(myMaze[row/12][col/16].getHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
@@ -217,9 +221,11 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/12);
                 }
                 if (myMaze[row/12][col/16].getPolymorphismPillar()) {
-                    g2.setColor(Color.blue);
+                    g2.setColor(Color.white);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
                     g2.drawString("Polymorphism Pillar", screenX + 350, screenY + 220);
@@ -229,6 +235,16 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/12);
+                }
+                if (myGameScreen.pillarCount == 4 && myMaze[row/12][col/12].getIsExit()) {
+                    g2.setColor(Color.white);
+                    g2.drawString("Exit", screenX + 360, screenY + 210);
+                    g2.setColor(Color.green);
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.draw(rect);
+                    myGameScreen.checkPillarCollision(rect, row / 12, col / 12);
                 }
             }
             col+= 16;

@@ -49,13 +49,13 @@ public class GameScreen extends JPanel implements Runnable {
     private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
     Rectangle solidArea;
-    public Hero myHero;
-    int pillars = 4;
+    Hero myHero;
+    public int pillarCount = 0;
     JPanel myCards;
     CardLayout myCardLayout;
 
 
-    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero) {
+    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero, int rows, int cols) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
@@ -69,7 +69,7 @@ public class GameScreen extends JPanel implements Runnable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(3,3);
+        dungeon = new Dungeon(rows, cols);
         dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
@@ -78,7 +78,6 @@ public class GameScreen extends JPanel implements Runnable {
         worldHeight = worldRow * tileSize;
         setStart();
         solidArea = new Rectangle( screenX - 30, screenY - 20, tileSize , tileSize);
-
         myHero = theHero;
     }
 
@@ -233,6 +232,40 @@ public class GameScreen extends JPanel implements Runnable {
             myHero.setMyAlive(false);
             this.setVisible(false);
         }
+    }
+    public void checkPillarCollision(Rectangle rect, int rows, int cols) {
+        if (rect.intersects(solidArea)) {
+            if (dungeon.getMaze()[rows][cols].getAbstractionPillar()) {
+                //add abstract pillar
+                dungeon.getMaze()[rows][cols].setAbstractionPillar(false);
+                pillarCount++;
+            }
+            if (dungeon.getMaze()[rows][cols].getPolymorphismPillar()) {
+                //add concrete pillar
+                dungeon.getMaze()[rows][cols].setPolymorphismPillar(false);
+                pillarCount++;
+
+            }
+            if (dungeon.getMaze()[rows][cols].getEncapsulationPillar()) {
+                //add encapsulation pillar
+                dungeon.getMaze()[rows][cols].setEncapsulationPillar(false);
+                pillarCount++;
+
+            }
+            if (dungeon.getMaze()[rows][cols].getInheritancePillar()) {
+                //add inheritance pillar
+                dungeon.getMaze()[rows][cols].setInheritancePillar(false);
+                pillarCount++;
+            }
+            if (dungeon.getMaze()[rows][cols].getIsExit()) {
+                this.setVisible(false);
+                myCardLayout.show(myCards, "StartingScreen");
+                pillarCount = 0;
+            }
+
+        }
+
+
 
     }
     public void potionCheck(Rectangle rectangle) {
