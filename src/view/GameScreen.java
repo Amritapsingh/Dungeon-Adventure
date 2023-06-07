@@ -172,13 +172,13 @@ public class GameScreen extends JPanel implements Runnable {
                 if (myHero.getPotionCount() > 0) {
                     healedValue = myHero.usePotion();
                     if (healedValue == 0) {
-                        System.out.println("Hero did not recover any health points");
+                        System.out.println(myHero.getMyName() + " did not recover any health points");
                     } else {
                         System.out.println("Recovered " + healedValue + " health points");
-                        System.out.println("Hero has " + myHero.getMyCurrentHealth() + " health points");
+                        System.out.println(myHero.getMyName() + " has " + myHero.getMyCurrentHealth() + " health points");
                     }
                 } else {
-                    System.out.println("Hero has no potions");
+                    System.out.println(myHero.getMyName() + " has no potions");
                 }
             }
 
@@ -271,7 +271,7 @@ public class GameScreen extends JPanel implements Runnable {
             dungeon.setPotionNum(dungeon.getPotionNum() - 1);
             int potionCount = myHero.getPotionCount();
             myHero.setPotionCount(++potionCount);
-            System.out.println("Collected a potion. Hero now has " + myHero.getPotionCount() + " potions");
+            System.out.println("Collected a potion. " + myHero.getMyName() + " now has " + myHero.getPotionCount() + " potions");
             maze[row/12][col/16].setHasPotion(false);
         }
     }
