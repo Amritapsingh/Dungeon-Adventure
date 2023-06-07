@@ -246,6 +246,7 @@ public class TileManager {
                     g2.draw(rect);
                     myGameScreen.checkPillarCollision(rect, row / 12, col / 16);
                 }
+
             }
             col+= 16;
             if (col == myGameScreen.worldCol) {
@@ -253,6 +254,14 @@ public class TileManager {
                 row+= 12;
             }
         }
+        String myHealth = "Health: " + myGameScreen.myHero.getMyCurrentHealth();
+        g2.setColor(Color.black);
+        g2.fillRect(myGameScreen.screenX + 295, myGameScreen.screenY - 240, 80, 28);
+        g2.setColor(Color.green);
+        g2.drawString(myHealth, myGameScreen.screenX + 300, myGameScreen.screenY - 220);
+        Rectangle rect = new Rectangle(myGameScreen.screenX + 300, myGameScreen.screenY - 200, myGameScreen.tileSize, myGameScreen.tileSize / 12 *myGameScreen.myHero.getMyCurrentHealth());
+        g2.drawRect(myGameScreen.screenX + 300, myGameScreen.screenY - 200, myGameScreen.tileSize, myGameScreen.tileSize * 8);
+        g2.fill(rect);
     }
     public Tiles[] getTile() {
         return tile;
