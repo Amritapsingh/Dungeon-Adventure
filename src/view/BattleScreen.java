@@ -49,7 +49,7 @@ public class BattleScreen extends JFrame {
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         playerHPLabel = new JLabel("Player HP: " + myHero.getMyCurrentHealth());
-        enemyHPLabel = new JLabel("Monster HP: " + myMonster.getMyCurrentHealth());
+        enemyHPLabel = new JLabel(myMonster.getMyName() + " HP: " + myMonster.getMyCurrentHealth());
         topPanel.add(playerHPLabel);
         topPanel.add(enemyHPLabel);
         panel.add(topPanel, BorderLayout.NORTH);
@@ -193,7 +193,7 @@ public class BattleScreen extends JFrame {
     }
 
     private void updateMonsterHP() {
-        enemyHPLabel.setText("Monster HP: " + myMonster.getMyCurrentHealth());
+        enemyHPLabel.setText(myMonster.getMyName() + " HP: " + myMonster.getMyCurrentHealth());
     }
 
     private void updatePlayerHP() {
@@ -225,6 +225,11 @@ public class BattleScreen extends JFrame {
 
     private void performEnemyTurn() {
         // Perform enemy's turn logic here
+        if (myMonster.getMyCurrentHealth() <= 0) {
+            disablePlayerButtons();
+            dispose();
+            return;
+        }
         addToBattleLog("Monster attacks!");
         int damageTaken = myHero.getMyCurrentHealth() - myMonster.regularAttack(myHero.getMyCurrentHealth(), myMonster.getMyChanceToHit());
         myHero.setMyCurrentHealth(myHero.getMyCurrentHealth() - damageTaken);

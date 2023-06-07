@@ -28,8 +28,6 @@ public class StartScreen extends JFrame {
     }
 
     public void createAndShowUI() throws IOException {
-
-
         JPanel startingScreen = new ImagePanel("/assets/image.jpeg");
         JButton newGameButton = new JButton("New Game");
         JButton loadGameButton = new JButton("Load Game");
