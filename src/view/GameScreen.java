@@ -39,7 +39,7 @@ public class GameScreen extends JPanel implements Runnable {
 
     TileManager tiles;
     Rectangle solidArea;
-    Hero myHero;
+    public Hero myHero;
     public int pillarCount = 0;
     JPanel myCards;
     CardLayout myCardLayout;

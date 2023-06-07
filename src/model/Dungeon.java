@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
@@ -229,17 +230,19 @@ public class Dungeon {
         myPotionNum = thePotionNum;
     }
     public void createMonsters() {
+        List<Monster> monsters = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (maze[i][j].getAbstractionPillar() || maze[i][j].getEncapsulationPillar() ||
                         maze[i][j].getInheritancePillar() || maze[i][j].getPolymorphismPillar()) {
-                        DungeonSQLite database = new DungeonSQLite();
-                        database.testConnection();
-//                        database.createMonsterTable();
-//                        database.addMonstersToTable();
-//                        Monster monster = database.fetchMonsters();
-//                        maze[i][j].setMonster(monster);
-                        maze[i][j].setMonster(new Monster("Ogre", 100, 100, 10, 20, 0.8, 2, true, 0.5, 10, 20));
+                    Monster monster = null;
+                    final DungeonSQLite database = new DungeonSQLite();
+                    database.testConnection();
+                    database.createMonsterTable();
+                    database.addMonstersToTable();
+                    monsters = database.fetchMonsters();
+                    monster = monsters.get(rand.nextInt(monsters.size()));
+                    maze[i][j].setMonster(monster);
                 }
             }
         }
