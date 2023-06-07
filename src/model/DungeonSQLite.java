@@ -44,7 +44,7 @@ public class DungeonSQLite {
 
     public void createMonsterTable() {
         //now create a table
-        String query = "CREATE TABLE IF NOT EXISTS " + Monsters + " ( " +
+        String query = "CREATE TABLE IF NOT EXISTS dungeonEnemy ( " +
                 "ENEMY_NAME TEXT NOT NULL, " +
                 "HEALTH_POINTS TEXT NOT NULL, " +
                 "MIN_DMG TEXT NOT NULL, " +

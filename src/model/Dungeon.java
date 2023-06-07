@@ -238,8 +238,8 @@ public class Dungeon {
                     Monster monster = null;
                     final DungeonSQLite database = new DungeonSQLite();
                     database.testConnection();
-                    database.createMonsterTable();
-                    database.addMonstersToTable();
+                    //database.createMonsterTable();
+                    //database.addMonstersToTable();
                     monsters = database.fetchMonsters();
                     monster = monsters.get(rand.nextInt(monsters.size()));
                     maze[i][j].setMonster(monster);
