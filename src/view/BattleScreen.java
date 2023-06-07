@@ -197,7 +197,7 @@ public class BattleScreen extends JFrame {
     }
 
     private void updatePlayerHP() {
-        playerHPLabel.setText("Player HP: " + myHero.getMyCurrentHealth());
+        playerHPLabel.setText(myHero.getMyName() +" HP: " + myHero.getMyCurrentHealth());
     }
 
     private void attackEnemy() {
