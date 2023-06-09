@@ -6,19 +6,68 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
+/**
+ * This class represents a dungeon containing our maze and
+ * all its components.
+ *
+ * @author Amrit Singh
+ * @author Akil Turner-Richars
+ * @author Jay Phommakhot
+ * @version 09 June 2023
+ */
 public class Dungeon implements Serializable {
+    /**
+     * Field for rows of maze
+     */
     private int myRows;
+    /**
+     * Field for cols of maze
+     */
     private int myCols;
+    /**
+     * Field the maze of rooms
+     */
     private Room[][] myMaze;
+    /**
+     * Field for stack for DFS traversal
+     */
     private Stack<Room> myRoomStack;
+    /**
+     * Field for number of rooms
+     */
     private int myNumRooms;
+    /**
+     * Field for how many rooms have been visited
+     */
     private int myVisitedRooms;
+    /**
+     * Field for percentage of rooms with potions and pits
+     */
     private float myPotionPercentage;
+    /**
+     * Field for total num of potions
+     */
     private int myPotionNum;
+    /**
+     * Field for total num of pits in dungeon
+     */
     private int myPitNum;
+    /**
+     * Field for the hero
+     */
     private Hero myHero;
+    /**
+     * Field for random generation
+     */
     Random rand = new Random();
 
+    /**
+     * Constructor for dungeon
+     *
+     * @param theRows the rows of the maze
+     * @param theCols the cols of the maze
+     * @param theHero the hero of the maze
+     */
     public Dungeon(int theRows, int theCols, Hero theHero) {
         myPotionPercentage = 0.25f;
         myRows = theRows;
@@ -33,6 +82,9 @@ public class Dungeon implements Serializable {
         generateMaze();
     }
 
+    /**
+     * Creates a maze of empty rooms and populates them with our maze
+     */
     private void generateMaze() {
         Random random = new Random();
         // Generate rooms
@@ -70,7 +122,10 @@ public class Dungeon implements Serializable {
         createMonsters();
     }
 
-
+    /**
+     * Method to return a random room
+     * @return random room
+     */
     public Room getRandomRoom() {
         Random random = new Random();
         int x = random.nextInt(myRows);
@@ -78,6 +133,11 @@ public class Dungeon implements Serializable {
         return myMaze[x][y];
     }
 
+    /**
+     * Returns neighbor of specified room
+     * @param room room to check neighbor of
+     * @return neighbor of room
+     */
     public Room getNeighborOf(final Room room) {
         getAllNeighbors(room);
         if (room.neighbors > 0) {
@@ -89,6 +149,10 @@ public class Dungeon implements Serializable {
         }
     }
 
+    /**
+     * Returns all neighbors of specified room
+     * @param room room to check neighbors of
+     */
     public void getAllNeighbors(final Room room) {
         ArrayList<Room> neighbors = room.getRoomNeighbors();
         room.neighbors = 0;
@@ -111,6 +175,11 @@ public class Dungeon implements Serializable {
         }
     }
 
+    /**
+     * Method to connect and link rooms together
+     * @param room1 room to connect
+     * @param room2 room to connect
+     */
     private void connectRooms(final Room room1, final Room room2) {
         if (room1.x > room2.x) {
             //room1.myWestDoor = "<";
@@ -135,6 +204,10 @@ public class Dungeon implements Serializable {
             room1.setMySouthDoor("v");
         }
     }
+
+    /**
+     * Method to display the maze to the console
+     */
     public void printMaze() {
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
@@ -146,12 +219,29 @@ public class Dungeon implements Serializable {
             System.out.println();
         }
     }
+
+    /**
+     * Method to get the current maze
+     * @return maze
+     */
     public Room[][] getMaze() {
         return myMaze;
     }
+
+    /**
+     * Method to set the entrance to the maze
+     * @param row row of entrance
+     * @param col column of entrance
+     */
     public void setEnter(final int row, final int col) {
         myMaze[row][col].setIsEnter(true);
     }
+
+    /**
+     * Method to set the exit of the maze
+     * @param row row of exit
+     * @param col column of exit
+     */
     public void setExit(final int row, final int col) {
         if (myMaze[row][col].getIsEnter()) {
             setExit(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -159,6 +249,12 @@ public class Dungeon implements Serializable {
             myMaze[row][col].setIsExit(true);
         }
     }
+
+    /**
+     * Method to set location of the pillar of abstraction
+     * @param row row of pillar
+     * @param col col of pillar
+     */
     public void setAbstractionPillar(final int row, final int col) {
         if(myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getEncapsulationPillar() || myMaze[row][col].getInheritancePillar() ||
@@ -172,6 +268,12 @@ public class Dungeon implements Serializable {
             myMaze[row][col].setAbstractionPillar(true);
         }
     }
+
+    /**
+     * Method to set location of the pillar of encapsulation
+     * @param row   row of pillar
+     * @param col   col of pillar
+     */
     public void setEncapsulationPillar(final int row, final int col) {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getInheritancePillar() ||
@@ -185,6 +287,12 @@ public class Dungeon implements Serializable {
             myMaze[row][col].setEncapsulationPillar(true);
         }
     }
+
+    /**
+     * Method to set location of the pillar of inheritance
+     * @param row  row of pillar
+     * @param col  col of pillar
+     */
     public void setInheritancePillar(final int row, final int col) {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getEncapsulationPillar() ||
@@ -198,6 +306,12 @@ public class Dungeon implements Serializable {
             myMaze[row][col].setInheritancePillar(true);
         }
     }
+
+    /**
+     * Method to set location of the pillar of polymorphism
+     * @param row  row of pillar
+     * @param col  col of pillar
+     */
     public void setPolymorphismPillar(final int row, final int col) {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getEncapsulationPillar() ||
@@ -211,6 +325,10 @@ public class Dungeon implements Serializable {
             myMaze[row][col].setPolymorphismPillar(true);
         }
     }
+
+    /**
+     * Method to place potions randomly on map
+     */
     public void placePotions() {
         int potionNum = myPotionNum;
         while (potionNum != 0) {
@@ -222,6 +340,10 @@ public class Dungeon implements Serializable {
             }
         }
     }
+
+    /**
+     * Method to place pits randomly on map
+     */
     public void placePits() {
         int pitNum = myPitNum;
         while (pitNum != 0) {
@@ -232,12 +354,26 @@ public class Dungeon implements Serializable {
             }
         }
     }
+
+    /**
+     * Method to get the number of potions
+     * @return number of potions
+     */
     public int getPotionNum() {
         return myPotionNum;
     }
+
+    /**
+     * Method to set number of potions
+     * @param thePotionNum number of potions
+     */
     public void setPotionNum(final int thePotionNum) {
         myPotionNum = thePotionNum;
     }
+
+    /**
+     * Method to create and place monsters on map
+     */
     public void createMonsters() {
         List<Monster> monsters = new ArrayList<>();
         for (int i = 0; i < myRows; i++) {
