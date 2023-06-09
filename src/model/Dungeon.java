@@ -15,6 +15,7 @@ public class Dungeon implements Serializable {
     private int myVisitedRooms;
     private float myPotionPercentage;
     private int myPotionNum;
+    private int myPitNum;
     private Hero myHero;
     Random rand = new Random();
 
@@ -26,6 +27,7 @@ public class Dungeon implements Serializable {
         myRoomStack =  new Stack<>();
         myNumRooms = theRows * theCols;
         myPotionNum = (int) (myPotionPercentage * myNumRooms);
+        myPitNum = (int) (myPotionPercentage * myNumRooms);
         myHero = theHero;
         myVisitedRooms = 0;
         generateMaze();
@@ -64,6 +66,7 @@ public class Dungeon implements Serializable {
         setPolymorphismPillar(rand.nextInt(myRows), rand.nextInt(myCols));
         setEncapsulationPillar(rand.nextInt(myRows), rand.nextInt(myCols));
         placePotions();
+        placePits();
         createMonsters();
     }
 
@@ -216,6 +219,16 @@ public class Dungeon implements Serializable {
                 room.setHasPotion(true);
                 //room.setPotionValue(new Potion(rand.nextInt(10) + 1));
                 potionNum--;
+            }
+        }
+    }
+    public void placePits() {
+        int pitNum = myPitNum;
+        while (pitNum != 0) {
+            Room room = getRandomRoom();
+            if (!room.getHasPit()) {
+                room.setHasPit(true);
+                pitNum--;
             }
         }
     }
