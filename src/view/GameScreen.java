@@ -278,5 +278,14 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
             maze[row/12][col/16].setHasPotion(false);
         }
     }
+    public void pitCheck(Rectangle rectangle, int row, int col) {
+        Room[][] maze = dungeon.getMaze();
+        if (rectangle.intersects(solidArea)) {
+            System.out.println("You fell into a pit");
+            maze[row / 12][col / 16].setHasPit(false);
+            myHero.setMyCurrentHealth(myHero.getMyCurrentHealth() - 20);
+        }
+    }
+
 }
 

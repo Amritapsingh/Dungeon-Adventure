@@ -119,10 +119,16 @@ public class TileManager implements Serializable {
                     }
                 }
                 if (myMaze[row / 12][col/ 16].getHasPotion()) {
-                    g2.setColor(Color.green);
+                    g2.setColor(Color.black);
                     Rectangle hitBox = new Rectangle(screenX + 20, screenY + 50, myGameScreen.tileSize * 16 - 50, myGameScreen.tileSize * 12 - 50);
                     g2.draw(hitBox);
                     myGameScreen.potionCheck(hitBox, row, col);
+                }
+                if (myMaze[row / 12][col/ 16].getHasPit()) {
+                    g2.setColor(Color.black);
+                    Rectangle hitBox = new Rectangle(screenX + 20, screenY + 50, myGameScreen.tileSize * 16 - 50, myGameScreen.tileSize * 12 - 50);
+                    g2.draw(hitBox);
+                    myGameScreen.pitCheck(hitBox, row, col);
                 }
                 if (myMaze[row / 12][col/ 16].hasNorthDoor()) {
                     g2.setColor(Color.blue);
