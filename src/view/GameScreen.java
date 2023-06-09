@@ -35,10 +35,10 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
     public int worldHeight;
     public Dungeon dungeon;
     private final int playerSpeed = 20;
-    private Thread gameThread;
+    private transient Thread gameThread;
     private final int FPS = 60;
 
-    TileManager tiles;
+    transient TileManager tiles;
     Rectangle solidArea;
     public Hero myHero;
     public int pillarCount = 0;
@@ -70,7 +70,6 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
         setStart();
         solidArea = new Rectangle( screenX - 30, screenY - 20, tileSize , tileSize);
         myHero = theHero;
-
 
     }
 
@@ -185,6 +184,23 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
                 }
             }
 
+        });
+        KeyStroke keyG = KeyStroke.getKeyStroke(KeyEvent.VK_G, 0);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyG, "pressedG");
+        getActionMap().put("pressedG", new AbstractAction(){
+            public void actionPerformed(ActionEvent arg0) {
+                SaveLoad.saveGame("save", dungeon);
+            }
+        });
+        KeyStroke keyL = KeyStroke.getKeyStroke(KeyEvent.VK_L, 0);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyL, "pressedL");
+        getActionMap().put("pressedL", new AbstractAction(){
+            public void actionPerformed(ActionEvent arg0) {
+                Dungeon theDungeon = SaveLoad.loadGame("save");
+                dungeon = theDungeon;
+                assert theDungeon != null;
+                myHero = theDungeon.getMyHero();
+            }
         });
         //player.update();
 

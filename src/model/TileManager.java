@@ -8,13 +8,11 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public class TileManager implements Serializable {
-    GameScreen myGameScreen;
-    Tiles[] tile;
-    int[][] mapTiles;
-    Dungeon dungeon;
-    Room[][] myMaze;
-    Image image;
-    int[][] worldMap;
+    static GameScreen myGameScreen;
+    static Tiles[] tile;
+    static int[][] mapTiles;
+    static Room[][] myMaze;
+    static int[][] worldMap;
 
 
     public TileManager(GameScreen theGameScreen, Dungeon dungeon) {
