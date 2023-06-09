@@ -5,6 +5,4 @@ import java.io.Serializable;
 
 public class Tiles implements Serializable {
     public BufferedImage image;
-    public boolean isSolid = false;
-
 }
