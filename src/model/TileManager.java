@@ -5,8 +5,9 @@ import view.GameScreen;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class TileManager {
+public class TileManager implements Serializable {
     GameScreen myGameScreen;
     Tiles[] tile;
     int[][] mapTiles;

@@ -3,17 +3,18 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DungeonModelHeroMonsterTests {
 
-    private Hero myWarrior;
+    private Warrior myWarrior;
 
-    private Hero myPriestess;
+    private Priestess myPriestess;
 
-    private Hero myThief;
+    private Thief myThief;
 
     private Monster myOgre;
 
@@ -55,6 +56,12 @@ public class DungeonModelHeroMonsterTests {
         assertEquals("Warrior", myWarrior.getMyName());
         assertEquals("Priestess", myPriestess.getMyName());
         assertEquals("Thief", myThief.getMyName());
+    }
+
+    @Test
+    public void testRegularAttack() {
+        myGremlin.setMyCurrentHealth(myPriestess.regularAttack(myGremlin.getMyCurrentHealth(), myPriestess.getMyChanceToHit()));
+        assertNotEquals(myGremlin.getMyCurrentHealth(), myGremlin.getMyHealthPoints()); // test can fail if the attack missed
     }
 
     @Test
@@ -101,6 +108,13 @@ public class DungeonModelHeroMonsterTests {
     }
 
     @Test
+    public void testSetMyAlive() {
+        myWarrior.setMyAlive(false);
+        assertFalse(myWarrior.getMyAlive());
+        assertTrue(myPriestess.getMyAlive());
+    }
+
+    @Test
     public void testGetHealth() {
         assertEquals(125, myWarrior.getMyHealthPoints());
         assertEquals(myWarrior.getMyHealthPoints(), myWarrior.getMyCurrentHealth());
@@ -143,9 +157,69 @@ public class DungeonModelHeroMonsterTests {
 
     @Test
     public void testPotionQuantity() {
+        myThief.setInventory("Health Potion", 2);
+        myPriestess.setInventory("Poison Potion", 1);
         assertEquals(2, myThief.getMyInventoryValues("Health Potion"));
         assertEquals(0, myWarrior.getMyInventoryValues("Vision Potion"));
         assertEquals(1, myPriestess.getMyInventoryValues("Poison Potion"));
+    }
+
+    @Test
+    public void testSetChanceToBlock() {
+        myThief.setChnceToBlock(0.49);
+        assertEquals(0.49, myThief.getChanceToBlock());
+        myThief.setChnceToBlock(0.78);
+        assertEquals(0.78, myThief.getChanceToBlock());
+    }
+
+    @Test
+    public void testGetVision() {
+        assertEquals(2.0, myPriestess.getMyVision());
+    }
+
+    @Test
+    public void testHeroToString() {
+        final StringBuilder characterInfo = new StringBuilder();
+
+        characterInfo.append("Name: ").append("Warrior");
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Health: ").append(125).append("/").append(125);
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Health Potions: ").append(myWarrior.getMyInventoryValues("Health Potion"));
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Vision Potions: ").append(myWarrior.getMyInventoryValues("Vision Potion"));
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Poison Potions: ").append(myWarrior.getMyInventoryValues("Poison Potion"));
+        characterInfo.append(System.lineSeparator());
+        characterInfo.append("Pillars Achieved: ").append(0);
+
+        String info = characterInfo.toString();
+
+        myWarrior.setAllies(new String[0]);
+
+        assertEquals(info, myWarrior.toString());
+    }
+
+    @Test
+    public void testWarriorSpecial() {
+        myOgre.setMyCurrentHealth(myWarrior.crushingBlow(myOgre.getMyCurrentHealth()));
+        assertNotEquals(myOgre.getMyCurrentHealth(), myOgre.getMyHealthPoints()); // test can fail if move missed
+    }
+
+    @Test
+    public void testThiefSpecial() {
+        mySkeleton.setMyCurrentHealth(myThief.surpriseAttck(myOgre.getMyCurrentHealth()));
+        assertNotEquals(mySkeleton.getMyCurrentHealth(), mySkeleton.getMyHealthPoints()); // test can fail if move missed
+    }
+
+    @Test
+    public void testPriestessSpecial() {
+        myPriestess.setMyCurrentHealth(myOgre.regularAttack(myPriestess.getMyCurrentHealth(), myOgre.getMyChanceToHit()) * 2);
+        assertNotEquals(myPriestess.getMyCurrentHealth(), myPriestess.getMyHealthPoints()); // can fail if move missed
+
+        int healPoints = myPriestess.heal();
+        myPriestess.setMyCurrentHealth(healPoints);
+        assertEquals(healPoints, myPriestess.getMyCurrentHealth());
     }
 
     @Test
@@ -157,6 +231,13 @@ public class DungeonModelHeroMonsterTests {
         assertEquals("Ogre", myOgre.getMyName());
         assertEquals("Gremlin", myGremlin.getMyName());
         assertEquals("Skeleton", mySkeleton.getMyName());
+    }
+
+    @Test
+    public void testHealVariables() {
+        assertEquals(0.3, mySkeleton.getMyChanceToHeal());
+        assertEquals(30, mySkeleton.getMyMinHeal());
+        assertEquals(50, mySkeleton.getMyMaxHeal());
     }
 
 }

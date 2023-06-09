@@ -2,6 +2,7 @@ package model;
 
 import org.sqlite.SQLiteDataSource;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
 https://shanemcd.org/2020/01/24/how-to-set-up-sqlite-with-jdbc-in-eclipse-on-windows/</a>
  *
  */
-public class DungeonSQLite {
+public class DungeonSQLite implements Serializable {
     private static SQLiteDataSource myDataSource = null;
     private static final DungeonSQLite INSTANCE = new DungeonSQLite();
 

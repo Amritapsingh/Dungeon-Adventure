@@ -13,8 +13,11 @@ import java.util.HashMap;
 
 public class StartScreen extends JFrame {
     Hero myHero;
-    CardLayout cardLayout = new CardLayout();
-    JPanel cards = new JPanel(cardLayout);
+    CardLayout myCardLayout = new CardLayout();
+    JPanel myCards = new JPanel(myCardLayout);
+//    JMenuBar myMenuBar;
+//    JMenu myFileBar;
+//    JMenuItem mySaveMenuItem, myLoadMenuItem;
     public StartScreen() {
         setTitle("Dungeon Adventure");
         setSize(768, 576);
@@ -37,6 +40,16 @@ public class StartScreen extends JFrame {
         buttonPanel.add(newGameButton);
         buttonPanel.add(loadGameButton);
         buttonPanel.add(helpButton);
+//        myMenuBar = new JMenuBar();
+//        myFileBar = new JMenu("File");
+//
+//        mySaveMenuItem = new JMenuItem("Save Game");
+//        myFileBar.add(mySaveMenuItem);
+//        myLoadMenuItem = new JMenuItem("Load Game");
+//        myFileBar.add(myLoadMenuItem);
+//        startingScreen.add(myMenuBar);
+//        myMenuBar.setVisible(true);
+
 
         helpButton.addActionListener(e -> {
             String theInstructions = "The objective of the game is to find all four pillars of OO and escape the maze.\n";
@@ -52,16 +65,16 @@ public class StartScreen extends JFrame {
             charSelect.setVisible(true);
         });
         loadGameButton.addActionListener(e -> {
-            LoadScreen loadScreen = new LoadScreen(cards, cardLayout);
-            cards.add(loadScreen, "LoadScreen");
-            cardLayout.show(cards, "LoadScreen");
+            LoadScreen loadScreen = new LoadScreen(myCards, myCardLayout);
+            myCards.add(loadScreen, "LoadScreen");
+            myCardLayout.show(myCards, "LoadScreen");
         });
-        // Add the screens to the cards panel
+        // Add the screens to the myCards panel
         startingScreen.add(buttonPanel);
-        cards.add(startingScreen, "StartingScreen");
+        myCards.add(startingScreen, "StartingScreen");
 
-        cardLayout.show(cards, "StartingScreen");
-        getContentPane().add(cards);
+        myCardLayout.show(myCards, "StartingScreen");
+        getContentPane().add(myCards);
     }
 
     public JFrame charSelection() {
@@ -95,9 +108,9 @@ public class StartScreen extends JFrame {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(cards, cardLayout, getMyHero(), 3, 3);
-            cards.add(gameScreen, "GameScreen");
-            cardLayout.show(cards, "GameScreen");
+            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 3, 3);
+            myCards.add(gameScreen, "GameScreen");
+            myCardLayout.show(myCards, "GameScreen");
             gameScreen.startNewGameThread();
             });
 
@@ -106,9 +119,9 @@ public class StartScreen extends JFrame {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(cards, cardLayout, getMyHero(), 5, 5);
-            cards.add(gameScreen, "GameScreen");
-            cardLayout.show(cards, "GameScreen");
+            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 5, 5);
+            myCards.add(gameScreen, "GameScreen");
+            myCardLayout.show(myCards, "GameScreen");
             gameScreen.startNewGameThread();
         });
         JButton hardButton = new JButton("Hard");
@@ -116,9 +129,9 @@ public class StartScreen extends JFrame {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(cards, cardLayout, getMyHero(), 8, 8);
-            cards.add(gameScreen, "GameScreen");
-            cardLayout.show(cards, "GameScreen");
+            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 8, 8);
+            myCards.add(gameScreen, "GameScreen");
+            myCardLayout.show(myCards, "GameScreen");
             gameScreen.startNewGameThread();
         });
         JLabel charSelection = new JLabel("Please select a character and difficulty level");
@@ -146,9 +159,6 @@ public class StartScreen extends JFrame {
     public Hero getMyHero() {
         return myHero;
     }
-
-
-
 
     private static class ImagePanel extends JPanel {
         private final Image backgroundImage;

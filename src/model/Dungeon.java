@@ -1,65 +1,68 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
-public class Dungeon {
-    private int rows;
-    private int cols;
-    private Room[][] maze;
-    private Stack<Room> roomStack;
-    private int numRooms;
-    private int visitedRooms;
+public class Dungeon implements Serializable {
+    private int myRows;
+    private int myCols;
+    private Room[][] myMaze;
+    private Stack<Room> myRoomStack;
+    private int myNumRooms;
+    private int myVisitedRooms;
     private float myPotionPercentage;
     private int myPotionNum;
+    private Hero myHero;
     Random rand = new Random();
 
-    public Dungeon(int rows, int cols) {
-        this.myPotionPercentage = 0.25f;
-        this.rows = rows;
-        this.cols = cols;
-        this.maze = new Room[rows][cols];
-        this.roomStack =  new Stack<>();
-        this.numRooms = rows * cols;
-        this.myPotionNum = (int) (this.myPotionPercentage * this.numRooms);
-        this.visitedRooms = 0;
+    public Dungeon(int theRows, int theCols, Hero theHero) {
+        myPotionPercentage = 0.25f;
+        myRows = theRows;
+        myCols = theCols;
+        myMaze = new Room[theRows][theCols];
+        myRoomStack =  new Stack<>();
+        myNumRooms = theRows * theCols;
+        myPotionNum = (int) (myPotionPercentage * myNumRooms);
+        myHero = theHero;
+        myVisitedRooms = 0;
         generateMaze();
     }
 
     private void generateMaze() {
         Random random = new Random();
         // Generate rooms
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                maze[i][j] = new Room(j, i);
+        for (int i = 0; i < myRows; i++) {
+            for (int j = 0; j < myCols; j++) {
+                myMaze[i][j] = new Room(j, i);
             }
             System.out.println();
         }
         Room room = getRandomRoom();
         System.out.println(room.x +"," + room.y);
-        roomStack.push(room);
+        myRoomStack.push(room);
         room.setIsVisited(true);
         room.myIsEnter = true;
-        visitedRooms = 1;
+        myVisitedRooms = 1;
         do {
-            room = roomStack.peek();
+            room = myRoomStack.peek();
             Room neighbor = getNeighborOf(room);
             if (neighbor == null) {
-                roomStack.pop();
+                myRoomStack.pop();
             } else {
-                visitedRooms++;
+                myVisitedRooms++;
                 neighbor.setIsVisited(true);
                 connectRooms(room,neighbor);
-                roomStack.push(neighbor);
+                myRoomStack.push(neighbor);
             }
-        } while (visitedRooms != numRooms);
-        setExit(rand.nextInt(rows), rand.nextInt(cols));
-        setInheritancePillar(rand.nextInt(rows), rand.nextInt(cols));
-        setAbstractionPillar(rand.nextInt(rows), rand.nextInt(cols));
-        setPolymorphismPillar(rand.nextInt(rows), rand.nextInt(cols));
-        setEncapsulationPillar(rand.nextInt(rows), rand.nextInt(cols));
+        } while (myVisitedRooms != myNumRooms);
+        setExit(rand.nextInt(myRows), rand.nextInt(myCols));
+        setInheritancePillar(rand.nextInt(myRows), rand.nextInt(myCols));
+        setAbstractionPillar(rand.nextInt(myRows), rand.nextInt(myCols));
+        setPolymorphismPillar(rand.nextInt(myRows), rand.nextInt(myCols));
+        setEncapsulationPillar(rand.nextInt(myRows), rand.nextInt(myCols));
         placePotions();
         createMonsters();
     }
@@ -67,9 +70,9 @@ public class Dungeon {
 
     public Room getRandomRoom() {
         Random random = new Random();
-        int x = random.nextInt(rows);
-        int y = random.nextInt(cols);
-        return maze[x][y];
+        int x = random.nextInt(myRows);
+        int y = random.nextInt(myCols);
+        return myMaze[x][y];
     }
 
     public Room getNeighborOf(final Room room) {
@@ -87,20 +90,20 @@ public class Dungeon {
         ArrayList<Room> neighbors = room.getRoomNeighbors();
         room.neighbors = 0;
         room.getRoomNeighbors().clear();
-        if (room.y > 0 && !maze[room.y - 1][room.x].getIsVisited()) {
-            neighbors.add(maze[room.y - 1][room.x]);
+        if (room.y > 0 && !myMaze[room.y - 1][room.x].getIsVisited()) {
+            neighbors.add(myMaze[room.y - 1][room.x]);
             room.neighbors++;
         }
-        if (room.y < rows - 1 && !maze[room.y + 1][room.x].getIsVisited()) {
-            neighbors.add(maze[room.y + 1][room.x]);
+        if (room.y < myRows - 1 && !myMaze[room.y + 1][room.x].getIsVisited()) {
+            neighbors.add(myMaze[room.y + 1][room.x]);
             room.neighbors++;
         }
-        if (room.x > 0 && !maze[room.y][room.x - 1].getIsVisited()) {
-            neighbors.add(maze[room.y][room.x - 1]);
+        if (room.x > 0 && !myMaze[room.y][room.x - 1].getIsVisited()) {
+            neighbors.add(myMaze[room.y][room.x - 1]);
             room.neighbors++;
         }
-        if (room.x < cols - 1 && !maze[room.y][room.x + 1].getIsVisited()) {
-            neighbors.add(maze[room.y][room.x + 1]);
+        if (room.x < myCols - 1 && !myMaze[room.y][room.x + 1].getIsVisited()) {
+            neighbors.add(myMaze[room.y][room.x + 1]);
             room.neighbors++;
         }
     }
@@ -130,86 +133,79 @@ public class Dungeon {
         }
     }
     public void printMaze() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                Room room = maze[i][j];
+        for (int i = 0; i < myRows; i++) {
+            for (int j = 0; j < myCols; j++) {
+                Room room = myMaze[i][j];
 //                room.display();
-                System.out.print(maze[i][j].toString());
+                System.out.print(myMaze[i][j].toString());
 
             }
             System.out.println();
         }
     }
     public Room[][] getMaze() {
-        return maze;
-    }
-    public static void main(String[] args) {
-        int rows = 4;
-        int cols = 4;
-        Dungeon generator = new Dungeon(rows, cols);
-
-        generator.printMaze();
+        return myMaze;
     }
     public void setEnter(final int row, final int col) {
-        maze[row][col].setIsEnter(true);
+        myMaze[row][col].setIsEnter(true);
     }
     public void setExit(final int row, final int col) {
-        if (maze[row][col].getIsEnter()) {
-            setExit(rand.nextInt(rows), rand.nextInt(cols));
+        if (myMaze[row][col].getIsEnter()) {
+            setExit(rand.nextInt(myRows), rand.nextInt(myCols));
         } else {
-            maze[row][col].setIsExit(true);
+            myMaze[row][col].setIsExit(true);
         }
     }
     public void setAbstractionPillar(final int row, final int col) {
-        if(maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
-                maze[row][col].getEncapsulationPillar() || maze[row][col].getInheritancePillar() ||
-                maze[row][col].getPolymorphismPillar()) {
-            if (rows <= 2 && col <= 2) {
-                maze[row][col].setAbstractionPillar(true);
+        if(myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
+                myMaze[row][col].getEncapsulationPillar() || myMaze[row][col].getInheritancePillar() ||
+                myMaze[row][col].getPolymorphismPillar()) {
+            if (myRows <= 2 && col <= 2) {
+                myMaze[row][col].setAbstractionPillar(true);
             } else {
-                setAbstractionPillar(rand.nextInt(rows), rand.nextInt(cols));
+                setAbstractionPillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            maze[row][col].setAbstractionPillar(true);
+            myMaze[row][col].setAbstractionPillar(true);
         }
     }
     public void setEncapsulationPillar(final int row, final int col) {
-        if (maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
-                maze[row][col].getAbstractionPillar() || maze[row][col].getInheritancePillar() ||
-                maze[row][col].getPolymorphismPillar()) {
-            if (rows <= 2 && col <= 2) {
-                maze[row][col].setEncapsulationPillar(true);
+        if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
+                myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getInheritancePillar() ||
+                myMaze[row][col].getPolymorphismPillar()) {
+            if (myRows <= 2 && col <= 2) {
+                myMaze[row][col].setEncapsulationPillar(true);
             } else {
-                setEncapsulationPillar(rand.nextInt(rows), rand.nextInt(cols));
+                setEncapsulationPillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            maze[row][col].setEncapsulationPillar(true);
+            myMaze[row][col].setEncapsulationPillar(true);
         }
     }
     public void setInheritancePillar(final int row, final int col) {
-        if (maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
-                maze[row][col].getAbstractionPillar() || maze[row][col].getEncapsulationPillar() ||
-                maze[row][col].getPolymorphismPillar()) {
-            if (rows <= 2 && col <= 2) {
-                maze[row][col].setInheritancePillar(true);
+        if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
+                myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getEncapsulationPillar() ||
+                myMaze[row][col].getPolymorphismPillar()) {
+            if (myRows <= 2 && col <= 2) {
+                myMaze[row][col].setInheritancePillar(true);
             } else {
-                setInheritancePillar(rand.nextInt(rows), rand.nextInt(cols));
+                setInheritancePillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            maze[row][col].setInheritancePillar(true);
+            myMaze[row][col].setInheritancePillar(true);
         }
     }
     public void setPolymorphismPillar(final int row, final int col) {
-        if (maze[row][col].getIsEnter() || maze[row][col].getIsExit() ||
-                maze[row][col].getAbstractionPillar() || maze[row][col].getEncapsulationPillar() ||
-                maze[row][col].getInheritancePillar()) {
-            if (rows <= 2 && col <= 2) {
-                maze[row][col].setPolymorphismPillar(true);
+        if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
+                myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getEncapsulationPillar() ||
+                myMaze[row][col].getInheritancePillar()) {
+            if (myRows <= 2 && col <= 2) {
+                myMaze[row][col].setPolymorphismPillar(true);
             } else {
-                setPolymorphismPillar(rand.nextInt(rows), rand.nextInt(cols));
+                setPolymorphismPillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            maze[row][col].setPolymorphismPillar(true);
+            myMaze[row][col].setPolymorphismPillar(true);
         }
     }
     public void placePotions() {
@@ -231,10 +227,10 @@ public class Dungeon {
     }
     public void createMonsters() {
         List<Monster> monsters = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (maze[i][j].getAbstractionPillar() || maze[i][j].getEncapsulationPillar() ||
-                        maze[i][j].getInheritancePillar() || maze[i][j].getPolymorphismPillar()) {
+        for (int i = 0; i < myRows; i++) {
+            for (int j = 0; j < myCols; j++) {
+                if (myMaze[i][j].getAbstractionPillar() || myMaze[i][j].getEncapsulationPillar() ||
+                        myMaze[i][j].getInheritancePillar() || myMaze[i][j].getPolymorphismPillar()) {
                     Monster monster = null;
                     final DungeonSQLite database = new DungeonSQLite();
                     database.testConnection();
@@ -242,7 +238,7 @@ public class Dungeon {
                     //database.addMonstersToTable();
                     monsters = database.fetchMonsters();
                     monster = monsters.get(rand.nextInt(monsters.size()));
-                    maze[i][j].setMonster(monster);
+                    myMaze[i][j].setMonster(monster);
                 }
             }
         }

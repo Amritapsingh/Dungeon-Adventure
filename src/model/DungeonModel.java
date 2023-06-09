@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class DungeonModel {
+public abstract class DungeonModel implements Serializable {
 
     private final String myName;
 
