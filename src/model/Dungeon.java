@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
-public class Dungeon {
+public class Dungeon implements Serializable {
     private int rows;
     private int cols;
     private Room[][] maze;
