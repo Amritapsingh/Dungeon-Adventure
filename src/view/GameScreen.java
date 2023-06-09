@@ -199,7 +199,7 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
                 Dungeon theDungeon = SaveLoad.loadGame("save");
                 dungeon = theDungeon;
                 assert theDungeon != null;
-                myHero = theDungeon.getMyHero();
+//                myHero = theDungeon.getMyHero();
             }
         });
         //player.update();
