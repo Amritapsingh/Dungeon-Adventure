@@ -28,9 +28,9 @@ public abstract class Hero extends DungeonModel {
 
         myChanceToBlock = theChanceToBlock;
         myInventory = new HashMap<>(theInventory);
-        myInventory.put("Health Potion", 0);
-        myInventory.put("Vision Potion", 0);
-        myInventory.put("Poison Potion", 0);
+//        myInventory.put("Health Potion", 0);
+//        myInventory.put("Vision Potion", 0);
+//        myInventory.put("Poison Potion", 0);
         setVision(theVision);
         //setAllies(theAllies);
     }
@@ -47,7 +47,11 @@ public abstract class Hero extends DungeonModel {
     }
 
     public void setInventory(String theItemName, int theQuantity) {
-        myInventory.replace(theItemName, theQuantity);
+        if (!myInventory.containsKey(theItemName)) {
+            myInventory.put(theItemName, theQuantity);
+        } else {
+            myInventory.replace(theItemName, theQuantity);
+        }
     }
 
     public void setVision(double theVision) {
@@ -66,8 +70,8 @@ public abstract class Hero extends DungeonModel {
         return myInventory.keySet();
     }
 
-    public Integer getMyInventoryValues() {
-        return myInventory.get(myInventory);
+    public Integer getMyInventoryValues(final String theString) {
+        return myInventory.get(theString);
     }
 
     public double getMyVision() {
