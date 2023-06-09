@@ -6,13 +6,12 @@ import java.io.*;
 import java.util.Scanner;
 
 public class SaveLoad {
-    private static GameScreen myGameScreen;
 
-    public static void saveGame(final String theFileName) {
+    public static void saveGame(final String theFileName, Dungeon theDungeon) {
         try {
             FileOutputStream fileOut = new FileOutputStream(theFileName);
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-            objOut.writeObject(myGameScreen);
+            objOut.writeObject(theDungeon);
             objOut.close();
             fileOut.close();
             System.out.println("Dungeon saved to " + theFileName + ".ser");

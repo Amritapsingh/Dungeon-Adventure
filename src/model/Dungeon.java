@@ -16,6 +16,8 @@ public class Dungeon implements Serializable {
     private float myPotionPercentage;
     private int myPotionNum;
     private Hero myHero;
+
+    private SaveLoad serializedGame;
     Random rand = new Random();
 
     public Dungeon(int theRows, int theCols, Hero theHero) {
@@ -244,4 +246,7 @@ public class Dungeon implements Serializable {
         }
     }
 
+    public Hero getMyHero() {
+        return myHero;
+    }
 }
