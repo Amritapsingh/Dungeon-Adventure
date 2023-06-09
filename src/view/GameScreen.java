@@ -6,8 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class GameScreen extends JPanel implements Runnable {
+public class GameScreen extends JPanel implements Runnable, Serializable {
     // constants to capture screen dimensions
     /**
      * A ToolKit.
@@ -45,13 +46,13 @@ public class GameScreen extends JPanel implements Runnable {
     CardLayout myCardLayout;
 
 
+
     public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero, int rows, int cols) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
         myCards = cards;
         myCardLayout = cardLayout;
-        setVisible(true);
 
         JButton backButton = new JButton("Back");
         //add(backButton, BorderLayout.SOUTH);
@@ -59,7 +60,7 @@ public class GameScreen extends JPanel implements Runnable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(rows, cols);
+        dungeon = new Dungeon(rows, cols, theHero);
         dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
@@ -69,6 +70,8 @@ public class GameScreen extends JPanel implements Runnable {
         setStart();
         solidArea = new Rectangle( screenX - 30, screenY - 20, tileSize , tileSize);
         myHero = theHero;
+
+
     }
 
     public void startNewGameThread() {

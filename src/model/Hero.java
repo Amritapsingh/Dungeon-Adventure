@@ -29,8 +29,8 @@ public abstract class Hero extends DungeonModel {
         myChanceToBlock = theChanceToBlock;
         myInventory = new HashMap<>(theInventory);
         myInventory.put("Health Potion", 0);
-//        myInventory.put("Vision Potion", 0);
-//        myInventory.put("Poison Potion", 0);
+        myInventory.put("Vision Potion", 0);
+        myInventory.put("Poison Potion", 0);
         setVision(theVision);
         //setAllies(theAllies);
     }
@@ -114,7 +114,7 @@ public abstract class Hero extends DungeonModel {
         characterInfo.append(System.lineSeparator());
         characterInfo.append("Poison Potions: ").append(myInventory.get("Poison Potion"));
         characterInfo.append(System.lineSeparator());
-        characterInfo.append("Pillars Achieved: ").append(Arrays.toString(myAllies));
+        characterInfo.append("Pillars Achieved: ").append(myAllies.length);
 
         return characterInfo.toString();
     }

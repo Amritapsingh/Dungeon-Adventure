@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class TileManager implements Serializable{
+public class TileManager implements Serializable {
     GameScreen myGameScreen;
     Tiles[] tile;
     int[][] mapTiles;

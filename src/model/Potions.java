@@ -1,6 +1,8 @@
 package model;
 
-public abstract class Potions {
+import java.io.Serializable;
+
+public abstract class Potions implements Serializable {
 
     private String myPotionName;
 
