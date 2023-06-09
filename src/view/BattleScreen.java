@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Objects;
+import java.util.Random;
 
 public class BattleScreen extends JFrame {
     private JTextArea battleLog;
@@ -22,6 +23,7 @@ public class BattleScreen extends JFrame {
     private JButton potionButton;
     private JButton specialMoveButton;
     boolean playerTurn;
+    boolean playerDefending;
     JPanel cards;
     CardLayout cardLayout;
 
@@ -215,12 +217,8 @@ public class BattleScreen extends JFrame {
     }
 
     private void defend() {
-        // Code for defending
         addToBattleLog("Player defends!");
-        // Add more logic here
-
-        // Enemy's turn
-        // ...
+        playerDefending = true;
     }
 
     private void performEnemyTurn() {
@@ -231,14 +229,27 @@ public class BattleScreen extends JFrame {
             return;
         }
         addToBattleLog("Monster attacks!");
-        int damageTaken = myHero.getMyCurrentHealth() - myMonster.regularAttack(myHero.getMyCurrentHealth(), myMonster.getMyChanceToHit());
+        int damageTaken = 0;
+        if (playerDefending) {
+            Random random = new Random();
+            double chanceToBlockChecker = random.nextDouble();
+            if (chanceToBlockChecker <= myHero.getChanceToBlock()) {
+                addToBattleLog("Successfully Defended!");
+            } else {
+                addToBattleLog("Failed to Defend!");
+                damageTaken = myHero.getMyCurrentHealth() - myMonster.regularAttack(myHero.getMyCurrentHealth(), myMonster.getMyChanceToHit());
+            }
+        } else {
+            damageTaken = myHero.getMyCurrentHealth() - myMonster.regularAttack(myHero.getMyCurrentHealth(), myMonster.getMyChanceToHit());
+        }
         myHero.setMyCurrentHealth(myHero.getMyCurrentHealth() - damageTaken);
         addToBattleLog("Monster does " + damageTaken + " damage!");
+        playerDefending = false;
         if (myHero.getMyCurrentHealth() <= 0) {
             addToBattleLog("Player has been defeated!");
             disablePlayerButtons();
             dispose();
-            DeathScreen  deathScreen = new DeathScreen(cards, cardLayout);
+            DeathScreen deathScreen = new DeathScreen(cards, cardLayout);
             deathScreen.setVisible(true);
         }
 
