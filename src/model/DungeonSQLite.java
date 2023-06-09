@@ -89,11 +89,10 @@ public class DungeonSQLite {
         }
 
     }
-
     public List<Monster> fetchMonsters() {
         List<Monster> monsters = new ArrayList<Monster>();
         String query = "SELECT * FROM dungeonEnemy";
-        Monster monster;
+        Monster monster = null;
         try (PreparedStatement statement = myDataSource.getConnection().prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -115,4 +114,5 @@ public class DungeonSQLite {
         }
         return monsters;
     }
+
 }

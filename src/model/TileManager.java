@@ -106,7 +106,7 @@ public class TileManager {
             int worldY = row * myGameScreen.tileSize;
             screenX = worldX - myGameScreen.worldX + myGameScreen.screenX;
             screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
-            if (col /16 < myMaze[0].length && row / 12 < myMaze.length) {
+            if (col / 16 < myMaze[0].length && row / 12 < myMaze.length) {
                 int tileNum = worldMap[row /12][col/16];
                 if (myMaze[row / 12][col/ 16].getHasMonster()) {
                     Monster myMonster = myMaze[row / 12][col/ 16].getMyMonster();
@@ -116,6 +116,12 @@ public class TileManager {
                         g2.draw(hitBox);
                         myGameScreen.combatCheck(hitBox, myMonster);
                     }
+                }
+                if (myMaze[row / 12][col/ 16].getHasPotion()) {
+                    g2.setColor(Color.green);
+                    Rectangle hitBox = new Rectangle(screenX + 20, screenY + 50, myGameScreen.tileSize * 16 - 50, myGameScreen.tileSize * 12 - 50);
+                    g2.draw(hitBox);
+                    myGameScreen.potionCheck(hitBox, row, col);
                 }
                 if (myMaze[row / 12][col/ 16].hasNorthDoor()) {
                     g2.setColor(Color.blue);
@@ -175,10 +181,11 @@ public class TileManager {
                 }
                 g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
 
+
                 if (myMaze[row/12][col/16].getAbstractionPillar()) {
                     g2.setColor(Color.blue);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
-                    g2.setColor(Color.green);
+                    g2.setColor(Color.white);
                     g2.drawString("Abstraction Pillar", screenX + 350, screenY + 220);
                     if(myMaze[row/12][col/16].getHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
@@ -186,11 +193,13 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
                 if (myMaze[row/12][col/16].getEncapsulationPillar()) {
-                    g2.setColor(Color.blue);
-                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
+                    g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.setColor(Color.white);
                     g2.drawString("Encapsulation Pillar", screenX + 350, screenY + 220);
                     if(myMaze[row/12][col/16].getHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
@@ -198,11 +207,13 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
                 if (myMaze[row/12][col/16].getInheritancePillar()) {
-                    g2.setColor(Color.blue);
+                    g2.setColor(Color.red);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
-                    g2.setColor(Color.green);
+                    g2.setColor(Color.white);
                     g2.drawString("Inheritance Pillar", screenX + 350, screenY + 220);
                     if(myMaze[row/12][col/16].getHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
@@ -210,9 +221,11 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
                 if (myMaze[row/12][col/16].getPolymorphismPillar()) {
-                    g2.setColor(Color.blue);
+                    g2.setColor(Color.white);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
                     g2.drawString("Polymorphism Pillar", screenX + 350, screenY + 220);
@@ -222,7 +235,18 @@ public class TileManager {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
                         }
                     }
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
+                if (myGameScreen.pillarCount == 4 && myMaze[row/12][col/16].getIsExit()) {
+                    g2.setColor(Color.white);
+                    g2.drawString("Exit", screenX + 360, screenY + 210);
+                    g2.setColor(Color.green);
+                    Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
+                    g2.draw(rect);
+                    myGameScreen.checkPillarCollision(rect, row / 12, col / 16);
+                }
+
             }
             col+= 16;
             if (col == myGameScreen.worldCol) {
@@ -230,8 +254,15 @@ public class TileManager {
                 row+= 12;
             }
         }
+        String myHealth = "Health: " + myGameScreen.myHero.getMyCurrentHealth();
+        g2.setColor(Color.black);
+        g2.fillRect(myGameScreen.screenX + 295, myGameScreen.screenY - 240, 80, 28);
+        g2.setColor(Color.green);
+        g2.drawString(myHealth, myGameScreen.screenX + 300, myGameScreen.screenY - 220);
+        Rectangle rect = new Rectangle(myGameScreen.screenX + 300, myGameScreen.screenY - 200, myGameScreen.tileSize, myGameScreen.tileSize / 12 *myGameScreen.myHero.getMyCurrentHealth());
+        g2.drawRect(myGameScreen.screenX + 300, myGameScreen.screenY - 200, myGameScreen.tileSize, myGameScreen.tileSize * 8);
+        g2.fill(rect);
     }
-
     public Tiles[] getTile() {
         return tile;
     }

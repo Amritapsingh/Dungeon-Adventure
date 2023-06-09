@@ -1,12 +1,14 @@
 package view;
 
-import model.Hero;
-import model.Monster;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Objects;
 
 public class BattleScreen extends JFrame {
     private JTextArea battleLog;
@@ -17,6 +19,7 @@ public class BattleScreen extends JFrame {
 
     private JButton attackButton;
     private JButton defendButton;
+    private JButton potionButton;
     private JButton specialMoveButton;
     boolean playerTurn;
     JPanel cards;
@@ -25,8 +28,17 @@ public class BattleScreen extends JFrame {
 
     public BattleScreen(Hero theHero, Monster theMonster, JPanel cards, CardLayout cardLayout) {
         setTitle("Dungeon Battle");
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            /**
+             * @param e the event to be processed
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                myMonster.fightCount++;
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
         setResizable(false);
         myHero = theHero;
         myMonster = theMonster;
@@ -37,7 +49,7 @@ public class BattleScreen extends JFrame {
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         playerHPLabel = new JLabel("Player HP: " + myHero.getMyCurrentHealth());
-        enemyHPLabel = new JLabel("Monster HP: " + myMonster.getMyCurrentHealth());
+        enemyHPLabel = new JLabel(myMonster.getMyName() + " HP: " + myMonster.getMyCurrentHealth());
         topPanel.add(playerHPLabel);
         topPanel.add(enemyHPLabel);
         panel.add(topPanel, BorderLayout.NORTH);
@@ -74,10 +86,37 @@ public class BattleScreen extends JFrame {
                 }
             }
         });
+        potionButton = new JButton("Potion");
+        potionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (playerTurn) {
+                    usePotion();
+                    playerTurn = false;
+                    disablePlayerButtons();
+                    updateMonsterHP();
+                    performEnemyTurn();
+                    updatePlayerHP();
+                }
+            }
+        });
 
+        specialMoveButton = new JButton("Special Move");
+        specialMoveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (playerTurn) {
+                    specialMove();
+                    playerTurn = false;
+                    disablePlayerButtons();
+                    updateMonsterHP();
+                    performEnemyTurn();
+                    updatePlayerHP();
+                }
+            }});
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(attackButton);
         buttonPanel.add(defendButton);
+        buttonPanel.add(specialMoveButton);
+        buttonPanel.add(potionButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(panel);
@@ -85,25 +124,85 @@ public class BattleScreen extends JFrame {
         setLocationRelativeTo(null);
 
         playerTurn = true;
-        specialMoveButton = new JButton();
         // implement later
 
     }
 
+    private void usePotion() {
+        if (myHero.getPotionCount() > 0) {
+            addToBattleLog("Player uses a potion!");
+            if (myHero.getMyCurrentHealth() == 100) {
+                addToBattleLog("Player is already at full health!");
+            }
+
+            int healedValue = myHero.usePotion();
+            addToBattleLog("Player heals " + healedValue + " health!");
+        } else {
+            addToBattleLog("Player has no potions left!");
+        }
+        if (myMonster.getMyCurrentHealth() <= 0) {
+            addToBattleLog("Player defeats the enemy!");
+            disablePlayerButtons();
+            dispose();
+            myMonster.setMyAlive(false);
+        }
+    }
+
+    private void specialMove() {
+        // Add more logic here
+        if (Objects.equals(myHero.getMyName(), "Warrior")) {
+            addToBattleLog("Warrior special move!");
+            int damageTaken = myMonster.getMyCurrentHealth() - ((Warrior) myHero).crushingBlow(myMonster.getMyCurrentHealth());
+            if (damageTaken == 0) {
+                addToBattleLog("Warrior missed!");
+            } else {
+                addToBattleLog("Warrior does " + damageTaken + " damage!");
+            }
+            myMonster.setMyCurrentHealth(myMonster.getMyCurrentHealth() - damageTaken);
+            if (myMonster.getMyCurrentHealth() <= 0) {
+                addToBattleLog("Warrior defeats the enemy!");
+                disablePlayerButtons();
+                dispose();
+                myMonster.setMyAlive(false);
+            }
+        }
+        if (Objects.equals(myHero.getMyName(), "Thief")) {
+            addToBattleLog("Thief special move!");
+            int damageTaken = myMonster.getMyCurrentHealth() - ((Thief) myHero).surpriseAttck(myMonster.getMyCurrentHealth());
+            addToBattleLog("Thief does " + damageTaken + " damage!");
+            myMonster.setMyCurrentHealth(myMonster.getMyCurrentHealth() - damageTaken);
+            if (myMonster.getMyCurrentHealth() <= 0) {
+                addToBattleLog("Thief defeats the enemy!");
+                disablePlayerButtons();
+                dispose();
+                myMonster.setMyAlive(false);
+            }
+        }
+        if (Objects.equals(myHero.getMyName(), "Priestess")) {
+            addToBattleLog("Priestess special move!");
+            int healedValue = ((Priestess) myHero).heal();
+            addToBattleLog("Priestess recovers " + healedValue + " health!");
+            if (myMonster.getMyCurrentHealth() <= 0) {
+                addToBattleLog("Priestess defeats the enemy!");
+                disablePlayerButtons();
+                dispose();
+                myMonster.setMyAlive(false);
+            }
+        }
+
+    }
+
     private void updateMonsterHP() {
-        enemyHPLabel.setText("Monster HP: " + myMonster.getMyCurrentHealth());
+        enemyHPLabel.setText(myMonster.getMyName() + " HP: " + myMonster.getMyCurrentHealth());
     }
 
     private void updatePlayerHP() {
-        playerHPLabel.setText("Player HP: " + myHero.getMyCurrentHealth());
+        playerHPLabel.setText(myHero.getMyName() +" HP: " + myHero.getMyCurrentHealth());
     }
 
     private void attackEnemy() {
         // Code for attacking the enemy
         addToBattleLog("Player attacks!");
-        // Add more logic here
-
-        // Check if the enemy has died
         int damageTaken = myMonster.getMyCurrentHealth() - myHero.regularAttack(myMonster.getMyCurrentHealth(), myHero.getMyChanceToHit());
         myMonster.setMyCurrentHealth(myMonster.getMyCurrentHealth() - damageTaken);
         addToBattleLog("Player does " + damageTaken + " damage!");
@@ -126,6 +225,11 @@ public class BattleScreen extends JFrame {
 
     private void performEnemyTurn() {
         // Perform enemy's turn logic here
+        if (myMonster.getMyCurrentHealth() <= 0) {
+            disablePlayerButtons();
+            dispose();
+            return;
+        }
         addToBattleLog("Monster attacks!");
         int damageTaken = myHero.getMyCurrentHealth() - myMonster.regularAttack(myHero.getMyCurrentHealth(), myMonster.getMyChanceToHit());
         myHero.setMyCurrentHealth(myHero.getMyCurrentHealth() - damageTaken);

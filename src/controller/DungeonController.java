@@ -1,6 +1,5 @@
 package controller;
 
-import model.Dungeon;
 import model.Hero;
 import view.GameScreen;
 import view.StartScreen;
@@ -13,8 +12,7 @@ public class DungeonController {
     private GameScreen myGameScreen;
 
 
-    public DungeonController() {
-        Dungeon myDungeon = new Dungeon(5, 5);
+    private DungeonController() {
     }
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

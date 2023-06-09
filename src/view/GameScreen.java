@@ -1,22 +1,12 @@
 package view;
 
-import model.Dungeon;
-import model.Hero;
-import model.Monster;
-import model.TileManager;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-//pillar collection
-// end condition
-// game over
-// win condition
-// win screen
-// game over screen
-// battle logic
-// monsters dying
+
 public class GameScreen extends JPanel implements Runnable {
     // constants to capture screen dimensions
     /**
@@ -47,18 +37,15 @@ public class GameScreen extends JPanel implements Runnable {
     private Thread gameThread;
     private final int FPS = 60;
 
-    private final ImageIcon myLogo = new ImageIcon("");
-
-    private final ImageIcon enemyLogo = new ImageIcon("");
     TileManager tiles;
     Rectangle solidArea;
-    Hero myHero;
-    int pillars = 4;
+    public Hero myHero;
+    public int pillarCount = 0;
     JPanel myCards;
     CardLayout myCardLayout;
 
 
-    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero) {
+    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero, int rows, int cols) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
@@ -72,7 +59,7 @@ public class GameScreen extends JPanel implements Runnable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(3,3);
+        dungeon = new Dungeon(rows, cols);
         dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
@@ -81,7 +68,6 @@ public class GameScreen extends JPanel implements Runnable {
         worldHeight = worldRow * tileSize;
         setStart();
         solidArea = new Rectangle( screenX - 30, screenY - 20, tileSize , tileSize);
-
         myHero = theHero;
     }
 
@@ -178,57 +164,68 @@ public class GameScreen extends JPanel implements Runnable {
             }
 
         });
+        KeyStroke keyP = KeyStroke.getKeyStroke(KeyEvent.VK_P, 0);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyP, "pressedP");
+        getActionMap().put("pressedP", new AbstractAction(){
+            public void actionPerformed(ActionEvent arg0) {
+                int healedValue = 0;
+                if (myHero.getPotionCount() > 0) {
+                    healedValue = myHero.usePotion();
+                    if (healedValue == 0) {
+                        System.out.println(myHero.getMyName() + " did not recover any health points");
+                    } else {
+                        System.out.println("Recovered " + healedValue + " health points");
+                        System.out.println(myHero.getMyName() + " has " + myHero.getMyCurrentHealth() + " health points");
+                    }
+                } else {
+                    System.out.println(myHero.getMyName() + " has no potions");
+                }
+            }
+
+        });
         //player.update();
 
     }
 
     public void checkCollisionNorth(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldY += playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldY += playerSpeed;
 
         }
     }
     public void checkCollisionSouth(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldY -= playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldY -= playerSpeed;
 
         }
     }
     public void checkCollisionEast(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldX -= playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldX -= playerSpeed;
 
         }
     }
     public void checkCollisionWest(Rectangle rectRight, Rectangle rectLeft) {
         if (rectRight.intersects(solidArea)) {
-            System.out.println("collision");
             worldX += playerSpeed;
         }
         if (rectLeft.intersects(solidArea)) {
-            System.out.println("collision");
             worldX += playerSpeed;
         }
     }
     public void combatCheck(Rectangle rectangle, Monster theMonster) {
         if (rectangle.intersects(solidArea) && theMonster.fightCount == 1) {
             BattleScreen  battleScreen = new BattleScreen(myHero, theMonster, myCards, myCardLayout);
-            System.out.println("combat");
+            System.out.println("Trial by combat");
             battleScreen.setVisible(true);
             theMonster.fightCount--;
         }
@@ -236,7 +233,47 @@ public class GameScreen extends JPanel implements Runnable {
             myHero.setMyAlive(false);
             this.setVisible(false);
         }
+    }
+    public void checkPillarCollision(Rectangle rect, int rows, int cols) {
+        if (rect.intersects(solidArea)) {
+            if (dungeon.getMaze()[rows][cols].getAbstractionPillar()) {
+                //add abstract pillar
+                dungeon.getMaze()[rows][cols].setAbstractionPillar(false);
+                pillarCount++;
+            }
+            if (dungeon.getMaze()[rows][cols].getPolymorphismPillar()) {
+                //add concrete pillar
+                dungeon.getMaze()[rows][cols].setPolymorphismPillar(false);
+                pillarCount++;
 
+            }
+            if (dungeon.getMaze()[rows][cols].getEncapsulationPillar()) {
+                //add encapsulation pillar
+                dungeon.getMaze()[rows][cols].setEncapsulationPillar(false);
+                pillarCount++;
+
+            }
+            if (dungeon.getMaze()[rows][cols].getInheritancePillar()) {
+                //add inheritance pillar
+                dungeon.getMaze()[rows][cols].setInheritancePillar(false);
+                pillarCount++;
+            }
+            if (dungeon.getMaze()[rows][cols].getIsExit()) {
+                this.setVisible(false);
+                myCardLayout.show(myCards, "StartingScreen");
+                pillarCount = 0;
+            }
+        }
+    }
+    public void potionCheck(Rectangle rectangle, int row, int col) {
+        Room[][] maze = dungeon.getMaze();
+        if (rectangle.intersects(solidArea)) {
+            dungeon.setPotionNum(dungeon.getPotionNum() - 1);
+            int potionCount = myHero.getPotionCount();
+            myHero.setPotionCount(++potionCount);
+            System.out.println("Collected a potion. " + myHero.getMyName() + " now has " + myHero.getPotionCount() + " potions");
+            maze[row/12][col/16].setHasPotion(false);
+        }
     }
 }
 

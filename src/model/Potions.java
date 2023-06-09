@@ -5,6 +5,7 @@ public abstract class Potions {
     private String myPotionName;
 
     private int myQuantity;
+    private int value;
 
     protected Potions(final String thePotionName, final int theQuantity) {
         setMyPotionName(thePotionName);
@@ -26,4 +27,7 @@ public abstract class Potions {
     public String getMyPotionName() {return myPotionName;}
 
     public int getMyQuantity() {return myQuantity;}
+    public int setPotionValue(){
+        return 0;
+    }
 }
