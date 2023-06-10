@@ -11,7 +11,7 @@ import java.util.Stack;
  * all its components.
  *
  * @author Amrit Singh
- * @author Akil Turner-Richars
+ * @author Akil Turner-Richards
  * @author Jay Phommakhot
  * @version 09 June 2023
  */

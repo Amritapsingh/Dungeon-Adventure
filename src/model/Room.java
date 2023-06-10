@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * This class represents a room in a dungeon
  *
  * @author Amrit Singh
- * @author Akil Turner-Richars
+ * @author Akil Turner-Richards
  * @author Jay Phommakhot
  * @version 09 June 2023
  */

@@ -11,7 +11,7 @@ import java.io.IOException;
  * Controller class to start program and run the game.
  *
  * @author Amrit Singh
- * @author Akil Turner-Richars
+ * @author Akil Turner-Richards
  * @author Jay Phommakhot
  * @version 09 June 2023
  */
