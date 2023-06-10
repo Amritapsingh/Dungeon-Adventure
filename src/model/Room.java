@@ -4,6 +4,7 @@ import view.GameScreen;
 
 import java.io.*;
 import java.util.ArrayList;
+
 /**
  * This class represents a room in a dungeon
  *
@@ -101,6 +102,7 @@ public class Room implements Serializable {
      * Field for the room map to be serialized
      */
     int[][] myRoomMap;
+
     /**
      * Constructor for the Room
      *
@@ -122,8 +124,10 @@ public class Room implements Serializable {
         myMonster = null;
 
     }
+
     /**
      * Method to load the map to the game screen
+     *
      * @param theGameScreen the game screen to serialize
      */
     public int[][] loadMap(final GameScreen theGameScreen) {
@@ -135,7 +139,7 @@ public class Room implements Serializable {
             BufferedReader br = new BufferedReader(new InputStreamReader((st)));
             int col = 0;
             int row = 0;
-            while(col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
+            while (col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
                 String line = br.readLine();
                 while (col < myGameScreen.maxScreenCol) {
                     String[] numbers = line.split(" ");
@@ -149,13 +153,15 @@ public class Room implements Serializable {
                 }
             }
             br.close();
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return myMapTiles;
     }
+
     /**
      * Method to determine the appropriate room layout
+     *
      * @param theGameScreen the game screen to draw to
      */
     public void generateRoom(final GameScreen theGameScreen) {
@@ -193,27 +199,29 @@ public class Room implements Serializable {
                 if (hasEastDoor() && hasWestDoor()) {
                     myRoomMap[i][j] = 14;
                 }
-                if (hasEastDoor() && hasNorthDoor()  && hasSouthDoor()) {
+                if (hasEastDoor() && hasNorthDoor() && hasSouthDoor()) {
                     myRoomMap[i][j] = 11;
                 }
-                if (hasWestDoor() && hasNorthDoor()  && hasSouthDoor() && hasEastDoor()) {
+                if (hasWestDoor() && hasNorthDoor() && hasSouthDoor() && hasEastDoor()) {
                     myRoomMap[i][j] = 10;
                 }
-                if (hasWestDoor() && hasNorthDoor()  && hasSouthDoor()) {
+                if (hasWestDoor() && hasNorthDoor() && hasSouthDoor()) {
                     myRoomMap[i][j] = 9;
                 }
-                if (hasEastDoor() && hasNorthDoor()  && hasWestDoor()) {
+                if (hasEastDoor() && hasNorthDoor() && hasWestDoor()) {
                     myRoomMap[i][j] = 7;
                 }
-                if (hasEastDoor()  && hasSouthDoor()  && hasWestDoor()) {
+                if (hasEastDoor() && hasSouthDoor() && hasWestDoor()) {
                     myRoomMap[i][j] = 12;
                 }
             }
         }
 
     }
+
     /**
      * Method to get the appropriate room tile index
+     *
      * @param index1 the row
      * @param index2 the column
      * @return image index
@@ -221,26 +229,35 @@ public class Room implements Serializable {
     public int getMapTiles(final int index1, final int index2) {
         return myRoomMap[index1][index2];
     }
+
     /**
      * Method to get if a room has been visited
+     *
      * @return true or false
      */
     public boolean getIsVisited() {
         return myIsVisited;
     }
+
     /**
      * Method to set whether a room is visited
      */
     public void setIsVisited(final boolean theIsVisited) {
         myIsVisited = theIsVisited;
     }
+
     /**
      * Method to get the ArrayList of a room's neighbors
+     *
      * @return ArrayList of rooms
      */
-    public ArrayList<Room> getMyRoomNeighbors() { return myRoomNeighbors; }
+    public ArrayList<Room> getMyRoomNeighbors() {
+        return myRoomNeighbors;
+    }
+
     /**
      * Method to create String representation of a room
+     *
      * @return String of a room
      */
     public String toString() {
@@ -269,7 +286,7 @@ public class Room implements Serializable {
         if (this.getIsExit()) {
             sb.append("O");
         }
-        if(this.getMyHasMonster()) {
+        if (this.getMyHasMonster()) {
             sb.append("M");
         }
         sb.append(mySouthDoor);
@@ -277,169 +294,208 @@ public class Room implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+
     /**
      * Method to get if a room has an encapsulation pillar
+     *
      * @return true or false
      */
     public boolean getMyEncapsulationPillar() {
         return myEncapsulationPillar;
     }
+
     /**
      * Method to get if a room has an abstraction pillar
+     *
      * @return true or false
      */
     public boolean getMyAbstractionPillar() {
         return myAbstractionPillar;
     }
+
     /**
      * Method to get if a room has an inheritance pillar
+     *
      * @return true or false
      */
     public boolean getMyInheritancePillar() {
         return myInheritancePillar;
     }
+
     /**
      * Method to get if a room has a polymorphism pillar
+     *
      * @return true or false
      */
     public boolean getMyPolymorphismPillar() {
         return myPolymorphismPillar;
     }
+
     /**
      * Method to set if a room has an encapsulation pillar
      */
     public void setMyEncapsulationPillar(final boolean theEncapsulationPillar) {
         myEncapsulationPillar = theEncapsulationPillar;
     }
+
     /**
      * Method to set if a room has an abstraction pillar
      */
     public void setMyAbstractionPillar(final boolean theAbstractionPillar) {
         myAbstractionPillar = theAbstractionPillar;
     }
+
     /**
      * Method to set if a room has an inheritance pillar
      */
     public void setMyInheritancePillar(final boolean theInheritancePillar) {
         myInheritancePillar = theInheritancePillar;
     }
+
     /**
      * Method to set if a room has a polymorphism pillar
      */
     public void setMyPolymorphismPillar(final boolean thePolymorphismPillar) {
         myPolymorphismPillar = thePolymorphismPillar;
     }
+
     /**
      * Method to get if a room has a monster
+     *
      * @return true or false
      */
     public boolean getMyHasMonster() {
         return myHasMonster;
     }
+
     /**
      * Method to get if a room has a pit
+     *
      * @return true or false
      */
     public boolean getMyHasPit() {
         return myHasPit;
     }
+
     /**
      * Method to set if a room has a pit
      */
     public void setMyHasPit(final boolean theHasPit) {
         myHasPit = theHasPit;
     }
+
     /**
      * Method to set if a room has a potion
      */
     public void setHasPotion(final boolean theHasPotion) {
         myHasPotion = theHasPotion;
     }
+
     /**
      * Method to get if a room has a potion
+     *
      * @return true or false
      */
     public boolean getHasPotion() {
         return myHasPotion;
     }
+
     /**
      * Method to get if a room is the entrance
+     *
      * @return true or false
      */
     public boolean getIsEnter() {
         return myIsEnter;
     }
+
     /**
      * Method to set if a room is the entrance
      */
     public void setIsEnter(final boolean theIsEnter) {
         myIsEnter = theIsEnter;
     }
+
     /**
      * Method to get if a room is the exit
+     *
      * @return true or false
      */
     public boolean getIsExit() {
         return myIsExit;
     }
+
     /**
      * Method to set if a room is the exit
      */
     public void setIsExit(final boolean theIsExit) {
         myIsExit = theIsExit;
     }
+
     /**
      * Method to get if a room has a north door
+     *
      * @return true or false
      */
     public boolean hasNorthDoor() {
         return myNorthDoor.equals("^");
     }
+
     /**
      * Method to set if a room has a north door
      */
     public void setMyNorthDoor(final String theNorthDoor) {
         myNorthDoor = theNorthDoor;
     }
+
     /**
      * Method to get if a room has a south door
+     *
      * @return true or false
      */
     public boolean hasSouthDoor() {
         return mySouthDoor.equals("v");
     }
+
     /**
      * Method to set if a room has a south door
      */
     public void setMySouthDoor(final String theSouthDoor) {
         mySouthDoor = theSouthDoor;
     }
+
     /**
      * Method to get if a room has an east door
+     *
      * @return true or false
      */
     public boolean hasEastDoor() {
         return myEastDoor.equals(">");
     }
+
     /**
      * Method to set if a room has an east door
      */
     public void setMyEastDoor(final String theEastDoor) {
         myEastDoor = theEastDoor;
     }
+
     /**
      * Method to get if a room has a west door
+     *
      * @return true or false
      */
     public boolean hasWestDoor() {
         return myWestDoor.equals("<");
     }
+
     /**
      * Method to set if a room has a west door
      */
     public void setMyWestDoor(final String theWestDoor) {
         myWestDoor = theWestDoor;
     }
+
     /**
      * Method to set a room's monster
      */
@@ -449,8 +505,10 @@ public class Room implements Serializable {
         myMonster.setMyAlive(true);
 
     }
+
     /**
      * Method to get a room's monster
+     *
      * @return a monster object
      */
     public Monster getMyMonster() {

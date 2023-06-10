@@ -1,12 +1,18 @@
 package model;
 
-import view.GameScreen;
-
 import java.io.*;
-import java.util.Scanner;
 
+/**
+ * This class is used for saving and loading an instance of the dungeon
+ */
 public class SaveLoad {
 
+    /**
+     * This method saves the dungeon to a file.
+     *
+     * @param theFileName the name of the file.
+     * @param theDungeon  the current state of the dungeon.
+     */
     public static void saveGame(final String theFileName, Dungeon theDungeon) {
         try {
             FileOutputStream fileOut = new FileOutputStream(theFileName);
@@ -20,6 +26,12 @@ public class SaveLoad {
         }
     }
 
+    /**
+     * This method loads in the file of a saved dungeon.
+     *
+     * @param theFileName the name of the file.
+     * @return the saved instance of the dungeon.
+     */
     public static Dungeon loadGame(final String theFileName) {
         try {
             FileInputStream fileIn = new FileInputStream(theFileName);
