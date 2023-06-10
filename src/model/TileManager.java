@@ -312,7 +312,7 @@ public class TileManager implements Serializable {
     }
 
     /**
-     * Method to return an individual tile
+     * Method to return an individual tiles
      */
     public Tiles[] getTile() {
         return tile;
