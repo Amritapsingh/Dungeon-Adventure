@@ -21,7 +21,7 @@ class DungeonTest {
     void getNeighborOf() {
         final Room room = new Room(0,0);
         final Room room2 = new Room(0,1);
-        assertEquals(myDungeon.getNeighborOf(room), myDungeon.getNeighborOf(room2));
+        assertNotEquals(myDungeon.getNeighborOf(room), myDungeon.getNeighborOf(room2)); // test can fail if room doesn't have a door to neighbor
     }
 
     @Test
@@ -30,7 +30,7 @@ class DungeonTest {
         final Room room2 = new Room(0,1);
         final Room room3 = new Room(0,0);
         final Room room4 = new Room(1,0);
-        assertEquals(myDungeon.getAllNeighbors(room), myDungeon.getAllNeighbors(room2));
+        assertEquals(myDungeon.getAllNeighbors(room), myDungeon.getAllNeighbors(room2)); // test can fail as doors connected rooms are random
     }
     @Test
     void getMaze() {
