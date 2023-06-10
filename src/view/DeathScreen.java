@@ -17,8 +17,8 @@ class DeathScreen extends JFrame {
     /**
      * Constructor for deathscreen class. Initialize all fields
      * and setup the display screen.
-     * @param cards
-     * @param cardLayout
+     * @param cards the cards
+     * @param cardLayout the cardlayout
      */
     public DeathScreen(JPanel cards, CardLayout cardLayout) {
         setTitle("Game Over");

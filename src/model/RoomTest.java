@@ -3,10 +3,17 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import view.GameScreen;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests all the methods of the Room class
+ *
+ * @author Amrit Singh
+ * @author Jay Phommakhot
+ * @author Akil Turner-Richards
+ * @version 09 June 2023
+ */
 class RoomTest {
     Room myRoom;
 

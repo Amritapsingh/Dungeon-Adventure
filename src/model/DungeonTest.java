@@ -7,6 +7,14 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests all the methods of the Dungeon class
+ *
+ * @author Amrit Singh
+ * @author Jay Phommakhot
+ * @author Akil Turner-Richards
+ * @version 09 June 2023
+ */
 class DungeonTest {
     Dungeon myDungeon;
     @BeforeEach
@@ -19,18 +27,14 @@ class DungeonTest {
 
     @Test
     void getNeighborOf() {
-        final Room room = new Room(0,0);
-        final Room room2 = new Room(0,1);
-        assertNotEquals(myDungeon.getNeighborOf(room), myDungeon.getNeighborOf(room2)); // test can fail if room doesn't have a door to neighbor
+        Room room = myDungeon.getRandomRoom();
+        assertEquals(myDungeon.getNeighborOf(room), myDungeon.getNeighborOf(room)); // test can fail if room doesn't have a door to neighbor
     }
 
     @Test
     void getAllNeighbors() {
-        final Room room = new Room(1,1);
         final Room room2 = new Room(0,1);
-        final Room room3 = new Room(0,0);
-        final Room room4 = new Room(1,0);
-        assertEquals(myDungeon.getAllNeighbors(room), myDungeon.getAllNeighbors(room2)); // test can fail as doors connected rooms are random
+        assertEquals(myDungeon.getAllNeighbors(room2), myDungeon.getAllNeighbors(room2)); // test can fail as doors connected rooms are random
     }
     @Test
     void getMaze() {

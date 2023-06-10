@@ -88,7 +88,6 @@ public class Dungeon implements Serializable {
      * Creates a maze of empty rooms and populates them with our maze
      */
     private void generateMaze() {
-        Random random = new Random();
         // Generate rooms
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
@@ -214,7 +213,6 @@ public class Dungeon implements Serializable {
     public void printMaze() {
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
-                Room room = myMaze[i][j];
                 System.out.print(myMaze[i][j].toString());
             }
             System.out.println();
@@ -260,7 +258,7 @@ public class Dungeon implements Serializable {
         if(myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyEncapsulationPillar() || myMaze[row][col].getMyInheritancePillar() ||
                 myMaze[row][col].getMyPolymorphismPillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyAbstractionPillar(true);
             } else {
                 setAbstractionPillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -279,7 +277,7 @@ public class Dungeon implements Serializable {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyInheritancePillar() ||
                 myMaze[row][col].getMyPolymorphismPillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyEncapsulationPillar(true);
             } else {
                 setEncapsulationPillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -298,7 +296,7 @@ public class Dungeon implements Serializable {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyEncapsulationPillar() ||
                 myMaze[row][col].getMyPolymorphismPillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyInheritancePillar(true);
             } else {
                 setInheritancePillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -317,7 +315,7 @@ public class Dungeon implements Serializable {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyEncapsulationPillar() ||
                 myMaze[row][col].getMyInheritancePillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyPolymorphismPillar(true);
             } else {
                 setPolymorphismPillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -375,15 +373,15 @@ public class Dungeon implements Serializable {
      * Method to create and place monsters on map
      */
     public void createMonsters() {
-        List<Monster> monsters = new ArrayList<>();
+        List<Monster> monsters;
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
                 if (myMaze[i][j].getMyAbstractionPillar() || myMaze[i][j].getMyEncapsulationPillar() ||
                         myMaze[i][j].getMyInheritancePillar() || myMaze[i][j].getMyPolymorphismPillar()) {
-                    Monster monster = null;
+                    Monster monster;
                     final DungeonSQLite database = new DungeonSQLite();
                     database.testConnection();
-                    // methods to populate databse
+                    // methods to populate database
 //                    database.createMonsterTable();
 //                    database.addMonstersToTable();
                     monsters = database.fetchMonsters(myDifficulty);

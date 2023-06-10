@@ -170,7 +170,7 @@ public class StartScreen extends JFrame {
 
     /**
      * Field for setting the hero
-     * @param theHero
+     * @param theHero the hero
      */
     public void setHero(Hero theHero) {
         myHero = theHero;
@@ -178,7 +178,7 @@ public class StartScreen extends JFrame {
 
     /**
      * Field for getting the hero
-     * @return
+     * @return the hero
      */
     public Hero getMyHero() {
         return myHero;
@@ -195,8 +195,8 @@ public class StartScreen extends JFrame {
 
         /**
          * Constructor to load image into field.
-         * @param filename
-         * @throws IOException
+         * @param filename the filename
+         * @throws IOException exception for IO
          */
         public ImagePanel(String filename) throws IOException {
             backgroundImage = ImageIO.read(getClass().getResource(filename));
