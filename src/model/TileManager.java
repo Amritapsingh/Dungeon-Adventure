@@ -6,22 +6,54 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
-
+/**
+ * Class to manage drawing tiles
+ * and collision.
+ *
+ * @author Amrit Singh
+ * @author Akil Turner-Richars
+ * @author Jay Phommakhot
+ * @version 09 June 2023
+ */
 public class TileManager implements Serializable {
+    /**
+     * Field for the GameScreen
+     */
     static GameScreen myGameScreen;
+    /**
+     * Field for the stored tiles
+     */
     static Tiles[] tile;
+    /**
+     * Field for tiles on the map
+     */
     static int[][] mapTiles;
+    /**
+     * Field for the generated maze
+     */
     static Room[][] myMaze;
+    /**
+     * Field for the map to be drawn from the maze and mapTiles
+     */
     static int[][] worldMap;
 
+    /**
+     * Constructor for the TileManager
+     *
+     * @param theGameScreen the game screen to be drawn
+     * @param theDungeon the dungeon model
+     */
 
-    public TileManager(GameScreen theGameScreen, Dungeon dungeon) {
+    public TileManager(GameScreen theGameScreen, Dungeon theDungeon) {
         myGameScreen = theGameScreen;
         tile = new Tiles[20];
         mapTiles = new int[myGameScreen.worldRow][myGameScreen.worldCol];
         getTileImage();
-        myMaze = dungeon.getMaze();
+        myMaze = theDungeon.getMaze();
     }
+    /**
+     * Method to create an array of tiles with their associated image asset
+     */
     public void getTileImage() {
         try {
             tile[0] = new Tiles();
@@ -82,6 +114,9 @@ public class TileManager implements Serializable {
             e.printStackTrace();
         }
     }
+    /**
+     * Method to create the map to be drawn based on the generated maze
+     */
     public void createMap(Room[][] theMaze) {
         myMaze = theMaze;
         worldMap = new int[myMaze.length][myMaze[0].length];
@@ -92,6 +127,9 @@ public class TileManager implements Serializable {
             }
         }
     }
+    /**
+     * Method to draw the tiles and hitboxes on the map and check for collisions
+     */
     public void draw(Graphics2D g2) {
 
         createMap(myMaze);
@@ -107,7 +145,7 @@ public class TileManager implements Serializable {
             screenY = worldY - myGameScreen.worldY + myGameScreen.screenY;
             if (col / 16 < myMaze[0].length && row / 12 < myMaze.length) {
                 int tileNum = worldMap[row /12][col/16];
-                if (myMaze[row / 12][col/ 16].getHasMonster()) {
+                if (myMaze[row / 12][col/ 16].getMyHasMonster()) {
                     Monster myMonster = myMaze[row / 12][col/ 16].getMyMonster();
                     if (myMonster.getMyAlive()) {
                         g2.setColor(Color.red);
@@ -122,7 +160,7 @@ public class TileManager implements Serializable {
                     g2.draw(hitBox);
                     myGameScreen.potionCheck(hitBox, row, col);
                 }
-                if (myMaze[row / 12][col/ 16].getHasPit()) {
+                if (myMaze[row / 12][col/ 16].getMyHasPit()) {
                     g2.setColor(Color.black);
                     Rectangle hitBox = new Rectangle(screenX + 20, screenY + 50, myGameScreen.tileSize * 16 - 50, myGameScreen.tileSize * 12 - 50);
                     g2.draw(hitBox);
@@ -187,12 +225,12 @@ public class TileManager implements Serializable {
                 g2.drawImage(tile[tileNum].image, screenX, screenY, myGameScreen.tileSize * 16 , myGameScreen.tileSize * 12, null);
 
 
-                if (myMaze[row/12][col/16].getAbstractionPillar()) {
+                if (myMaze[row/12][col/16].getMyAbstractionPillar()) {
                     g2.setColor(Color.blue);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.white);
                     g2.drawString("Abstraction Pillar", screenX + 350, screenY + 220);
-                    if(myMaze[row/12][col/16].getHasMonster()) {
+                    if(myMaze[row/12][col/16].getMyHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
                         if (monster.getMyAlive()) {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
@@ -201,12 +239,12 @@ public class TileManager implements Serializable {
                     Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
-                if (myMaze[row/12][col/16].getEncapsulationPillar()) {
+                if (myMaze[row/12][col/16].getMyEncapsulationPillar()) {
                     g2.setColor(Color.green);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.white);
                     g2.drawString("Encapsulation Pillar", screenX + 350, screenY + 220);
-                    if(myMaze[row/12][col/16].getHasMonster()) {
+                    if(myMaze[row/12][col/16].getMyHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
                         if (monster.getMyAlive()) {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
@@ -215,12 +253,12 @@ public class TileManager implements Serializable {
                     Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
-                if (myMaze[row/12][col/16].getInheritancePillar()) {
+                if (myMaze[row/12][col/16].getMyInheritancePillar()) {
                     g2.setColor(Color.red);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.white);
                     g2.drawString("Inheritance Pillar", screenX + 350, screenY + 220);
-                    if(myMaze[row/12][col/16].getHasMonster()) {
+                    if(myMaze[row/12][col/16].getMyHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
                         if (monster.getMyAlive()) {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
@@ -229,12 +267,12 @@ public class TileManager implements Serializable {
                     Rectangle rect = new Rectangle(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     myGameScreen.checkPillarCollision(rect, row/12, col/16);
                 }
-                if (myMaze[row/12][col/16].getPolymorphismPillar()) {
+                if (myMaze[row/12][col/16].getMyPolymorphismPillar()) {
                     g2.setColor(Color.white);
                     g2.fillRect(screenX + 350, screenY + 175, myGameScreen.tileSize, myGameScreen.tileSize);
                     g2.setColor(Color.green);
                     g2.drawString("Polymorphism Pillar", screenX + 350, screenY + 220);
-                    if(myMaze[row/12][col/16].getHasMonster()) {
+                    if(myMaze[row/12][col/16].getMyHasMonster()) {
                         Monster monster = myMaze[row / 12][col / 16].getMyMonster();
                         if (monster.getMyAlive()) {
                             g2.drawImage(tile[17].image, screenX + 340, screenY + 150, myGameScreen.tileSize * 3, myGameScreen.tileSize * 3, null);
@@ -268,6 +306,9 @@ public class TileManager implements Serializable {
         g2.drawRect(myGameScreen.screenX + 300, myGameScreen.screenY - 200, myGameScreen.tileSize, myGameScreen.tileSize * 8);
         g2.fill(rect);
     }
+    /**
+     * Method to return an individual tile
+     */
     public Tiles[] getTile() {
         return tile;
     }
