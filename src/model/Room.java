@@ -295,6 +295,4 @@ public class Room implements Serializable {
         return myMonster;
     }
 
-
-
 }

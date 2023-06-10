@@ -19,23 +19,23 @@ public class Dungeon implements Serializable {
     /**
      * Field for rows of maze
      */
-    private int myRows;
+    final private int myRows;
     /**
      * Field for cols of maze
      */
-    private int myCols;
+    final private int myCols;
     /**
      * Field the maze of rooms
      */
-    private Room[][] myMaze;
+    final private Room[][] myMaze;
     /**
      * Field for stack for DFS traversal
      */
-    private Stack<Room> myRoomStack;
+    final private Stack<Room> myRoomStack;
     /**
      * Field for number of rooms
      */
-    private int myNumRooms;
+    final private int myNumRooms;
     /**
      * Field for how many rooms have been visited
      */
@@ -43,7 +43,7 @@ public class Dungeon implements Serializable {
     /**
      * Field for percentage of rooms with potions and pits
      */
-    private float myPotionPercentage;
+    final private float myPotionPercentage;
     /**
      * Field for total num of potions
      */
@@ -51,11 +51,7 @@ public class Dungeon implements Serializable {
     /**
      * Field for total num of pits in dungeon
      */
-    private int myPitNum;
-    /**
-     * Field for the hero
-     */
-    private Hero myHero;
+    final private int myPitNum;
 
     /**
      * Field for random generation
@@ -84,7 +80,6 @@ public class Dungeon implements Serializable {
         myNumRooms = theRows * theCols;
         myPotionNum = (int) (myPotionPercentage * myNumRooms);
         myPitNum = (int) (myPotionPercentage * myNumRooms);
-        myHero = theHero;
         myVisitedRooms = 0;
         generateMaze();
     }
@@ -160,7 +155,7 @@ public class Dungeon implements Serializable {
      * Returns all neighbors of specified room
      * @param room room to check neighbors of
      */
-    public void getAllNeighbors(final Room room) {
+    public ArrayList<Room> getAllNeighbors(final Room room) {
         ArrayList<Room> neighbors = room.getRoomNeighbors();
         room.neighbors = 0;
         room.getRoomNeighbors().clear();
@@ -180,6 +175,7 @@ public class Dungeon implements Serializable {
             neighbors.add(myMaze[room.y][room.x + 1]);
             room.neighbors++;
         }
+        return neighbors;
     }
 
     /**
@@ -219,9 +215,7 @@ public class Dungeon implements Serializable {
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
                 Room room = myMaze[i][j];
-//                room.display();
                 System.out.print(myMaze[i][j].toString());
-
             }
             System.out.println();
         }
@@ -342,7 +336,6 @@ public class Dungeon implements Serializable {
             Room room = getRandomRoom();
             if (!room.getHasPotion()) {
                 room.setHasPotion(true);
-                //room.setPotionValue(new Potion(rand.nextInt(10) + 1));
                 potionNum--;
             }
         }
@@ -399,6 +392,14 @@ public class Dungeon implements Serializable {
                 }
             }
         }
+    }
+
+    /**
+     * Method to get the number of pits
+     * @return int for number of pits
+     */
+    public int getPitNum() {
+        return myPitNum;
     }
 
 }

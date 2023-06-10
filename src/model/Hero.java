@@ -1,10 +1,7 @@
 package model;
 
-import view.GameScreen;
-
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * This class is used to create an object of a Hero and its unique behaviors.
@@ -53,8 +50,6 @@ public abstract class Hero extends DungeonModel {
         myChanceToBlock = theChanceToBlock;
         myInventory = new HashMap<>(theInventory);
         myInventory.put("Health Potion", 0);
-        myInventory.put("Vision Potion", 0);
-        myInventory.put("Poison Potion", 0);
         setVision(theVision);
         //setAllies(theAllies);
     }
