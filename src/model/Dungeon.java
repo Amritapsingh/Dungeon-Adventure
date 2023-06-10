@@ -19,23 +19,23 @@ public class Dungeon implements Serializable {
     /**
      * Field for rows of maze
      */
-    private int myRows;
+    final private int myRows;
     /**
      * Field for cols of maze
      */
-    private int myCols;
+    final private int myCols;
     /**
      * Field the maze of rooms
      */
-    private Room[][] myMaze;
+    final private Room[][] myMaze;
     /**
      * Field for stack for DFS traversal
      */
-    private Stack<Room> myRoomStack;
+    final private Stack<Room> myRoomStack;
     /**
      * Field for number of rooms
      */
-    private int myNumRooms;
+    final private int myNumRooms;
     /**
      * Field for how many rooms have been visited
      */
@@ -43,7 +43,7 @@ public class Dungeon implements Serializable {
     /**
      * Field for percentage of rooms with potions and pits
      */
-    private float myPotionPercentage;
+    final private float myPotionPercentage;
     /**
      * Field for total num of potions
      */
@@ -51,11 +51,7 @@ public class Dungeon implements Serializable {
     /**
      * Field for total num of pits in dungeon
      */
-    private int myPitNum;
-    /**
-     * Field for the hero
-     */
-    private Hero myHero;
+    final private int myPitNum;
 
     /**
      * Field for random generation
@@ -84,7 +80,6 @@ public class Dungeon implements Serializable {
         myNumRooms = theRows * theCols;
         myPotionNum = (int) (myPotionPercentage * myNumRooms);
         myPitNum = (int) (myPotionPercentage * myNumRooms);
-        myHero = theHero;
         myVisitedRooms = 0;
         generateMaze();
     }
@@ -102,7 +97,7 @@ public class Dungeon implements Serializable {
             System.out.println();
         }
         Room room = getRandomRoom();
-        System.out.println(room.x +"," + room.y);
+        System.out.println(room.myX +"," + room.myY);
         myRoomStack.push(room);
         room.setIsVisited(true);
         room.myIsEnter = true;
@@ -147,10 +142,10 @@ public class Dungeon implements Serializable {
      */
     public Room getNeighborOf(final Room room) {
         getAllNeighbors(room);
-        if (room.neighbors > 0) {
-            ArrayList<Room> roomNeighbors = room.getRoomNeighbors();
+        if (room.myNeighbors > 0) {
+            ArrayList<Room> roomNeighbors = room.getMyRoomNeighbors();
             Random random = new Random();
-            return roomNeighbors.get(random.nextInt(room.neighbors));
+            return roomNeighbors.get(random.nextInt(room.myNeighbors));
         } else {
             return null;
         }
@@ -160,26 +155,27 @@ public class Dungeon implements Serializable {
      * Returns all neighbors of specified room
      * @param room room to check neighbors of
      */
-    public void getAllNeighbors(final Room room) {
-        ArrayList<Room> neighbors = room.getRoomNeighbors();
-        room.neighbors = 0;
-        room.getRoomNeighbors().clear();
-        if (room.y > 0 && !myMaze[room.y - 1][room.x].getIsVisited()) {
-            neighbors.add(myMaze[room.y - 1][room.x]);
-            room.neighbors++;
+    public ArrayList<Room> getAllNeighbors(final Room room) {
+        ArrayList<Room> neighbors = room.getMyRoomNeighbors();
+        room.myNeighbors = 0;
+        room.getMyRoomNeighbors().clear();
+        if (room.myY > 0 && !myMaze[room.myY - 1][room.myY].getIsVisited()) {
+            neighbors.add(myMaze[room.myY - 1][room.myX]);
+            room.myNeighbors++;
         }
-        if (room.y < myRows - 1 && !myMaze[room.y + 1][room.x].getIsVisited()) {
-            neighbors.add(myMaze[room.y + 1][room.x]);
-            room.neighbors++;
+        if (room.myY < myRows - 1 && !myMaze[room.myY + 1][room.myX].getIsVisited()) {
+            neighbors.add(myMaze[room.myY + 1][room.myY]);
+            room.myNeighbors++;
         }
-        if (room.x > 0 && !myMaze[room.y][room.x - 1].getIsVisited()) {
-            neighbors.add(myMaze[room.y][room.x - 1]);
-            room.neighbors++;
+        if (room.myX > 0 && !myMaze[room.myY][room.myX - 1].getIsVisited()) {
+            neighbors.add(myMaze[room.myY][room.myX - 1]);
+            room.myNeighbors++;
         }
-        if (room.x < myCols - 1 && !myMaze[room.y][room.x + 1].getIsVisited()) {
-            neighbors.add(myMaze[room.y][room.x + 1]);
-            room.neighbors++;
+        if (room.myX < myCols - 1 && !myMaze[room.myY][room.myX + 1].getIsVisited()) {
+            neighbors.add(myMaze[room.myY][room.myX + 1]);
+            room.myNeighbors++;
         }
+        return neighbors;
     }
 
     /**
@@ -188,23 +184,23 @@ public class Dungeon implements Serializable {
      * @param room2 room to connect
      */
     private void connectRooms(final Room room1, final Room room2) {
-        if (room1.x > room2.x) {
+        if (room1.myX > room2.myX) {
             //room1.myWestDoor = "<";
             room1.setMyWestDoor("<");
             //room2.myEastDoor = ">";
             room2.setMyEastDoor(">");
-        } else if(room1.x < room2.x) {
+        } else if(room1.myX < room2.myX) {
             //room2.myWestDoor = "<";
             room2.setMyWestDoor("<");
             //room1.myEastDoor = ">";
             room1.setMyEastDoor(">");
         }
-        if (room1.y > room2.y) {
+        if (room1.myY > room2.myY) {
             //room1.myNorthDoor = "^";
             room1.setMyNorthDoor("^");
             //room2.mySouthDoor = "v";
             room2.setMySouthDoor("v");
-        } else if (room1.y < room2.y) {
+        } else if (room1.myY < room2.myY) {
             //room2.myNorthDoor = "^";
             room2.setMyNorthDoor("^");
             //room1.mySouthDoor = "v";
@@ -219,9 +215,7 @@ public class Dungeon implements Serializable {
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
                 Room room = myMaze[i][j];
-//                room.display();
                 System.out.print(myMaze[i][j].toString());
-
             }
             System.out.println();
         }
@@ -264,15 +258,15 @@ public class Dungeon implements Serializable {
      */
     public void setAbstractionPillar(final int row, final int col) {
         if(myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
-                myMaze[row][col].getEncapsulationPillar() || myMaze[row][col].getInheritancePillar() ||
-                myMaze[row][col].getPolymorphismPillar()) {
+                myMaze[row][col].getMyEncapsulationPillar() || myMaze[row][col].getMyInheritancePillar() ||
+                myMaze[row][col].getMyPolymorphismPillar()) {
             if (myRows <= 2 && col <= 2) {
-                myMaze[row][col].setAbstractionPillar(true);
+                myMaze[row][col].setMyAbstractionPillar(true);
             } else {
                 setAbstractionPillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            myMaze[row][col].setAbstractionPillar(true);
+            myMaze[row][col].setMyAbstractionPillar(true);
         }
     }
 
@@ -283,15 +277,15 @@ public class Dungeon implements Serializable {
      */
     public void setEncapsulationPillar(final int row, final int col) {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
-                myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getInheritancePillar() ||
-                myMaze[row][col].getPolymorphismPillar()) {
+                myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyInheritancePillar() ||
+                myMaze[row][col].getMyPolymorphismPillar()) {
             if (myRows <= 2 && col <= 2) {
-                myMaze[row][col].setEncapsulationPillar(true);
+                myMaze[row][col].setMyEncapsulationPillar(true);
             } else {
                 setEncapsulationPillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            myMaze[row][col].setEncapsulationPillar(true);
+            myMaze[row][col].setMyEncapsulationPillar(true);
         }
     }
 
@@ -302,15 +296,15 @@ public class Dungeon implements Serializable {
      */
     public void setInheritancePillar(final int row, final int col) {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
-                myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getEncapsulationPillar() ||
-                myMaze[row][col].getPolymorphismPillar()) {
+                myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyEncapsulationPillar() ||
+                myMaze[row][col].getMyPolymorphismPillar()) {
             if (myRows <= 2 && col <= 2) {
-                myMaze[row][col].setInheritancePillar(true);
+                myMaze[row][col].setMyInheritancePillar(true);
             } else {
                 setInheritancePillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            myMaze[row][col].setInheritancePillar(true);
+            myMaze[row][col].setMyInheritancePillar(true);
         }
     }
 
@@ -321,15 +315,15 @@ public class Dungeon implements Serializable {
      */
     public void setPolymorphismPillar(final int row, final int col) {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
-                myMaze[row][col].getAbstractionPillar() || myMaze[row][col].getEncapsulationPillar() ||
-                myMaze[row][col].getInheritancePillar()) {
+                myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyEncapsulationPillar() ||
+                myMaze[row][col].getMyInheritancePillar()) {
             if (myRows <= 2 && col <= 2) {
-                myMaze[row][col].setPolymorphismPillar(true);
+                myMaze[row][col].setMyPolymorphismPillar(true);
             } else {
                 setPolymorphismPillar(rand.nextInt(myRows), rand.nextInt(myCols));
             }
         } else {
-            myMaze[row][col].setPolymorphismPillar(true);
+            myMaze[row][col].setMyPolymorphismPillar(true);
         }
     }
 
@@ -342,7 +336,6 @@ public class Dungeon implements Serializable {
             Room room = getRandomRoom();
             if (!room.getHasPotion()) {
                 room.setHasPotion(true);
-                //room.setPotionValue(new Potion(rand.nextInt(10) + 1));
                 potionNum--;
             }
         }
@@ -355,8 +348,8 @@ public class Dungeon implements Serializable {
         int pitNum = myPitNum;
         while (pitNum != 0) {
             Room room = getRandomRoom();
-            if (!room.getHasPit()) {
-                room.setHasPit(true);
+            if (!room.getMyHasPit()) {
+                room.setMyHasPit(true);
                 pitNum--;
             }
         }
@@ -385,8 +378,8 @@ public class Dungeon implements Serializable {
         List<Monster> monsters = new ArrayList<>();
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
-                if (myMaze[i][j].getAbstractionPillar() || myMaze[i][j].getEncapsulationPillar() ||
-                        myMaze[i][j].getInheritancePillar() || myMaze[i][j].getPolymorphismPillar()) {
+                if (myMaze[i][j].getMyAbstractionPillar() || myMaze[i][j].getMyEncapsulationPillar() ||
+                        myMaze[i][j].getMyInheritancePillar() || myMaze[i][j].getMyPolymorphismPillar()) {
                     Monster monster = null;
                     final DungeonSQLite database = new DungeonSQLite();
                     database.testConnection();
@@ -399,6 +392,14 @@ public class Dungeon implements Serializable {
                 }
             }
         }
+    }
+
+    /**
+     * Method to get the number of pits
+     * @return int for number of pits
+     */
+    public int getPitNum() {
+        return myPitNum;
     }
 
 }

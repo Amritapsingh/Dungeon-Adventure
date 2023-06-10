@@ -11,13 +11,26 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * This class represents the starting screen of the game.
+ */
 public class StartScreen extends JFrame {
+    /**
+     * Field for the hero selected by the user
+     */
     Hero myHero;
+    /**
+     * Field for the cardlayout
+     */
     CardLayout myCardLayout = new CardLayout();
+    /**
+     * Field for the cards to switch betwen
+     */
     JPanel myCards = new JPanel(myCardLayout);
-//    JMenuBar myMenuBar;
-//    JMenu myFileBar;
-//    JMenuItem mySaveMenuItem, myLoadMenuItem;
+
+    /**
+     * Constructor to setup screen and initialize all fields.
+     */
     public StartScreen() {
         setTitle("Dungeon Adventure");
         setSize(768, 576);
@@ -27,9 +40,15 @@ public class StartScreen extends JFrame {
         setBackground(Color.black);
         HashMap<String, Integer> myInventory;
         myInventory = new HashMap<>();
+        // if no character is selected, default to warrior
         setHero(new Warrior("Warrior", 100, 100, 10, 90, 0.8, 2, true, 0.5, myInventory, 0.5));
     }
 
+    /**
+     * Method to create and setup the entire UI for the
+     * starting screen.
+     * @throws IOException if image cannot be found
+     */
     public void createAndShowUI() throws IOException {
         JPanel startingScreen = new ImagePanel("/assets/image.jpeg");
         JButton newGameButton = new JButton("New Game");
@@ -40,17 +59,7 @@ public class StartScreen extends JFrame {
         buttonPanel.add(newGameButton);
         buttonPanel.add(loadGameButton);
         buttonPanel.add(helpButton);
-//        myMenuBar = new JMenuBar();
-//        myFileBar = new JMenu("File");
-//
-//        mySaveMenuItem = new JMenuItem("Save Game");
-//        myFileBar.add(mySaveMenuItem);
-//        myLoadMenuItem = new JMenuItem("Load Game");
-//        myFileBar.add(myLoadMenuItem);
-//        startingScreen.add(myMenuBar);
-//        myMenuBar.setVisible(true);
-
-
+        // add help button
         helpButton.addActionListener(e -> {
             String theInstructions = "The objective of the game is to find all four pillars of OO and escape the maze.\n";
             theInstructions += "Use WASD to move around the maze and P to use potions collected. You can view the number of potions you've" +
@@ -58,12 +67,13 @@ public class StartScreen extends JFrame {
             JOptionPane.showMessageDialog(this, theInstructions);
 
         });
-
+        // add new game button
         newGameButton.addActionListener(e -> {
             JFrame charSelect;
             charSelect = charSelection();
             charSelect.setVisible(true);
         });
+        // add load game button
         loadGameButton.addActionListener(e -> {
             LoadScreen loadScreen = new LoadScreen(myCards, myCardLayout);
             myCards.add(loadScreen, "LoadScreen");
@@ -77,6 +87,10 @@ public class StartScreen extends JFrame {
         getContentPane().add(myCards);
     }
 
+    /**
+     * JFrame for user character selection and difficulty selection
+     * @return the JFrame
+     */
     public JFrame charSelection() {
         JFrame charSelect = new JFrame("Character Selection");
         charSelect.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -153,20 +167,45 @@ public class StartScreen extends JFrame {
 
         return charSelect;
     }
+
+    /**
+     * Field for setting the hero
+     * @param theHero
+     */
     public void setHero(Hero theHero) {
         myHero = theHero;
     }
+
+    /**
+     * Field for getting the hero
+     * @return
+     */
     public Hero getMyHero() {
         return myHero;
     }
 
+    /**
+     * Private inner class for the start screen background
+     */
     private static class ImagePanel extends JPanel {
+        /**
+         * Field for background image
+         */
         private final Image backgroundImage;
 
+        /**
+         * Constructor to load image into field.
+         * @param filename
+         * @throws IOException
+         */
         public ImagePanel(String filename) throws IOException {
             backgroundImage = ImageIO.read(getClass().getResource(filename));
         }
 
+        /**
+         * Method to draw image and scale it to the screen
+         * @param g the <code>Graphics</code> object to protect
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);

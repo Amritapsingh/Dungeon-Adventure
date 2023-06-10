@@ -11,23 +11,75 @@ import java.awt.event.WindowEvent;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * This class contains the JFrame for displaying
+ * the battle functions during combat.
+ *
+ * @author Amrit Singh
+ * @version 09 June 2023
+ */
 public class BattleScreen extends JFrame {
-    private JTextArea battleLog;
-    private JLabel playerHPLabel;
-    private JLabel enemyHPLabel;
-    private Hero myHero;
-    private Monster myMonster;
+    /**
+     * Field for battlelog
+     */
+    final private JTextArea battleLog;
+    /**
+     * Field for playerhp
+     */
+    final private JLabel playerHPLabel;
+    /**
+     * Field for enemyHP
+     */
+    final private JLabel enemyHPLabel;
+    /**
+     * Field for the Hero
+     */
+    final private Hero myHero;
+    /**
+     * Field for the monster
+     */
+    final private Monster myMonster;
+    /**
+     * Field for the attack button on the GUI
+     */
 
-    private JButton attackButton;
-    private JButton defendButton;
-    private JButton potionButton;
-    private JButton specialMoveButton;
+    final private JButton attackButton;
+    /**
+     * Field for the defend button
+     */
+    final private JButton defendButton;
+    /**
+     * Field for the potion button
+     */
+    final private JButton potionButton;
+    /**
+     * Field for the special move button
+     */
+    final private JButton specialMoveButton;
+    /**
+     * Field to track turns
+     */
     boolean playerTurn;
+    /**
+     * Field to track if player is defending
+     */
     boolean playerDefending;
+    /**
+     * Field for the cards
+     */
     JPanel cards;
+    /**
+     * Field for the card layout
+     */
     CardLayout cardLayout;
 
-
+    /**
+     * Constructor for the battle screen. Initialize fields
+     * @param theHero passes the hero
+     * @param theMonster passes the monster
+     * @param cards passes the cards
+     * @param cardLayout passes the layout
+     */
     public BattleScreen(Hero theHero, Monster theMonster, JPanel cards, CardLayout cardLayout) {
         setTitle("Dungeon Battle");
         this.addWindowListener(new WindowAdapter() {
@@ -48,19 +100,20 @@ public class BattleScreen extends JFrame {
         this.cardLayout = cardLayout;
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-
+        // set up hp labels
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         playerHPLabel = new JLabel("Player HP: " + myHero.getMyCurrentHealth());
         enemyHPLabel = new JLabel(myMonster.getMyName() + " HP: " + myMonster.getMyCurrentHealth());
         topPanel.add(playerHPLabel);
         topPanel.add(enemyHPLabel);
         panel.add(topPanel, BorderLayout.NORTH);
-
+        // setup battle log
         battleLog = new JTextArea(10, 30);
         battleLog.setEditable(false);
         battleLog.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(battleLog);
         panel.add(scrollPane, BorderLayout.CENTER);
+        // add attack button
         attackButton = new JButton("Attack");
         attackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -74,7 +127,7 @@ public class BattleScreen extends JFrame {
                 }
             }
         });
-
+        // add defend button
         defendButton = new JButton("Defend");
         defendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -88,6 +141,7 @@ public class BattleScreen extends JFrame {
                 }
             }
         });
+        // add potion button
         potionButton = new JButton("Potion");
         potionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -101,7 +155,7 @@ public class BattleScreen extends JFrame {
                 }
             }
         });
-
+        // add special move
         specialMoveButton = new JButton("Special Move");
         specialMoveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -120,16 +174,15 @@ public class BattleScreen extends JFrame {
         buttonPanel.add(specialMoveButton);
         buttonPanel.add(potionButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
-
         add(panel);
         pack();
         setLocationRelativeTo(null);
-
         playerTurn = true;
-        // implement later
-
     }
 
+    /**
+     * Method to use the potion button
+     */
     private void usePotion() {
         if (myHero.getPotionCount() > 0) {
             addToBattleLog("Player uses a potion!");
@@ -150,6 +203,9 @@ public class BattleScreen extends JFrame {
         }
     }
 
+    /**
+     * Method to use the hero's special move
+     */
     private void specialMove() {
         // Add more logic here
         if (Objects.equals(myHero.getMyName(), "Warrior")) {
@@ -194,14 +250,23 @@ public class BattleScreen extends JFrame {
 
     }
 
+    /**
+     * Method to update enemy hp label
+     */
     private void updateMonsterHP() {
         enemyHPLabel.setText(myMonster.getMyName() + " HP: " + myMonster.getMyCurrentHealth());
     }
 
+    /**
+     * Method to update player hp label
+     */
     private void updatePlayerHP() {
         playerHPLabel.setText(myHero.getMyName() +" HP: " + myHero.getMyCurrentHealth());
     }
 
+    /**
+     * Method to facilitate the attack button
+     */
     private void attackEnemy() {
         // Code for attacking the enemy
         addToBattleLog("Player attacks!");
@@ -216,11 +281,17 @@ public class BattleScreen extends JFrame {
         }
     }
 
+    /**
+     * Method to facilitate the defend button
+     */
     private void defend() {
         addToBattleLog("Player defends!");
         playerDefending = true;
     }
 
+    /**
+     * Method to facilitate the enemy's turn
+     */
     private void performEnemyTurn() {
         // Perform enemy's turn logic here
         if (myMonster.getMyCurrentHealth() <= 0) {
@@ -230,6 +301,7 @@ public class BattleScreen extends JFrame {
         }
         addToBattleLog("Monster attacks!");
         int damageTaken = 0;
+        // if player is defending
         if (playerDefending) {
             Random random = new Random();
             double chanceToBlockChecker = random.nextDouble();
@@ -242,9 +314,11 @@ public class BattleScreen extends JFrame {
         } else {
             damageTaken = myHero.getMyCurrentHealth() - myMonster.regularAttack(myHero.getMyCurrentHealth(), myMonster.getMyChanceToHit());
         }
+        // do damage to player
         myHero.setMyCurrentHealth(myHero.getMyCurrentHealth() - damageTaken);
         addToBattleLog("Monster does " + damageTaken + " damage!");
         playerDefending = false;
+        // check if player dead
         if (myHero.getMyCurrentHealth() <= 0) {
             addToBattleLog("Player has been defeated!");
             disablePlayerButtons();
@@ -258,18 +332,27 @@ public class BattleScreen extends JFrame {
         enablePlayerButtons();
     }
 
+    /**
+     * Method to disable buttons
+     */
     private void disablePlayerButtons() {
         attackButton.setEnabled(false);
         defendButton.setEnabled(false);
     }
 
+    /**
+     * Method to enable buttons
+     */
     private void enablePlayerButtons() {
         attackButton.setEnabled(true);
         defendButton.setEnabled(true);
     }
 
+    /**
+     * Method to update battle log
+     * @param message to be added to the battle log
+     */
     private void addToBattleLog(String message) {
         battleLog.append(message + "\n");
     }
-
 }
