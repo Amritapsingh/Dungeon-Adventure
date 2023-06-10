@@ -4,7 +4,16 @@ import javax.swing.*;
 import javax.swing.JLabel;
 import java.awt.*;
 
+/**
+ * This class is used to display the loading menu for
+ * loading in a user saved game.
+ */
 public class LoadScreen extends JPanel {
+    /**
+     * Constructor to setup screen.
+     * @param cards panel to switch between screens
+     * @param cardLayout the card layout
+     */
     public LoadScreen(JPanel cards, CardLayout cardLayout) {
         JLabel label = new JLabel("Loading...");
         add(label);

@@ -10,11 +10,8 @@ import java.util.List;
 /**
  * This class creates and contains our SQLite database.
  *
- * @author tom capaul
- *
- * @see <a href="https://shanemcd.org/2020/01/24/how-to-set-up-sqlite-with-jdbc-in-eclipse-on-windows/">
-https://shanemcd.org/2020/01/24/how-to-set-up-sqlite-with-jdbc-in-eclipse-on-windows/</a>
- *
+ * @author Jay Phommakhot
+ * @version 09 June 2023
  */
 public class DungeonSQLite implements Serializable {
     /**
