@@ -5,17 +5,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class contains the JFrame of the game over screen.
+ */
 class DeathScreen extends JFrame {
-    private JLabel deathLabel;
+    /**
+     * Field for the game over message
+     */
+    final private JLabel deathLabel;
 
+    /**
+     * Constructor for deathscreen class. Initialize all fields
+     * and setup the display screen.
+     * @param cards
+     * @param cardLayout
+     */
     public DeathScreen(JPanel cards, CardLayout cardLayout) {
         setTitle("Game Over");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
-
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-
         deathLabel = new JLabel("You Died.");
         deathLabel.setFont(new Font("Arial", Font.BOLD, 36));
         deathLabel.setHorizontalAlignment(SwingConstants.CENTER);
