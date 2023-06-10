@@ -52,25 +52,25 @@ class DungeonTest {
     @Test
     void setAbstractionPillar() {
         myDungeon.setAbstractionPillar(3,3);
-        assertTrue(myDungeon.getMaze()[3][3].getAbstractionPillar());
+        assertTrue(myDungeon.getMaze()[3][3].getMyAbstractionPillar());
     }
 
     @Test
     void setEncapsulationPillar() {
         myDungeon.setEncapsulationPillar(3,3);
-        assertTrue(myDungeon.getMaze()[3][3].getEncapsulationPillar());
+        assertTrue(myDungeon.getMaze()[3][3].getMyEncapsulationPillar());
     }
 
     @Test
     void setInheritancePillar() {
-        myDungeon.getMaze()[3][3].setInheritancePillar(true);
-        assertTrue(myDungeon.getMaze()[3][3].getInheritancePillar());
+        myDungeon.getMaze()[3][3].setMyInheritancePillar(true);
+        assertTrue(myDungeon.getMaze()[3][3].getMyInheritancePillar());
     }
 
     @Test
     void setPolymorphismPillar() {
-        myDungeon.getMaze()[3][3].setPolymorphismPillar(true);
-        assertTrue(myDungeon.getMaze()[3][3].getPolymorphismPillar());
+        myDungeon.getMaze()[3][3].setMyPolymorphismPillar(true);
+        assertTrue(myDungeon.getMaze()[3][3].getMyPolymorphismPillar());
     }
 
     @Test
@@ -105,8 +105,8 @@ class DungeonTest {
         myDungeon.createMonsters();
         for (int i = 0; i < myDungeon.getMaze().length; i++) {
             for (int j = 0; j < myDungeon.getMaze()[i].length; j++) {
-                if (myDungeon.getMaze()[i][j].getHasMonster()) {
-                    assertTrue(myDungeon.getMaze()[i][j].getHasMonster());
+                if (myDungeon.getMaze()[i][j].getMyHasMonster()) {
+                    assertTrue(myDungeon.getMaze()[i][j].getMyHasMonster());
                 }
             }
         }
