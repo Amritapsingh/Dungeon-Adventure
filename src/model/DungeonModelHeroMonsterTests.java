@@ -9,20 +9,41 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DungeonModelHeroMonsterTests {
 
+    /**
+     * This is a MockObject of a Warrior Object.
+     */
     private Warrior myWarrior;
 
+    /**
+     * This is a MockObject of a Priestess Object.
+     */
     private Priestess myPriestess;
 
+    /**
+     * This is a MockObject of a Thief Object.
+     */
     private Thief myThief;
 
+    /**
+     * This is a MockObject of an Ogre Monster Object.
+     */
     private Monster myOgre;
 
+    /**
+     * This is a MockObject of a Gremlin Monster Object.
+     */
     private Monster myGremlin;
 
+    /**
+     * This is a MockObject of a Skeleton Monster Object.
+     */
     private Monster mySkeleton;
 
+    /**
+     * This initializes all the MockObject variables used for testing.
+     */
     @BeforeEach
-    public void heroConstructor() {
+    public void dungeonConstructor() {
         HashMap<String, Integer> myInventory = new HashMap<>();
         myInventory.put("Health Potion", 2);
         myInventory.put("Vision Potion", 0);
@@ -46,6 +67,9 @@ public class DungeonModelHeroMonsterTests {
                                     3.0, true, 0.3, 30, 50);
     }
 
+    /**
+     * This tests for creating the heroes of the correct class.
+     */
     @Test
     public void testHeroCreation() {
         assertEquals(Warrior.class, myWarrior.getClass());
@@ -57,12 +81,18 @@ public class DungeonModelHeroMonsterTests {
         assertEquals("Thief", myThief.getMyName());
     }
 
+    /**
+     * This test the regularAttack() method in the DungeonModel class.
+     */
     @Test
     public void testRegularAttack() {
         myGremlin.setMyCurrentHealth(myPriestess.regularAttack(myGremlin.getMyCurrentHealth(), myPriestess.getMyChanceToHit()));
         assertNotEquals(myGremlin.getMyCurrentHealth(), myGremlin.getMyHealthPoints()); // test can fail if the attack missed
     }
 
+    /**
+     * This test if the setMyCurrentHealth() works correctly.
+     */
     @Test
     public void testSetMyCurrentHealth() {
         myWarrior.setMyCurrentHealth(10);
@@ -70,6 +100,9 @@ public class DungeonModelHeroMonsterTests {
         assertNotEquals(myWarrior.getMyCurrentHealth(), myWarrior.getMyHealthPoints());
     }
 
+    /**
+     * This test the setMyDmgMin() method if it correctly updates the minimum damage variable.
+     */
     @Test
     public void testSetMyDmgMin() {
         myPriestess.setMinDmg(35);
@@ -79,6 +112,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(25, mySkeleton.getMyDmgMin());
     }
 
+    /**
+     * This tests the setMyDmgMax() method if it correctly updates the max damage variable.
+     */
     @Test
     public void testSetMyDmgMax() {
         myPriestess.setMaxDmg(60);
@@ -88,6 +124,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(100, myGremlin.getMyDmgMax());
     }
 
+    /**
+     * This tests the setChanceToHit() method if it correctly changes the model's chance to land an attack.
+     */
     @Test
     public void testSetChanceToHit() {
         myThief.setChnceToHit(0.9);
@@ -97,6 +136,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(0.2, mySkeleton.getMyChanceToHit());
     }
 
+    /**
+     * This tests if setting the model's attack speed updates correctly.
+     */
     @Test
     public void testSetAttackSpd() {
         myWarrior.setAttkSpd(4.5);
@@ -106,6 +148,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(1.0, myOgre.getMyAttkSpd());
     }
 
+    /**
+     * This tests if setting the model's dead/alive variable gets updated.
+     */
     @Test
     public void testSetMyAlive() {
         myWarrior.setMyAlive(false);
@@ -113,6 +158,9 @@ public class DungeonModelHeroMonsterTests {
         assertTrue(myPriestess.getMyAlive());
     }
 
+    /**
+     * This tests getting the model's correct health.
+     */
     @Test
     public void testGetHealth() {
         assertEquals(125, myWarrior.getMyHealthPoints());
@@ -121,6 +169,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(200, myOgre.getMyHealthPoints());
     }
 
+    /**
+     * This tests getting the model's min and max damage range correctly.
+     */
     @Test
     public void testGetDmg() {
         assertEquals(20, myThief.getMyDmgMin());
@@ -130,6 +181,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(50, mySkeleton.getMyDmgMax());
     }
 
+    /**
+     * This tests if getting the model's correct chance to hit.
+     */
     @Test
     public void testGetChanceToHit() {
         assertEquals(0.8, myThief.getMyChanceToHit());
@@ -137,6 +191,9 @@ public class DungeonModelHeroMonsterTests {
     }
 
 
+    /**
+     * This tests getting the model's correct attack speed.
+     */
     @Test
     public void testGetAttckSpd() {
         assertEquals(4.0, myWarrior.getMyAttkSpd());
@@ -148,12 +205,18 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(3.0, mySkeleton.getMyAttkSpd());
     }
 
+    /**
+     * This tests getting the model's correct myAlive variable.
+     */
     @Test
     public void testGetMyAlive() {
         assertTrue(myWarrior.getMyAlive());
         assertTrue(myOgre.getMyAlive());
     }
 
+    /**
+     * This tests getting the Hero's correct quantity of potions in inventory.
+     */
     @Test
     public void testPotionQuantity() {
         myThief.setInventory("Health Potion", 2);
@@ -163,6 +226,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(1, myPriestess.getMyInventoryValues("Poison Potion"));
     }
 
+    /**
+     * This tests getting the Hero's correct chance to block.
+     */
     @Test
     public void testSetChanceToBlock() {
         myThief.setChnceToBlock(0.49);
@@ -171,11 +237,17 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(0.78, myThief.getChanceToBlock());
     }
 
+    /**
+     * This tests getting the Hero's correct vision.
+     */
     @Test
     public void testGetVision() {
         assertEquals(2.0, myPriestess.getMyVision());
     }
 
+    /**
+     * This tests the correct toString() for Hero's.
+     */
     @Test
     public void testHeroToString() {
         final StringBuilder characterInfo = new StringBuilder();
@@ -199,18 +271,27 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(info, myWarrior.toString());
     }
 
+    /**
+     * This tests the Warrior's special ability.
+     */
     @Test
     public void testWarriorSpecial() {
         myOgre.setMyCurrentHealth(myWarrior.crushingBlow(myOgre.getMyCurrentHealth()));
         assertNotEquals(myOgre.getMyCurrentHealth(), myOgre.getMyHealthPoints()); // test can fail if move missed
     }
 
+    /**
+     * This tests the Thief's special ability.
+     */
     @Test
     public void testThiefSpecial() {
         mySkeleton.setMyCurrentHealth(myThief.surpriseAttck(myOgre.getMyCurrentHealth()));
         assertNotEquals(mySkeleton.getMyCurrentHealth(), mySkeleton.getMyHealthPoints()); // test can fail if move missed
     }
 
+    /**
+     * This tests the Priestess' special ability.
+     */
     @Test
     public void testPriestessSpecial() {
         myPriestess.setMyCurrentHealth(myOgre.regularAttack(myPriestess.getMyCurrentHealth(), myOgre.getMyChanceToHit()) * 2);
@@ -221,6 +302,9 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(healPoints, myPriestess.getMyCurrentHealth());
     }
 
+    /**
+     * This tests the correct Monster creations.
+     */
     @Test
     public void testMonsterCreation() {
         assertEquals(Monster.class, myOgre.getClass());
@@ -232,11 +316,19 @@ public class DungeonModelHeroMonsterTests {
         assertEquals("Skeleton", mySkeleton.getMyName());
     }
 
+    /**
+     * This tests the getting the correct instance variables of the Monster's heal stats.
+     */
     @Test
     public void testHealVariables() {
         assertEquals(0.3, mySkeleton.getMyChanceToHeal());
         assertEquals(30, mySkeleton.getMyMinHeal());
         assertEquals(50, mySkeleton.getMyMaxHeal());
+    }
+
+    @Test
+    public void testTileManager() {
+
     }
 
 }
