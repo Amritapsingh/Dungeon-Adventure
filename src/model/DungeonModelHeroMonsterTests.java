@@ -326,9 +326,4 @@ public class DungeonModelHeroMonsterTests {
         assertEquals(50, mySkeleton.getMyMaxHeal());
     }
 
-    @Test
-    public void testTileManager() {
-
-    }
-
 }
