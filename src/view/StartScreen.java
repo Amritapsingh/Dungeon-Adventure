@@ -108,7 +108,7 @@ public class StartScreen extends JFrame {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 3, 3);
+            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 3, 3, "Easy");
             myCards.add(gameScreen, "GameScreen");
             myCardLayout.show(myCards, "GameScreen");
             gameScreen.startNewGameThread();
@@ -119,7 +119,7 @@ public class StartScreen extends JFrame {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 5, 5);
+            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 5, 5, "Medium");
             myCards.add(gameScreen, "GameScreen");
             myCardLayout.show(myCards, "GameScreen");
             gameScreen.startNewGameThread();
@@ -129,7 +129,7 @@ public class StartScreen extends JFrame {
             HashMap<String, Integer> myInventory;
             myInventory = new HashMap<>();
             charSelect.dispose();
-            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 8, 8);
+            GameScreen gameScreen = new GameScreen(myCards, myCardLayout, getMyHero(), 8, 8, "Hard");
             myCards.add(gameScreen, "GameScreen");
             myCardLayout.show(myCards, "GameScreen");
             gameScreen.startNewGameThread();

@@ -8,29 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class creates and contains our SQLite database.
  *
  * @author tom capaul
- *
- * Simple class to demonstrate SQLite connectivity
- * 1) create connection
- * 2) add a table
- * 3) add entries to the table
- * 4) query the table for its contents
- * 5) display the results
- *
- * NOTE: any interactions with a database should utilize a try/catch
- * since things can go wrong
  *
  * @see <a href="https://shanemcd.org/2020/01/24/how-to-set-up-sqlite-with-jdbc-in-eclipse-on-windows/">
 https://shanemcd.org/2020/01/24/how-to-set-up-sqlite-with-jdbc-in-eclipse-on-windows/</a>
  *
  */
 public class DungeonSQLite implements Serializable {
+    /**
+     * Field for datasource
+     */
     private static SQLiteDataSource myDataSource = null;
-    private static final DungeonSQLite INSTANCE = new DungeonSQLite();
 
-    private final String Monsters = "Monsters";
-
+    /**
+     * Method to test connection to our database.
+     */
     public void testConnection(){
 
         //establish connection (creates db file if it does not exist :-)
@@ -43,9 +37,12 @@ public class DungeonSQLite implements Serializable {
         }
     }
 
+    /**
+     * Method to create empty table
+     */
     public void createMonsterTable() {
         //now create a table
-        String query = "CREATE TABLE IF NOT EXISTS dungeonEnemy ( " +
+        String query = "CREATE TABLE IF NOT EXISTS dungeonEnemyHard ( " +
                 "ENEMY_NAME TEXT NOT NULL, " +
                 "HEALTH_POINTS TEXT NOT NULL, " +
                 "MIN_DMG TEXT NOT NULL, " +
@@ -64,17 +61,20 @@ public class DungeonSQLite implements Serializable {
         }
     }
 
+    /**
+     * Method to populate table with monsters and stats
+     */
     public void addMonstersToTable() {
-        String query1 = "INSERT INTO dungeonEnemy ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
+        String query1 = "INSERT INTO dungeonEnemyHard ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
                 " CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Ogre', '200', '30', '60', '0.60', '2.00', '0.10'," +
                 "                                                '30', '60' )";
 
-        String query2 = "INSERT INTO dungeonEnemy ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
-                " CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Skeleton', '100', '30', '50', '0.80', '3.00', '0.30'," +
+        String query2 = "INSERT INTO dungeonEnemyHard ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
+                " CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Skeleton', '150', '30', '50', '0.80', '3.00', '0.30'," +
                 "                                                '30', '50' )";
 
-        String query3 = "INSERT INTO dungeonEnemy ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
-                " CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Gremlin', '70', '15', '30', '0.80', '5.00', '0.40'," +
+        String query3 = "INSERT INTO dungeonEnemyHard ( ENEMY_NAME, HEALTH_POINTS, MIN_DMG, MAX_DMG, CHANCE_TO_HIT, ATTACKSPD," +
+                " CHANCE_TO_HEAL, MIN_HEAL, MAX_HEAL ) VALUES ( 'Gremlin', '100', '15', '30', '0.80', '5.00', '0.40'," +
                 "                                                '20', '40' )";
 
         try ( Connection conn = myDataSource.getConnection();
@@ -90,9 +90,22 @@ public class DungeonSQLite implements Serializable {
         }
 
     }
-    public List<Monster> fetchMonsters() {
+
+    /**
+     * Method to fetch monsters from tables
+     * @param theDifficulty passes the chosen user difficulty
+     * @return list of monsters according to difficulty selected
+     */
+    public List<Monster> fetchMonsters(String theDifficulty) {
         List<Monster> monsters = new ArrayList<Monster>();
-        String query = "SELECT * FROM dungeonEnemy";
+        String query = "";
+        if (theDifficulty.equals("Easy")) {
+            query = "SELECT * FROM dungeonEnemyEasy";
+        } else if(theDifficulty.equals("Medium")) {
+            query = "SELECT * FROM dungeonEnemyMedium";
+        } else if(theDifficulty.equals("Hard")) {
+            query = "SELECT * FROM dungeonEnemyHard";
+        }
         Monster monster = null;
         try (PreparedStatement statement = myDataSource.getConnection().prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

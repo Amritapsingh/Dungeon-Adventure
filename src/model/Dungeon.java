@@ -62,13 +62,19 @@ public class Dungeon implements Serializable {
     Random rand = new Random();
 
     /**
+     * String for the difficulty
+     */
+    String myDifficulty;
+
+    /**
      * Constructor for dungeon
      *
      * @param theRows the rows of the maze
      * @param theCols the cols of the maze
      * @param theHero the hero of the maze
      */
-    public Dungeon(int theRows, int theCols, Hero theHero) {
+    public Dungeon(int theRows, int theCols, Hero theHero, String theDifficulty) {
+        myDifficulty = theDifficulty;
         myPotionPercentage = 0.25f;
         myRows = theRows;
         myCols = theCols;
@@ -383,9 +389,10 @@ public class Dungeon implements Serializable {
                     Monster monster = null;
                     final DungeonSQLite database = new DungeonSQLite();
                     database.testConnection();
-                    //database.createMonsterTable();
-                    //database.addMonstersToTable();
-                    monsters = database.fetchMonsters();
+                    // methods to populate databse
+//                    database.createMonsterTable();
+//                    database.addMonstersToTable();
+                    monsters = database.fetchMonsters(myDifficulty);
                     monster = monsters.get(rand.nextInt(monsters.size()));
                     myMaze[i][j].setMonster(monster);
                 }

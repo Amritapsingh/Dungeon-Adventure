@@ -47,7 +47,7 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
 
 
 
-    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero, int rows, int cols) {
+    public GameScreen(JPanel cards, CardLayout cardLayout, Hero theHero, int rows, int cols, String theDifficulty) {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
         setDoubleBuffered(true);
@@ -60,7 +60,7 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
         setFocusable(true);
         screenX = screenWidth/2;
         screenY = screenHeight/2;
-        dungeon = new Dungeon(rows, cols, theHero);
+        dungeon = new Dungeon(rows, cols, theHero, theDifficulty);
         dungeon.printMaze();
         tiles = new TileManager(this, dungeon);
         worldCol = dungeon.getMaze()[0].length * 16;
