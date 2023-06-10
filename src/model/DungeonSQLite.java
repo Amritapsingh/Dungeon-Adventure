@@ -50,7 +50,7 @@ public class DungeonSQLite implements Serializable {
                 "MIN_HEAL TEXT NOT NULL, " +
                 "MAX_HEAL TEXT NOT NULL)" ;
         try ( Connection conn = myDataSource.getConnection();
-              Statement stmt = conn.createStatement(); ) {
+              Statement stmt = conn.createStatement() ) {
             int rv = stmt.executeUpdate( query );
         } catch ( SQLException e ) {
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class DungeonSQLite implements Serializable {
                 "                                                '20', '40' )";
 
         try ( Connection conn = myDataSource.getConnection();
-              Statement stmt = conn.createStatement(); ) {
+              Statement stmt = conn.createStatement() ) {
             int rv = stmt.executeUpdate( query1 );
 
             rv = stmt.executeUpdate( query2 );
@@ -94,7 +94,7 @@ public class DungeonSQLite implements Serializable {
      * @return list of monsters according to difficulty selected
      */
     public List<Monster> fetchMonsters(String theDifficulty) {
-        List<Monster> monsters = new ArrayList<Monster>();
+        List<Monster> monsters = new ArrayList<>();
         String query = "";
         if (theDifficulty.equals("Easy")) {
             query = "SELECT * FROM dungeonEnemyEasy";
@@ -103,7 +103,7 @@ public class DungeonSQLite implements Serializable {
         } else if(theDifficulty.equals("Hard")) {
             query = "SELECT * FROM dungeonEnemyHard";
         }
-        Monster monster = null;
+        Monster monster;
         try (PreparedStatement statement = myDataSource.getConnection().prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {

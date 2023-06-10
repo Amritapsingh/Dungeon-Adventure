@@ -51,7 +51,6 @@ public abstract class Hero extends DungeonModel {
         myInventory = new HashMap<>(theInventory);
         myInventory.put("Health Potion", 0);
         setVision(theVision);
-        //setAllies(theAllies);
     }
 
     /**
@@ -98,7 +97,7 @@ public abstract class Hero extends DungeonModel {
     /**
      * This method returns the Hero's chance to block.
      *
-     * @return
+     * @return double for chance to block
      */
     public double getChanceToBlock() {
         return myChanceToBlock;

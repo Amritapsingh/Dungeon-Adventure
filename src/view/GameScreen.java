@@ -18,10 +18,6 @@ import java.io.Serializable;
 public class GameScreen extends JPanel implements Runnable, Serializable {
     // constants to capture screen dimensions
     /**
-     * A ToolKit.
-     */
-    private static final Toolkit KIT = Toolkit.getDefaultToolkit();
-    /**
      * A Factor for scaling the size of the GUI relative to the current screen size.
      */
     private static final int SCALE = 3;
@@ -164,14 +160,6 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
     }
 
     /**
-     * Method to get tilemanager
-     * @return the tilemanager
-     */
-    public TileManager getTileManager() {
-        return tiles;
-    }
-
-    /**
      * Method to run the game
      */
     @Override
@@ -212,7 +200,7 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
                 int x = j * 16;
                 if (dungeon.getMaze()[i][j].getIsEnter()) {
                     worldX = x * tileSize + screenWidth/2;
-                    worldY = y * tileSize + +screenHeight/2;
+                    worldY = y * tileSize + screenHeight/2;
                 }
             }
         }
@@ -228,8 +216,6 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
         tiles.draw(g2d);
         g2d.setColor(Color.red);
         g2d.drawImage(tiles.getTile()[16].image, screenX - 30, screenY - 20, tileSize , tileSize , null);
-        //g2d.draw(rect);
-        //g2d.fill(rect);
         g2d.dispose();
     }
 
@@ -270,7 +256,7 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyP, "pressedP");
         getActionMap().put("pressedP", new AbstractAction(){
             public void actionPerformed(ActionEvent arg0) {
-                int healedValue = 0;
+                int healedValue;
                 if (myHero.getPotionCount() > 0) {
                     healedValue = myHero.usePotion();
                     if (healedValue == 0) {
@@ -375,8 +361,8 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
     /**
      * Method to check collision with the pillar hitboxes
      * @param rect the rectangle to check
-     * @param rows
-     * @param cols
+     * @param rows row of room
+     * @param cols col of room
      */
     public void checkPillarCollision(Rectangle rect, int rows, int cols) {
         if (rect.intersects(solidArea)) {

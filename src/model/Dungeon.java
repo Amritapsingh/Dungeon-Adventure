@@ -88,7 +88,6 @@ public class Dungeon implements Serializable {
      * Creates a maze of empty rooms and populates them with our maze
      */
     private void generateMaze() {
-        Random random = new Random();
         // Generate rooms
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
@@ -214,7 +213,6 @@ public class Dungeon implements Serializable {
     public void printMaze() {
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
-                Room room = myMaze[i][j];
                 System.out.print(myMaze[i][j].toString());
             }
             System.out.println();
@@ -375,15 +373,15 @@ public class Dungeon implements Serializable {
      * Method to create and place monsters on map
      */
     public void createMonsters() {
-        List<Monster> monsters = new ArrayList<>();
+        List<Monster> monsters;
         for (int i = 0; i < myRows; i++) {
             for (int j = 0; j < myCols; j++) {
                 if (myMaze[i][j].getMyAbstractionPillar() || myMaze[i][j].getMyEncapsulationPillar() ||
                         myMaze[i][j].getMyInheritancePillar() || myMaze[i][j].getMyPolymorphismPillar()) {
-                    Monster monster = null;
+                    Monster monster;
                     final DungeonSQLite database = new DungeonSQLite();
                     database.testConnection();
-                    // methods to populate databse
+                    // methods to populate database
 //                    database.createMonsterTable();
 //                    database.addMonstersToTable();
                     monsters = database.fetchMonsters(myDifficulty);

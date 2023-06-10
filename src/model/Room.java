@@ -69,7 +69,7 @@ public class Room implements Serializable {
     /**
      * Field for the ArrayList of the room's neighbors
      */
-    private ArrayList<Room> myRoomNeighbors;
+    private final ArrayList<Room> myRoomNeighbors;
     /**
      * Field for the amount of unvisited neighbors a room has
      */
@@ -90,10 +90,6 @@ public class Room implements Serializable {
      * Field for the String for the west door
      */
     String myWestDoor;
-    /**
-     * Field for the map tile for the room to be serialized
-     */
-    int[][] myMapTiles;
     /**
      * Field for the game screen to be serialized
      */
@@ -123,40 +119,6 @@ public class Room implements Serializable {
         myNeighbors = 0;
         myMonster = null;
 
-    }
-
-    /**
-     * Method to load the map to the game screen
-     *
-     * @param theGameScreen the game screen to serialize
-     */
-    public int[][] loadMap(final GameScreen theGameScreen) {
-        myGameScreen = theGameScreen;
-        myMapTiles = new int[myGameScreen.maxScreenRow][myGameScreen.maxScreenCol];
-        String filePath = "/assets/map2.txt";
-        try {
-            InputStream st = getClass().getResourceAsStream(filePath);
-            BufferedReader br = new BufferedReader(new InputStreamReader((st)));
-            int col = 0;
-            int row = 0;
-            while (col < myGameScreen.maxScreenCol && row < myGameScreen.maxScreenRow) {
-                String line = br.readLine();
-                while (col < myGameScreen.maxScreenCol) {
-                    String[] numbers = line.split(" ");
-                    int num = Integer.parseInt(numbers[col]);
-                    myMapTiles[row][col] = num;
-                    col++;
-                }
-                if (col == myGameScreen.maxScreenCol) {
-                    col = 0;
-                    row++;
-                }
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return myMapTiles;
     }
 
     /**

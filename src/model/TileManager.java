@@ -141,7 +141,6 @@ public class TileManager implements Serializable {
         int row = 0;
         int screenX;
         int screenY;
-        int count = 0;
         while (col < myGameScreen.worldCol && row < myGameScreen.worldRow) {
             int worldX = col * myGameScreen.tileSize;
             int worldY = row * myGameScreen.tileSize;

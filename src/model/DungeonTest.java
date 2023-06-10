@@ -33,10 +33,7 @@ class DungeonTest {
 
     @Test
     void getAllNeighbors() {
-        final Room room = new Room(1,1);
         final Room room2 = new Room(0,1);
-        final Room room3 = new Room(0,0);
-        final Room room4 = new Room(1,0);
         assertEquals(myDungeon.getAllNeighbors(room2), myDungeon.getAllNeighbors(room2)); // test can fail as doors connected rooms are random
     }
     @Test
