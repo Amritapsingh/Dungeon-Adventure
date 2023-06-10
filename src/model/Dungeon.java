@@ -18,7 +18,6 @@ public class Dungeon implements Serializable {
     private int myPitNum;
     private Hero myHero;
 
-    private SaveLoad serializedGame;
     Random rand = new Random();
 
     public Dungeon(int theRows, int theCols, Hero theHero) {
