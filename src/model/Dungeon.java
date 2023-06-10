@@ -158,12 +158,12 @@ public class Dungeon implements Serializable {
         ArrayList<Room> neighbors = room.getMyRoomNeighbors();
         room.myNeighbors = 0;
         room.getMyRoomNeighbors().clear();
-        if (room.myY > 0 && !myMaze[room.myY - 1][room.myY].getIsVisited()) {
+        if (room.myY > 0 && !myMaze[room.myY - 1][room.myX].getIsVisited()) {
             neighbors.add(myMaze[room.myY - 1][room.myX]);
             room.myNeighbors++;
         }
         if (room.myY < myRows - 1 && !myMaze[room.myY + 1][room.myX].getIsVisited()) {
-            neighbors.add(myMaze[room.myY + 1][room.myY]);
+            neighbors.add(myMaze[room.myY + 1][room.myX]);
             room.myNeighbors++;
         }
         if (room.myX > 0 && !myMaze[room.myY][room.myX - 1].getIsVisited()) {
