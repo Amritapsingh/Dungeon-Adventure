@@ -260,7 +260,7 @@ public class Dungeon implements Serializable {
         if(myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyEncapsulationPillar() || myMaze[row][col].getMyInheritancePillar() ||
                 myMaze[row][col].getMyPolymorphismPillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyAbstractionPillar(true);
             } else {
                 setAbstractionPillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -279,7 +279,7 @@ public class Dungeon implements Serializable {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyInheritancePillar() ||
                 myMaze[row][col].getMyPolymorphismPillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyEncapsulationPillar(true);
             } else {
                 setEncapsulationPillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -298,7 +298,7 @@ public class Dungeon implements Serializable {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyEncapsulationPillar() ||
                 myMaze[row][col].getMyPolymorphismPillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyInheritancePillar(true);
             } else {
                 setInheritancePillar(rand.nextInt(myRows), rand.nextInt(myCols));
@@ -317,7 +317,7 @@ public class Dungeon implements Serializable {
         if (myMaze[row][col].getIsEnter() || myMaze[row][col].getIsExit() ||
                 myMaze[row][col].getMyAbstractionPillar() || myMaze[row][col].getMyEncapsulationPillar() ||
                 myMaze[row][col].getMyInheritancePillar()) {
-            if (myRows <= 2 && col <= 2) {
+            if (myRows <= 2 && myCols <= 2) {
                 myMaze[row][col].setMyPolymorphismPillar(true);
             } else {
                 setPolymorphismPillar(rand.nextInt(myRows), rand.nextInt(myCols));
