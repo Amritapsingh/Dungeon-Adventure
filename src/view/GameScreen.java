@@ -380,26 +380,26 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
      */
     public void checkPillarCollision(Rectangle rect, int rows, int cols) {
         if (rect.intersects(solidArea)) {
-            if (dungeon.getMaze()[rows][cols].getAbstractionPillar()) {
+            if (dungeon.getMaze()[rows][cols].getMyAbstractionPillar()) {
                 //add abstract pillar
-                dungeon.getMaze()[rows][cols].setAbstractionPillar(false);
+                dungeon.getMaze()[rows][cols].setMyAbstractionPillar(false);
                 pillarCount++;
             }
-            if (dungeon.getMaze()[rows][cols].getPolymorphismPillar()) {
+            if (dungeon.getMaze()[rows][cols].getMyPolymorphismPillar()) {
                 //add concrete pillar
-                dungeon.getMaze()[rows][cols].setPolymorphismPillar(false);
+                dungeon.getMaze()[rows][cols].setMyPolymorphismPillar(false);
                 pillarCount++;
 
             }
-            if (dungeon.getMaze()[rows][cols].getEncapsulationPillar()) {
+            if (dungeon.getMaze()[rows][cols].getMyEncapsulationPillar()) {
                 //add encapsulation pillar
-                dungeon.getMaze()[rows][cols].setEncapsulationPillar(false);
+                dungeon.getMaze()[rows][cols].setMyEncapsulationPillar(false);
                 pillarCount++;
 
             }
-            if (dungeon.getMaze()[rows][cols].getInheritancePillar()) {
+            if (dungeon.getMaze()[rows][cols].getMyInheritancePillar()) {
                 //add inheritance pillar
-                dungeon.getMaze()[rows][cols].setInheritancePillar(false);
+                dungeon.getMaze()[rows][cols].setMyInheritancePillar(false);
                 pillarCount++;
             }
             if (dungeon.getMaze()[rows][cols].getIsExit()) {
@@ -437,7 +437,7 @@ public class GameScreen extends JPanel implements Runnable, Serializable {
         Room[][] maze = dungeon.getMaze();
         if (rectangle.intersects(solidArea)) {
             System.out.println("You fell into a pit");
-            maze[row / 12][col / 16].setHasPit(false);
+            maze[row / 12][col / 16].setMyHasPit(false);
             myHero.setMyCurrentHealth(myHero.getMyCurrentHealth() - 20);
         }
     }
